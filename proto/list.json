@@ -1,0 +1,13 @@
+var list = [{
+  "title":"title",
+  "date":"2013-11-10",
+  "descr":"Bla text.."
+},{
+  "title":"title",
+  "date":"2013-11-10",
+  "descr":"Bla text.."
+},{
+  "title":"title",
+  "date":"2013-11-10",
+  "descr":"Bla text.."
+}];

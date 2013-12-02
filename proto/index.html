@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css">
-		<link rel="stylesheet" href="src/index.css">
-		<link rel="stylesheet" href="src/Control.OSMGeocoder.css">
-		<link rel="stylesheet" href="src/Control.MiniMap.css">
+<head>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css">
+  <link rel="stylesheet" href="src/index.css">
+  <link rel="stylesheet" href="src/Control.OSMGeocoder.css">
+  <link rel="stylesheet" href="src/Control.MiniMap.css">
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-		<script src="src/Control.OSMGeocoder.js"></script>
-		<script src="src/Control.MiniMap.js"></script>
-	</head>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+  <script src="src/Control.OSMGeocoder.js"></script>
+  <script src="src/Control.MiniMap.js"></script>
+  
+  <script src="list.json"></script>
+  <script src="details.json"></script>
+</head>
 
 <body>
 
@@ -37,6 +40,45 @@ var rect1 = {color: "#ff1100", weight: 3};
 var rect2 = {color: "#0000AA", weight: 1, opacity:0, fillOpacity:0};
 var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true, aimingRectOptions : rect1, shadowRectOptions: rect2}).addTo(map);
 // Ende Minimap
+
+/*
+>> list
+[
+Object
+date: "2013-11-10"
+descr: "Bla text.."
+title: "title"
+__proto__: Object
+, 
+Object
+date: "2013-11-10"
+descr: "Bla text.."
+title: "title"
+__proto__: Object
+, 
+Object
+date: "2013-11-10"
+descr: "Bla text.."
+title: "title"
+__proto__: Object
+]
+
+>> list[0].title
+"title"
+
+>> details
+Object {title: "title", date: "2013-11-10", descr: "Bla text..?next line", lang: Array[2]}
+date: "2013-11-10"
+descr: "Bla text..?next line"
+lang: Array[2]
+title: "title"
+__proto__: Object
+
+>> details.descr
+"Bla text..
+next line"
+*/
+
 </script>
 </body>
 </html>

@@ -1,0 +1,6 @@
+var details = {
+  "title":"title",
+  "date":"2013-11-10",
+  "descr":"Bla text..\nnext line",
+  "lang":["de","en"]
+};
