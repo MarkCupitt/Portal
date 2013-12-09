@@ -18,7 +18,7 @@ var template = '<li><a href="details.php?id={id}">' +
   '{descr}' +
   '</a></li>';
 
-$.getJSON('list2.json', function(list) {
+$.getJSON('server/?list', function(list) {
   var html ='';
   $.each(list, function(i, listItem) {
   html += parse(template, listItem);
