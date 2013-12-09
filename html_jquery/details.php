@@ -5,27 +5,30 @@
 <meta charset="UTF-8">
 <script src="jquery-2.0.3.js"></script>
 </head>
+
 <body>
 <script>
-      function parse(template, data) {
+function parse(template, data) {
   return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
-  return data[key] || tag;
+    return data[key] || tag;
   });
 }
-  document.addEventListener('DOMContentLoaded', function(){
 
-
-var template = $('#content').html();
-var id = '<?php echo $_REQUEST["id"]?>';
-var json = 'details' + id + '.json';
-$.getJSON(json, function(data) {
-  var html = '';
-  html += parse(template, data);
-$('#content').html(html);
-});
-
+$(function() {
+  var template = $('#content').html();
+  var id = '<?php echo $_REQUEST["id"]?>';
+  var json = 'server/?details&id='+ id;
+  $.getJSON(json, function(data) {
+    var html = '';
+    html += parse(template, data);
+  $('#content').html(html);
   });
 
+$('#btn_edit').click(function(){
+  location.href='edit_form.php?id=' + id;
+});
+
+});
 </script>
 
 <div id="content">
@@ -36,11 +39,10 @@ $('#content').html(html);
 </div>
 
 <p id='buttons'>
-<button name='Edit' type='button'
-  value='Editieren' onclick='alert("Editieren");'>EDIT</button>
-<button name='Delete' type='button'
-  value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
+  <button id='btn_edit' type='button' value='Editieren'>EDIT</button>
+  <button id='btn_delete' type='button' value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
 </p>
+
 <a href='index.php'>Zurück zur Liste</a>
 
 </body>
