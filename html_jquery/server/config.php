@@ -5,10 +5,10 @@ define("DEBUG", TRUE);
 $config = array(
 	"db" => array(
 		"host" => "localhost",
-		"database" => "DBNAME",
+		"database" => "test_db",
 		"port" => 5432,
-		"user" => "USERNAME",
-		"password" => "PASSWORD"
+		"user" => "test_user",
+		"password" => "test1234"
 	),
   "rest" => array(
     "origin" => "*",

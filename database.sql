@@ -1,31 +1,32 @@
--- Table: "Services"
+-- Table: service
 
-CREATE TABLE "Services"
+-- DROP TABLE service;
+
+CREATE TABLE service
 (
-  "ID" integer NOT NULL,
-  "Title" character varying NOT NULL,
-  "Description" text,
-  "Keywords" integer,
-  "Language" integer,
-  "Input_Format" integer,
-  "Date_Creation" date,
-  "Date" date NOT NULL,
-  "URL_to_reference" text,
-  "URL_to_data" text NOT NULL,
-  "Newest" boolean NOT NULL,
+  id integer NOT NULL,
+  title character varying NOT NULL,
+  descr text,
+  keywords integer,
+  lang integer,
+  input_format integer,
+  date_creation date,
+  date date NOT NULL,
+  url_reference text,
+  url_data text NOT NULL,
+  is_latest boolean NOT NULL,
   reference_data xml,
-  "Input_CRS" integer,
-  CONSTRAINT "Services_pkey" PRIMARY KEY ("ID"),
-  CONSTRAINT "Services_URL_to_data_key" UNIQUE ("URL_to_data")
+  input_crs integer,
+  CONSTRAINT service_pkey PRIMARY KEY (id),
+  CONSTRAINT service_url_data_key UNIQUE (url_data)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE "Services"
-  OWNER TO postgres;
+ALTER TABLE service
+  OWNER TO test_user;
 
-  
-  
+
 -- Table: "Input_CRS"
 
 CREATE TABLE "Input_CRS"
@@ -38,10 +39,10 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE "Input_CRS"
-  OWNER TO postgres;
+  OWNER TO test_user;
 
- 
- 
+
+
 -- Table: "Input_Format"
 
 CREATE TABLE "Input_Format"
@@ -54,10 +55,10 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE "Input_Format"
-  OWNER TO postgres;
+  OWNER TO test_user;
 
-  
-  
+
+
 -- Table: "Keywords"
 
 CREATE TABLE "Keywords"
@@ -70,10 +71,10 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE "Keywords"
-  OWNER TO postgres;
-  
-  
-  
+  OWNER TO test_user;
+
+
+
 -- Table: "Language"
 
 CREATE TABLE "Language"
@@ -86,9 +87,9 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE "Language"
-  OWNER TO postgres;
+  OWNER TO test_user;
 
-  
+
 -- Table: "User"
 
 
@@ -105,4 +106,4 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE "User"
-  OWNER TO postgres;
+  OWNER TO test_user;
