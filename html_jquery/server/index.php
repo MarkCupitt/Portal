@@ -1,7 +1,22 @@
 <?php
-header("Content-Type: application/json");
+require_once("config.php");
 
-if (isset($_REQUEST["list"])) {
+error_reporting(DEBUG ? E_ERROR : E_NONE);
+session_start();
+
+require_once("PostgreSQL.php");
+//$SQL = new PostgreSQL($config["db"]);
+
+require_once("REST.php");
+$REST = new REST($config["rest"]);
+
+// $REST->params
+// $REST->filter
+
+if ($REST->resource == "list") {
+//  $res = $SQL->query("SELECT id, title, data, descr FROM mytable ORDER BY date");
+//  return $REST->sendResponse($res->fetchAll());
+
   $res = array();
   for ($i = 0; $i < 10; $i++) {
     $res[] = array(
@@ -12,10 +27,13 @@ if (isset($_REQUEST["list"])) {
     );
   }
 
-  echo json_encode($res);
+  $REST->sendResponse($res);
 }
 
-if (isset($_REQUEST["details"])) {
+if ($REST->resource == "details") {
+// $res = $SQL->query("SELECT id, title, data, descr FROM mytable WHERE id = %u", $REST->params[]);
+// return $REST->sendResponse($res->fetchRow());
+
   $res = array(
       "id"    => $_REQUEST["id"],
       "title" => "Some title for ID ". $_REQUEST["id"],
@@ -24,6 +42,8 @@ if (isset($_REQUEST["details"])) {
       "lang"  => array("de", "en")
   );
 
-  echo json_encode($res);
+  $REST->sendResponse($res);
 }
+
+$REST->sendStatus(422);
 ?>

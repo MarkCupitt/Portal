@@ -17,7 +17,7 @@ function parse(template, data) {
 $(function() {
   var template = $('#content').html();
   var id = '<?php echo $_REQUEST["id"]?>';
-  var json = 'server/?details&id='+ id;
+  var json = 'server/?details/id/'+ id;
   $.getJSON(json, function(data) {
     var html = '';
     html += parse(template, data);
