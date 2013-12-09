@@ -21,7 +21,7 @@ if ($REST->resource == "list") {
   for ($i = 0; $i < 10; $i++) {
     $res[] = array(
         "id"    => ($i+1) * 100,
-        "title" => "Some title",
+        "title" => "Some title". ($i+1),
         "date"  => date("Y-m-d H:i:s"),
         "descr" => "There is an extraordinary long descripion available"
     );

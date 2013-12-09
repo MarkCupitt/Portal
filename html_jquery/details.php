@@ -23,6 +23,10 @@ $(function() {
     html += parse(template, data);
   $('#content').html(html);
   });
+
+  $('#btn_edit').click(function(){
+    location.href='edit_form.php?id=' + id;
+  });
 });
 </script>
 
@@ -34,8 +38,8 @@ $(function() {
 </div>
 
 <p id='buttons'>
-  <button name='Edit' type='button' value='Editieren' onclick='alert("Editieren");'>EDIT</button>
-  <button name='Delete' type='button' value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
+  <button id='btn_edit' type='button' value='Editieren'>EDIT</button>
+  <button id='btn_delete' type='button' value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
 </p>
 
 <a href='index.php'>Zurück zur Liste</a>
