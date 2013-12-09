@@ -1,13 +1,16 @@
 [
 {
+  "id": "id1",
   "title":"title1",
   "date":"2013-11-01",
   "descr":"Bla text..1"
 },{
+  "id": "id2",
   "title":"title2",
   "date":"2013-11-02",
   "descr":"Bla text..2"
 },{
+  "id": "id3",
   "title":"title3",
   "date":"2013-11-03",
   "descr":"Bla text..3"

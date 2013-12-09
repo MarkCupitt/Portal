@@ -6,17 +6,28 @@
 
 <body>
 <script>
+function parse(template, data) {
+  return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
+  return data[key] || tag;
+  });
+}
+
+var template = '<li><a href="details.php?id={id}">' +
+  '{title} | '+
+  '{date} | ' +
+  '{descr}' +
+  '</a></li>';
+
 $.getJSON('list2.json', function(list) {
-  var html = '';
+  var html ='';
   $.each(list, function(i, listItem) {
-    html += '<li><a href="details.php?id='+ (i+1) +'">'+
-      listItem.title + ' | ' + listItem.date + ' | ' + listItem.descr +
-      '</a></li>';
+  html += parse(template, listItem);
+
   });
 
   $('<ul/>', {
-    'class': 'services',
-    html: html
+  'class': 'services',
+  html: html
   }).appendTo('body');
 });
 
