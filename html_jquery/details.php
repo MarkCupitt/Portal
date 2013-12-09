@@ -16,8 +16,6 @@
 
 
 var template = $('#content').html();
-debugger
-console.log(template);
 var id = '<?php echo $_REQUEST["id"]?>';
 var json = 'details' + id + '.json';
 $.getJSON(json, function(data) {
@@ -30,12 +28,12 @@ $('#content').html(html);
 
 </script>
 
-<p id="content">
+<div id="content">
   <h1>{title}</h1>
   <p> Datum: {date}</p>
   <p> Beschreibung: {descr}</p>
   <p> Sprachen: {lang}</p>
-</p>
+</div>
 
 <p id='buttons'>
 <button name='Edit' type='button'
