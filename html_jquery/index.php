@@ -28,9 +28,10 @@ $.getJSON('list2.json', function(list) {
   $('<ul/>', {
   'class': 'services',
   html: html
-  }).appendTo('body');
+  }).appendTo('#content');
 });
 
 </script>
+<p id='content'></p>
 </body>
 </html>

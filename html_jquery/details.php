@@ -18,8 +18,9 @@ var template = '<h1>{title}</h1>'+
   '<p> Beschreibung: {descr}</p>'+
   '<p> Sprachen: {lang}</p>';
 
-var id = parseInt('<?php echo $_REQUEST["id"]?>', 10);
-$.getJSON('details.json', function(data) {
+var id = '<?php echo $_REQUEST["id"]?>';
+var json = 'details' + id + '.json';
+$.getJSON(json, function(data) {
   var html = '';
   html += parse(template, data);
 
