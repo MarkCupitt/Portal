@@ -26,7 +26,7 @@ if ($HTTP->method == "GET") {
 }
 
 if ($HTTP->method == "POST") {
-  return $HTTP->sendResponse($res->fetchRow($service->saveItem($HTTP->params["id"], $HTTP->data)));
+  return $HTTP->sendResponse($service->saveItem($HTTP->params["id"], $HTTP->data));
 }
 
 ?>
