@@ -10,9 +10,11 @@
 
 <body>
 <script>
+var urlParams = util.getUrlParams();
+var id = urlParams.id;
+
 $(function() {
   var template = $('#content').html();
-  var id = '<?php echo $_REQUEST["id"]?>';
   var json = 'server/?details/id/'+ id;
   $.getJSON(json, function(data) {
     var html = '';

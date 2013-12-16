@@ -10,7 +10,8 @@
 
 <body>
 <script>
-var id = '<?php if (isset($_REQUEST["id"])) echo $_REQUEST["id"]?>';
+var urlParams = util.getUrlParams();
+var id = urlParams.id;
 
 $(function(){
   $('#btn_save').click(function() {
