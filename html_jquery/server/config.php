@@ -10,11 +10,11 @@ $config = array(
 		"user" => "test_user",
 		"password" => "test1234"
 	),
-  "rest" => array(
-    "origin" => "*",
-    "age" => 8*60*60, // 8h
-    "path" => "cache",
-    "size" => 1024*1024*1024 // 1GB
+  "http" => array(
+    "authOrigin" => "*",
+    "authMaxAge" => 8*60*60, // 8h
+    "cachePath"  => "cache",
+    "cacheSize"  => 1024*1024*1024 // 1GB
   )
 );
 
