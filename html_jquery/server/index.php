@@ -10,18 +10,23 @@ $SQL = new PostgreSQL($config["db"]);
 require_once("HTTP.php");
 $HTTP = new HTTP($config["http"]);
 
-// $HTTP->params
-// $HTTP->filter
+require_once("Service.php");
+$service = new Service($SQL);
 
-if ($HTTP->resource == "list") {
-  $res = $SQL->query("SELECT id, title, date, descr FROM service ORDER BY date");
-  return $HTTP->sendResponse($res->fetchAll());
+if ($HTTP->method == "GET") {
+  if ($HTTP->resource == "list") {
+    $HTTP->sendResponse($service->getList());
+  }
+
+  if ($HTTP->resource == "details") {
+    $HTTP->sendResponse($service->getItem($HTTP->params["id"]));
+  }
+
+  $HTTP->sendStatus(422);
 }
 
-if ($HTTP->resource == "details") {
-  $res = $SQL->query("SELECT id, title, date, descr, lang FROM service WHERE id = %u", array($HTTP->params["id"]));
-  return $HTTP->sendResponse($res->fetchRow());
+if ($HTTP->method == "POST") {
+  return $HTTP->sendResponse($res->fetchRow($service->saveItem($HTTP->params["id"], $HTTP->data)));
 }
 
-$HTTP->sendStatus(422);
 ?>

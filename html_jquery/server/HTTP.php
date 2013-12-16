@@ -1,6 +1,7 @@
 <?php
 /*
- * @date 2013-12-16 11:00
+ * @date 2013-12-16 11:30
+ * TODO: PROXY methods
  */
 class HTTP {
 
@@ -46,6 +47,8 @@ class HTTP {
     510 => "Not Extended"
   );
 
+  public $method;
+  public $data;
   public $resource;
   public $params;
   public $filter;
@@ -53,11 +56,21 @@ class HTTP {
   public function __construct($config) {
     $this->config = $config;
 
-    if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
-      $this->sendCorsHeaders();
-      header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, DELETE, OPTIONS");
-      header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
-      exit;
+    $this->method = $_SERVER["REQUEST_METHOD"];
+    switch ($this->method) {
+      case "OPTIONS":
+        $this->sendCorsHeaders();
+        header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
+        exit;
+
+      case "POST":
+        if (stripos($_SERVER["HTTP_CONTENT_TYPE"], "application/json") === 0) {
+          $this->data = json_decode(file_get_contents("php://input"), TRUE);
+        } else {
+          $this->data = $_POST;
+        }
+      break;
     }
 
     $this->uid = md5($_SERVER["QUERY_STRING"]);
