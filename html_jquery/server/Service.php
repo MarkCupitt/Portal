@@ -3,6 +3,7 @@
 class Service{
 
   private $SQL;
+  private $table = "service";
 
   public function __construct($SQL) {
     $this->SQL = $SQL;
@@ -16,7 +17,7 @@ class Service{
         date,
         descr
       FROM
-        service
+        ".$this->table."
       ORDER BY
         date
     ");
@@ -32,18 +33,18 @@ class Service{
         descr,
         lang
       FROM
-        service
+        ".$this->table."
       WHERE
         id = %u
     ", array($id));
     return $res->fetchRow();
   }
 
-  public function saveItem($id = NULL) {
+  public function saveItem($id = NULL, $data) {
     if ($id) {
       $this->SQL->query("
         UPDATE
-          service
+          ".$this->table."
         SET
           title = '%s',
           date = '%s',
@@ -52,11 +53,11 @@ class Service{
         WHERE
           id = %u
       ", array(
-        $HTTP->params["title"],
-        $HTTP->params["date"],
-        $HTTP->params["descr"],
-        $HTTP->params["lang"],
-        $HTTP->params["id"]
+        $data["title"],
+        $data["date"],
+        $data["descr"],
+        $data["lang"],
+        $id
       ));
 
       return $id;
@@ -64,14 +65,14 @@ class Service{
 
     $this->SQL->query("
       INSERT INTO
-        service title, date, descr, lang)
+        ".$this->table." (title, date, descr, lang)
       VALUES
         ('%s', '%s', '%s', %s')
     ", array(
-      $HTTP->params["title"],
-      $HTTP->params["date"],
-      $HTTP->params["descr"],
-      $HTTP->params["lang"]
+      $data["title"],
+      $data["date"],
+      $data["descr"],
+      $data["lang"]
     ));
 
     return $SQL->insertId;
