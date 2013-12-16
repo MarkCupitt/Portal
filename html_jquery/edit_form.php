@@ -13,7 +13,7 @@
 var urlParams = util.getUrlParams();
 var id = urlParams.id;
 
-$(function(){
+$(function() {
   $('#btn_save').click(function() {
   $('.input').each(function(i, field) {
     _data[field.name] = field.value;
@@ -24,8 +24,7 @@ $(function(){
   url: 'server/?details/id/'+ id,
   data: _data,
   dataType: 'json',
-  success: function(){
-    alert('Works!');
+  success: function() {
     location.href = 'details.php?id='+ id;
   }
   });

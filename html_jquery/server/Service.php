@@ -49,6 +49,8 @@ class Service{
   }
 
   public function saveItem($id = NULL, $data) {
+    $data["reference_data"] = "<"."?xml version=\"1.0\"?><root/>";
+
     if ($id) {
       $this->SQL->query("
         UPDATE
@@ -57,14 +59,14 @@ class Service{
           title = '%s',
           date = (TIMESTAMP '%s'),
           descr = '%s',
-          lang = '%s',
+          lang = %u,
           keywords = %u,
           input_format= %u,
           date_creation = (TIMESTAMP '%s'),
           url_reference = '%s',
           url_data = '%s',
           is_latest = '%s',
-          reference_data = XMLParse (DOCUMENT '<?xml version=\"1.0\"?>'),
+          reference_data = XMLParse(DOCUMENT '%s'),
           input_crs = %u
         WHERE
           id = %u
@@ -79,11 +81,12 @@ class Service{
         $data["url_reference"],
         $data["url_data"],
         $data["is_latest"],
-      // $data["reference_data"],
+        $data["reference_data"],
         $data["input_crs"],
         $id
       ));
 
+      return $id;
     }
 
     $this->SQL->query("
@@ -105,6 +108,7 @@ class Service{
       $data["reference_data"],
       $data["input_crs"]
     ));
+
     return $SQL->insertId;
   }
 }
