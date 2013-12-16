@@ -1,69 +1,10 @@
 <?php
 /*
- * @date 2013-11-18 10:15
+ * @date 2013-12-16 11:00
  */
-class Cache {
+class HTTP {
 
-  private $path;
-  private $size;
-
-  public function __construct($config) {
-    $this->path = $config["path"];
-    $this->size = $config["size"];
-  }
-
-  private function createFileName($key) {
-    return $this->path."/".md5($key).".json";
-  }
-
-  public function add($key, $value) {
-    $fileName = $this->createFileName($key);
-    $this->purge();
-    return file_put_contents($fileName, $value);
-  }
-
-  public function get($key) {
-    if (DEBUG) {
-      return;
-    }
-    $fileName = $this->createFileName($key);
-    return file_get_contents($fileName);
-  }
-
-  public function purge() {
-		$sum = 0;
-    $cache = array();
-		$fp = opendir($this->path);
-		if ($fp) {
-			while ($item = readdir($fp)) {
-        $fileName = $this->path."/$item";
-				if (!is_file($fileName)) {
-					continue;
-				}
-				$fileSize = filesize($fileName);
-				$sum += $fileSize;
-				$cache[ filemtime($fileName) ] = array("name"=>$fileName, "size"=>$fileSize);
-			}
-			closedir($fp);
-		}
-
-    ksort($cache);
-    while($sum > $this->size) {
-      $file = array_shift($cache);
-      $sum -= $file["size"];
-      unlink($file["name"]);
-    }
-  }
-}
-
-/*
- * @date 2013-11-18 10:15
- */
-class REST {
-
-  private $origin;
-  private $age;
-  private $cache;
+  private $config;
   private $uid;
 
   private $statusCodes = array(
@@ -110,9 +51,7 @@ class REST {
   public $filter;
 
   public function __construct($config) {
-    $this->origin = $config["origin"];
-    $this->age    = $config["age"];
-    $this->cache  = new Cache($config);
+    $this->config = $config;
 
     if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
       $this->sendCorsHeaders();
@@ -141,24 +80,67 @@ class REST {
     unset($_REQUEST[$queryParts[0]]);
     $this->filter = $_REQUEST;
 
-    $cached = $this->cache->get($this->uid);
+    $cached = $this->getFromCache($this->uid);
     if ($cached) {
       $this->sendResponse(json_decode($cached));
     }
   }
 
+  private function createCacheFilename($key) {
+    return $this->config["cachePath"]."/".md5($key).".json";
+  }
+
+  private function addToCache($key, $value) {
+    $fileName = $this->createCacheFilename($key);
+    $this->purgeCache();
+    return file_put_contents($fileName, $value);
+  }
+
+  private function getFromCache($key) {
+    if (DEBUG) {
+      return;
+    }
+    $fileName = $this->createCacheFilename($key);
+    return file_get_contents($fileName);
+  }
+
+  private function purgeCache() {
+		$sum = 0;
+    $cache = array();
+		$fp = opendir($this->config["cachePath"]);
+		if ($fp) {
+			while ($item = readdir($fp)) {
+        $fileName = $this->config["cachePath"]."/$item";
+				if (!is_file($fileName)) {
+					continue;
+				}
+				$fileSize = filesize($fileName);
+				$sum += $fileSize;
+				$cache[ filemtime($fileName) ] = array("name"=>$fileName, "size"=>$fileSize);
+			}
+			closedir($fp);
+		}
+
+    ksort($cache);
+    while($sum > $this->config["cacheSize"]) {
+      $file = array_shift($cache);
+      $sum -= $file["size"];
+      unlink($file["name"]);
+    }
+  }
+
   private function sendCorsHeaders() {
-    header("Access-Control-Allow-Origin: ".$this->origin);
+    header("Access-Control-Allow-Origin: ".$this->config["authOrigin"]);
     header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Max-Age: ".$this->age);
+    header("Access-Control-Max-Age: ".$this->config["authMaxAge"]);
   }
 
   private function sendCacheHeaders() {
     header("Pragma: cache");
-    header("Cache-Control: max-age=".$this->age);
-    header("Expires: ".gmdate("D, d M Y H:i:s", time()+$this->age)." GMT");
+    header("Cache-Control: max-age=".$this->config["authMaxAge"]);
+    header("Expires: ".gmdate("D, d M Y H:i:s", time()+$this->config["authMaxAge"])." GMT");
 
-    $lastModified = time()-$this->age;
+    $lastModified = time()-$this->config["authMaxAge"];
     header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
 
     if (@strtotime($_SERVER["IF_MODIFIED_SINCE"]) == $lastModified) {
@@ -185,7 +167,7 @@ class REST {
     }
 
     $json = json_encode($res);
-    $this->cache->add($this->uid, $json);
+    $this->addToCache($this->uid, $json);
 
     header("Content-Type: application/json; charset=utf-8");
     $this->compressResponse($json);
