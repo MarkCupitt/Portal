@@ -4,6 +4,7 @@
 <title>Details</title>
 <meta charset="UTF-8">
 <script src="jquery-2.0.3.js"></script>
+<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
@@ -32,9 +33,17 @@ $(function() {
 
 <div id="content">
   <h1>{title}</h1>
-  <p>Datum: {date}</p>
-  <p>Beschreibung: {descr}</p>
-  <p>Sprachen: {lang}</p>
+  <p>Date: {date}</p>
+  <p>Describtion: {descr}</p>
+  <p>Keywords: {keywords}</p>
+  <p>Languages: {lang}</p>
+  <p>Input Format: {input_format}</p>
+  <p>Date creation: {date creation}</p>
+  <p>Reference: {url_reference}</p>
+  <p>URL data: {url_data}</p>
+  <p>Up to date?: {is_latest}</p>
+  <p>GetCapabilities: {reference_data}</p>
+  <p>Input CRS: {input_crs}</p>
 </div>
 
 <p id='buttons'>

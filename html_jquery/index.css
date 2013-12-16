@@ -1,0 +1,15 @@
+#content{
+  font-style: italic;
+  font-family: serif;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:hover{
+  letter-spacing: 5px;
+	font-weight:bold;
+	color:red;
+  }
+

@@ -2,6 +2,7 @@
 <head>
 <title>Liste</title>
 <script src="jquery-2.0.3.js"></script>
+<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>

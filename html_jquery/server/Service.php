@@ -31,7 +31,15 @@ class Service{
         title,
         date,
         descr,
-        lang
+        lang,
+        keywords,
+        input_format,
+        date_creation,
+        url_reference,
+        url_data,
+        is_latest,
+        reference_data,
+        input_crs
       FROM
         ".$this->table."
       WHERE
@@ -47,9 +55,17 @@ class Service{
           ".$this->table."
         SET
           title = '%s',
-          date = '%s',
+          date = (TIMESTAMP '%s'),
           descr = '%s',
-          lang = '%s'
+          lang = '%s',
+          keywords = %u,
+          input_format= %u,
+          date_creation = (TIMESTAMP '%s'),
+          url_reference = '%s',
+          url_data = '%s',
+          is_latest = '%s',
+          reference_data = XMLParse (DOCUMENT '<?xml version=\"1.0\"?>'),
+          input_crs = %u
         WHERE
           id = %u
       ", array(
@@ -57,10 +73,17 @@ class Service{
         $data["date"],
         $data["descr"],
         $data["lang"],
+        $data["keywords"],
+        $data["input_format"],
+        $data["date_creation"],
+        $data["url_reference"],
+        $data["url_data"],
+        $data["is_latest"],
+      // $data["reference_data"],
+        $data["input_crs"],
         $id
       ));
 
-      return $id;
     }
 
     $this->SQL->query("
@@ -72,10 +95,85 @@ class Service{
       $data["title"],
       $data["date"],
       $data["descr"],
-      $data["lang"]
+      $data["lang"],
+      $data["keywords"],
+      $data["input_format"],
+      $data["date_creation"],
+      $data["url_reference"],
+      $data["url_data"],
+      $data["is_latest"],
+      $data["reference_data"],
+      $data["input_crs"]
     ));
 
     return $SQL->insertId;
   }
+
+//
+//
+//    public function saveItem($id = NULL, $data) {
+//    if ($id) {
+//      $this->SQL->query("
+//        UPDATE
+//          ".$this->table."
+//        SET
+//          title = '%s',
+//          date = '%s',
+//          descr = '%s',
+//          lang = '%s',
+//          keywords = '%s',
+//          input_format= '%s',
+//          date_creation = '%s',
+//          url_reference = '%s',
+//          url_data = '%s',
+//          is_latest = '%s',
+//          reference_data = '%s',
+//          input_crs = '%s'
+//        WHERE
+//          id = %u
+//      ", array(
+//        $data["title"],
+//        $data["date"],
+//        $data["descr"],
+//        $data["lang"],
+//        $data["keywords"],
+//        $data["input_format"],
+//        $data["date_creation"],
+//        $data["url_reference"],
+//        $data["url_data"],
+//        $data["is_latest"],
+//        $data["reference_data"],
+//        $data["input_crs"],
+//        $id
+//      ));
+//
+//      return $id;
+//    }
+//
+//    $this->SQL->query("
+//      INSERT INTO
+//        ".$this->table." (title, date, descr, lang)
+//      VALUES
+//        ('%s', '%s', '%s', %s')
+//    ", array(
+//      $data["title"],
+//      $data["date"],
+//      $data["descr"],
+//      $data["lang"],
+//      $data["keywords"],
+//      $data["input_format"],
+//      $data["date_creation"],
+//      $data["url_reference"],
+//      $data["url_data"],
+//      $data["is_latest"],
+//      $data["reference_data"],
+//      $data["input_crs"]
+//    ));
+//
+//    return $SQL->insertId;
+//  }
+//
+//
+
 }
 ?>

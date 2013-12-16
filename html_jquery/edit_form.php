@@ -4,6 +4,7 @@
 <title>Details</title>
 <meta charset="UTF-8">
 <script src="jquery-2.0.3.js"></script>
+<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
@@ -53,10 +54,18 @@ $(function(){
 <div id="content">
   <h1>Form for data editing</h1>
   <form id="editForm">
-  <p>Titel:<br><input name="title" class="input" type="text" size="30" maxlength="30"></p>
-  <p>Datum:<br><input name="date" class="input" type="text" size="30" maxlength="30"></p>
-  <p>Beschreibung:<br><textarea name="descr" class="input" cols="50" rows="10"></textarea></p>
-  <p>Sprachen:<br><input name="lang" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Title:<br><input name="title" class="input" type="text" size="30" maxlength="30"></p>
+  <!--<p>date:<br><input name="date" class="input" type="text" size="30" maxlength="30"></p>-->
+  <p>Description:<br><textarea name="descr" class="input" cols="50" rows="10"></textarea></p>
+  <p>Keywords:<br><input name="keywords" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Languages:<br><input name="lang" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Input-Format:<br><input name="input_format" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Date creation:<br><input name="date_creation" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Reference:<br><input name="url_reference" class="input" type="text" size="30" maxlength="30"></p>
+  <p>URL data:<br><input name="url_data" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Up to date?:<br><input name="is_latest" class="input" type="text" size="30" maxlength="30"></p>
+  <p>GetCapabilities:<br><input name="reference_data" class="input" type="text" size="30" maxlength="30"></p>
+  <p>Input CRS:<br><input name="input_crs" class="input" type="text" size="30" maxlength="30"></p>
   </form>
 </div>
 

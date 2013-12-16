@@ -4,7 +4,7 @@
 
 CREATE TABLE service
 (
-  id integer NOT NULL,
+  id serial NOT NULL,
   title character varying NOT NULL,
   descr text,
   keywords integer,
@@ -31,7 +31,7 @@ ALTER TABLE service
 
 CREATE TABLE "Input_CRS"
 (
-  "ID" integer NOT NULL,
+  "ID" serial NOT NULL,
   "CRS" character varying NOT NULL,
   CONSTRAINT "Input_CRS_pkey" PRIMARY KEY ("ID")
 )
@@ -47,7 +47,7 @@ ALTER TABLE "Input_CRS"
 
 CREATE TABLE "Input_Format"
 (
-  "ID" integer NOT NULL,
+  "ID" serial NOT NULL,
   "Format" character varying NOT NULL,
   CONSTRAINT "Input_Format_pkey" PRIMARY KEY ("ID")
 )
@@ -63,7 +63,7 @@ ALTER TABLE "Input_Format"
 
 CREATE TABLE "Keywords"
 (
-  "ID" integer NOT NULL,
+  "ID" serial NOT NULL,
   "Keyword" character varying NOT NULL,
   CONSTRAINT "Keywords_pkey" PRIMARY KEY ("ID")
 )
@@ -79,7 +79,7 @@ ALTER TABLE "Keywords"
 
 CREATE TABLE "Language"
 (
-  "ID" integer NOT NULL,
+  "ID" serial NOT NULL,
   "Language" character varying NOT NULL,
   CONSTRAINT "Language_pkey" PRIMARY KEY ("ID")
 )
@@ -95,7 +95,7 @@ ALTER TABLE "Language"
 
 CREATE TABLE "User"
 (
-  "ID" integer NOT NULL,
+  "ID" serial NOT NULL,
   user_name text NOT NULL,
   e_mail text,
   passwort character varying(64) NOT NULL,
