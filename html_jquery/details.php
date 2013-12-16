@@ -10,19 +10,13 @@
 
 <body>
 <script>
-function parse(template, data) {
-  return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
-    return data[key] || tag;
-  });
-}
-
 $(function() {
   var template = $('#content').html();
   var id = '<?php echo $_REQUEST["id"]?>';
   var json = 'server/?details/id/'+ id;
   $.getJSON(json, function(data) {
     var html = '';
-    html += parse(template, data);
+    html += util.parse(template, data);
   $('#content').html(html);
   });
 

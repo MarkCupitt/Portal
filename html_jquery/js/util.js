@@ -5,6 +5,12 @@ var util = {
     }
   },
 
+  parse: function(template, data) {
+    return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
+      return data[key] || tag;
+    });
+  },
+
   ellipsis: function(str, len) {
     if (typeof str === 'string') {
       return (str.length > len) ? str.substr(0, len-2) +'…' : str;

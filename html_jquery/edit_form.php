@@ -10,12 +10,6 @@
 
 <body>
 <script>
-function parse(template, data) {
-  return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
-  return data[key] || tag;
-  });
-}
-
 var id = '<?php if (isset($_REQUEST["id"])) echo $_REQUEST["id"]?>';
 
 $(function(){
