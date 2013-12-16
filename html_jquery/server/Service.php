@@ -74,7 +74,6 @@ class Service{
       $data["descr"],
       $data["lang"]
     ));
-
     return $SQL->insertId;
   }
 }

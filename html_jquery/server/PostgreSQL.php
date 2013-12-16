@@ -1,4 +1,7 @@
 <?php
+/*
+ * @date 2013-12-16 14:00
+ */
 
 class PostgreSQL {
 
@@ -38,6 +41,13 @@ class PostgreSQL {
 			$query = vsprintf($query, array_map(array($this, "escape"), $args));
 		}
 
+    preg_match("/^\s*([a-z]+)\b/i", $query, $regs);
+    $type = strtoupper($regs[1]);
+
+    if ($type == "INSERT") {
+      $query .= " RETURNING Currval('users_id_seq')");
+    }
+    
 		$resId = pg_query($this->_link, $query);
 
 		if (!$resId) {
@@ -45,14 +55,20 @@ class PostgreSQL {
 			return;
 		}
 
+    if (in_array($type, array("SHOW", "SELECT", "DESCRIBE")) {
+			return new PostgreSQLResult($resId);
+		}
+
 		$this->numRows = pg_affected_rows($this->_link);
 
-		if (preg_match("~^\s*(SHOW|SELECT|DESCRIBE)\s+~", $query)) {
-			return new PostgreSQLResult($resId);
+    if ($type == "INSERT") {
+      $row = pg_fetch_row($resId);
+      if ($row) {
+        $this->insertId = $row[0];
+      }
 		}
 	}
 }
-
 
 class PostgreSQLResult {
 
