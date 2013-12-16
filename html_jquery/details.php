@@ -2,26 +2,23 @@
 <html>
 <head>
 <title>Details</title>
-<meta charset="UTF-8">
-<script src="jquery-2.0.3.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="index.css">
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/util.js"></script>
 </head>
 
 <body>
 <script>
-function parse(template, data) {
-  return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
-    return data[key] || tag;
-  });
-}
+var urlParams = util.getUrlParams();
+var id = urlParams.id;
 
 $(function() {
   var template = $('#content').html();
-  var id = '<?php echo $_REQUEST["id"]?>';
   var json = 'server/?details/id/'+ id;
   $.getJSON(json, function(data) {
     var html = '';
-    html += parse(template, data);
+    html += util.parse(template, data);
   $('#content').html(html);
   });
 

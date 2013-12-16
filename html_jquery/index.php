@@ -1,18 +1,15 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Liste</title>
-<script src="jquery-2.0.3.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="index.css">
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/util.js"></script>
 </head>
 
 <body>
 <script>
-function parse(template, data) {
-  return template.replace(/\{([\w_]+)\}/g, function(tag, key) {
-  return data[key] || tag;
-  });
-}
-
 var template = '<li><div class="listItem_title"><a href="details.php?id={id}">' +
   '{title}</a></div>'+
   '<div class="listItem_date">{date}</div>' +
@@ -23,7 +20,7 @@ $(function(){
 $.getJSON('server/?list', function(list) {
   var html ='';
   $.each(list, function(i, listItem) {
-  html += parse(template, listItem);
+  html += util.parse(template, listItem);
 
   });
 
