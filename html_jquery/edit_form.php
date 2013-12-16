@@ -15,7 +15,7 @@ function parse(template, data) {
   });
 }
 
-var id = '<?php echo $_REQUEST["id"]?>';
+var id = '<?php if (isset($_REQUEST["id"])) echo $_REQUEST["id"]?>';
 
 $(function(){
   $('#btn_save').click(function() {
@@ -30,25 +30,28 @@ $(function(){
   dataType: 'json',
   success: function(){
     alert('Works!');
+    location.href = 'details.php?id='+ id;
   }
   });
   console.log(JSON.stringify(_data));
   });
 
   $('#btn_cancel').click(function() {
-    location.href = 'index.php';
+    location.href = 'details.php?id='+ id;
   });
 
   var json = 'server/?details/id/'+ id;
   var _data;
 
+  if (id !== ''){
   $.getJSON(json, function(data) {
     _data = data;
     $('.input').each(function(i, field) {
       field.value=_data[field.name] || '';
     });
   });
-});
+  }
+ });
 </script>
 
 <div id="content">

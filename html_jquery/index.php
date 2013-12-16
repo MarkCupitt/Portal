@@ -13,12 +13,13 @@ function parse(template, data) {
   });
 }
 
-var template = '<li><a href="details.php?id={id}">' +
-  '{title} | '+
-  '{date} | ' +
-  '{descr}' +
-  '</a></li>';
+var template = '<li><div class="listItem_title"><a href="details.php?id={id}">' +
+  '{title}</a></div>'+
+  '<div class="listItem_date">{date}</div>' +
+  '<div class="listItem_descr">{descr}</div><br>' +
+  '</li>';
 
+$(function(){
 $.getJSON('server/?list', function(list) {
   var html ='';
   $.each(list, function(i, listItem) {
@@ -32,7 +33,16 @@ $.getJSON('server/?list', function(list) {
   }).appendTo('#content');
 });
 
+$('#btn_add_data').click(function(){
+  location.href='edit_form.php';
+  });
+});
 </script>
-<p id='content'></p>
+<div id='content'>
+<h1>Web-Services<br></h1>
+</div>
+<div id="buttons">
+<button id="btn_add_data" type="button">Add data</button>
+</div>
 </body>
 </html>

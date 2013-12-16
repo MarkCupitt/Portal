@@ -39,10 +39,10 @@ $(function() {
   <p>Languages: {lang}</p>
   <p>Input Format: {input_format}</p>
   <p>Date creation: {date creation}</p>
-  <p>Reference: {url_reference}</p>
-  <p>URL data: {url_data}</p>
+  <p>Reference: <a href={url_reference}>{url_reference}</a></p>
+  <p>URL data: <a href={url_data}>{url_data}</a></p>
   <p>Up to date?: {is_latest}</p>
-  <p>GetCapabilities: {reference_data}</p>
+  <p>GetCapabilities: <a href={reference_data}>{reference_data}</a></p>
   <p>Input CRS: {input_crs}</p>
 </div>
 
