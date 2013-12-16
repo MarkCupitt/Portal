@@ -2,9 +2,10 @@
 <html>
 <head>
 <title>Details</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="index.css">
 <script src="js/jquery-2.0.3.js"></script>
 <script src="js/util.js"></script>
-<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
