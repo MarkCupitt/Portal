@@ -19,6 +19,7 @@ var id = '<?php if (isset($_REQUEST["id"])) echo $_REQUEST["id"]?>';
 
 $(function(){
   $('#btn_save').click(function() {
+  if (id !== ''){
   $('.input').each(function(i, field) {
     _data[field.name] = field.value;
     });
@@ -33,11 +34,17 @@ $(function(){
     location.href = 'details.php?id='+ id;
   }
   });
-  console.log(JSON.stringify(_data));
-  });
+  }else{
+    alert('Error!');
+  }
+});
 
   $('#btn_cancel').click(function() {
+  if (id !== ''){
     location.href = 'details.php?id='+ id;
+  }else{
+    location.href = 'index.php';
+  }
   });
 
   var json = 'server/?details/id/'+ id;
