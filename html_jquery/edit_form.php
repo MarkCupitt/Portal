@@ -2,8 +2,8 @@
 <html>
 <head>
 <title>Details</title>
-<meta charset="UTF-8">
-<script src="jquery-2.0.3.js"></script>
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/util.js"></script>
 <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
