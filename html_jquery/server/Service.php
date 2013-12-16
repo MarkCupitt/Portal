@@ -105,7 +105,6 @@ class Service{
       $data["reference_data"],
       $data["input_crs"]
     ));
-
     return $SQL->insertId;
   }
 
