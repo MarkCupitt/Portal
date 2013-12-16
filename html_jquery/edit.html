@@ -11,17 +11,20 @@
 <body>
 <script>
 var urlParams = util.getUrlParams();
-var id = urlParams.id || null;
+var id = urlParams.id || '';
 
 $(function() {
+  var url = 'server/?details/id/'+ id;
+  var _data = {};
+
   $('#btn_save').click(function() {
     $('.input').each(function(i, field) {
       _data[field.name] = field.value;
     });
 
     $.ajax({
-      type: "POST",
-      url: 'server/?details/id/'+ id,
+      type: 'POST',
+      url: url,
       data: _data,
       dataType: 'json',
       success: function() {
@@ -35,11 +38,8 @@ $(function() {
     location.href = 'details.html?id='+ id;
   });
 
-  var json = 'server/?details/id/'+ id;
-  var _data;
-
   if (id) {
-    $.getJSON(json, function(data) {
+    $.getJSON(url, function(data) {
       _data = data;
       $('.input').each(function(i, field) {
         field.value = _data[field.name] || '';
