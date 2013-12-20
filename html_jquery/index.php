@@ -39,6 +39,11 @@ $('#btn_add_data').click(function(){
 <h1>Web-Services<br></h1>
 </div>
 <div id="buttons">
+<form>
+<p><input name="search" class="search" type="text" size="30" maxlength="30">Suche<br></p>
+</form>
+</div>
+<div id="buttons">
 <button id="btn_add_data" type="button">Add data</button>
 </div>
 </body>

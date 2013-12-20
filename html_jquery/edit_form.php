@@ -76,7 +76,7 @@ $(function(){
 </div>
 
 <p id="buttons">
-  <button id="btn_save" type="button" value="save">SAVE</button>
+<button id="btn_save" type="button" value="save">SAVE</button>
 <button id="btn_cancel" type="button" value ="cancel">CANCEL</button>
 </p>
 
