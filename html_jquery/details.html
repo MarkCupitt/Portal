@@ -11,7 +11,7 @@
 <body>
 <script>
 var urlParams = util.getUrlParams();
-var id = urlParams.id;
+var id = urlParams.id || '';
 
 $(function() {
   var template = $('#content').html();
@@ -22,8 +22,8 @@ $(function() {
   $('#content').html(html);
   });
 
-  $('#btn_edit').click(function(){
-    location.href='edit_form.php?id=' + id;
+  $('#btn_edit').click(function() {
+    location.href='edit.html?id='+ id;
   });
 });
 </script>
@@ -43,12 +43,12 @@ $(function() {
   <p>Input CRS: {input_crs}</p>
 </div>
 
-<p id='buttons'>
-  <button id='btn_edit' type='button' value='Editieren'>EDIT</button>
-  <button id='btn_delete' type='button' value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
+<p id="buttons">
+  <button id="btn_edit" type='button' value='Editieren'>EDIT</button>
+  <button id="btn_delete" type='button' value ='Loeschen' onclick='alert("Löschen");'>DELETE</button>
 </p>
 
-<a href='index.php'>Zurück zur Liste</a>
+<a href="index.html">Zurück zur Liste</a>
 
 </body>
 </html>
