@@ -3,7 +3,7 @@
 define("DEBUG", TRUE);
 
 $config = array(
-	"db" => array(
+    "db" => array(
 		"host" => "localhost",
 		"database" => "test_db",
 		"port" => 5432,

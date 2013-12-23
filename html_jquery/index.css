@@ -23,6 +23,13 @@ body{
 /*  border: 1px solid black;*/
 }
 
+#search{
+  width: 960px;
+  background: white;
+  margin: 0px auto;
+  padding-left: 20px;
+}
+
 .listItem_title{
   float:left;
   width: 50%;
@@ -56,7 +63,7 @@ a:hover{
 	font-weight:bold;
   }
 
-  li{
+li{
     list-style: none;
     margin-bottom: 10px;
   }
