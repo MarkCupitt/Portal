@@ -10,23 +10,23 @@
 
 <body>
 <script>
-var template = '<li><div class="listItem_title"><a href="details.html?id={id}">' +
+var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'+
   '{title}</a></div>'+
-  '<div class="listItem_date">{date}</div>' +
-  '<div class="listItem_descr">{descr}</div><br>' +
+  '<div class="listItem_date">{date}</div>'+
+  '<div class="listItem_descr">{descr}</div><br>'+
   '</li>';
 
 $(function() {
   $.getJSON('server/?list', function(list) {
-  var html = '';
-  $.each(list, function(i, listItem) {
-    html += util.parse(template, listItem);
-  });
+    var html = '';
+    $.each(list, function(i, listItem) {
+      html += util.parse(template, listItem);
+    });
 
-  $('<ul/>', {
-  'class': 'services',
-  html: html
-  }).appendTo('#content');
+    $('<ul/>', {
+      'class': 'services',
+      html: html
+    }).appendTo('#content');
   });
 
   $('#btn_add_data').click(function() {
@@ -36,16 +36,16 @@ $(function() {
 </script>
 
 <div id="content">
-<h1>Web-Services<br></h1>
+  <h1>Web-Services<br></h1>
 </div>
 <div id="buttons">
-<button id="btn_add_data" type="button">Add data</button>
+  <button id="btn_add_data" type="button">Add data</button>
 </div>
 <div id="search">
-<form action="index.php" method="POST">
-<input type="text" name="searchbox">
-<input type="submit" name="btn_search_enter" value="Search">
-</form>
+  <form action="index.php" method="POST">
+  <input type="text" name="searchbox">
+  <input type="submit" name="btn_search_enter" value="Search">
+  </form>
 </div>
 <?php
 if(isset($_POST['btn_search_enter'])){
@@ -57,10 +57,7 @@ if(isset($_POST['btn_search_enter'])){
   $con = pg_connect("host=$host port=$port dbname=$db_name user=$user password=$password");
   $searchterm = trim(htmlentities(stripslashes(pg_escape_string($_POST['searchbox']))));
 
-  $sql = 'SELECT * FROM service WHERE
-  descr LIKE '%$searchterm%' OR
-  input_crs LIKE '%$searchterm%'
-  ';
+  $sql = "SELECT * FROM service WHERE descr LIKE '%$searchterm%' OR title LIKE '%$searchterm%'";
 
   $query =  pg_query($con, $sql);
   echo '<ul>';
@@ -68,7 +65,7 @@ if(isset($_POST['btn_search_enter'])){
   $title = $row['title'];
   $descr = $row['descr'];
   $input_crs = $row['input_crs'];
-  echo '<li>TEST $descr $ input_crs</li>';
+  echo '<li>TEST '.$descr.' '.$input_crs.'</li>';
   }
   echo '</ul>';
   }
