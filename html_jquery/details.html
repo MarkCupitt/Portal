@@ -20,6 +20,7 @@ $(function() {
   var html = '';
   html += util.parse(template, data);
   $('#content').html(html);
+  console.log(data.geometry);
   });
 
   $('#btn_edit').click(function() {
@@ -41,6 +42,7 @@ $(function() {
 <p>Up to date?: {is_latest}</p>
 <p>GetCapabilities: <a href={reference_data}>{reference_data}</a></p>
 <p>Input CRS: {input_crs}</p>
+<p>Geometry: {geometry}</p>
 </div>
 
 <p id="buttons">

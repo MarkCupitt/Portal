@@ -76,13 +76,20 @@ class Service{
         url_data,
         is_latest,
         reference_data,
-        input_crs
+        input_crs,
+        ST_AsGeoJSON(
+         ST_Transform(
+            geometry, 4326
+          ), 5
+        ) AS geometry
       FROM
         ".$this->table."
       WHERE
         id = %u
     ", array($id));
-    return $res->fetchRow();
+    $row = $res->fetchRow();
+    $row["geometry"] = json_decode($row["geometry"], TRUE);
+    return $row;
   }
 
   public function saveItem($id = NULL, $data) {
@@ -96,15 +103,16 @@ class Service{
           title = '%s',
           date = (TIMESTAMP '%s'),
           descr = '%s',
-          lang = %u,
-          keywords = %u,
-          input_format= %u,
+          lang = '%s',
+          keywords = '%s',
+          input_format= '%s',
           date_creation = (TIMESTAMP '%s'),
           url_reference = '%s',
           url_data = '%s',
           is_latest = '%s',
           reference_data = XMLParse(DOCUMENT '%s'),
-          input_crs = %u
+          input_crs = '%s',
+          geometry = '%s'
         WHERE
           id = %u
       ", array(
@@ -120,6 +128,7 @@ class Service{
         $data["is_latest"],
         $data["reference_data"],
         $data["input_crs"],
+        $data["geometry"],
         $id
       ));
 
@@ -130,10 +139,10 @@ class Service{
       INSERT INTO
         ".$this->table." (title, date, descr, lang)
       VALUES
-        ('%s', '%s', '%s', %s')
+        ('%s', CURRENT_DATE, '%s', '%s')
     ", array(
       $data["title"],
-      $data["date"],
+//    $data["date"], => CURRENT_DATE
       $data["descr"],
       $data["lang"],
       $data["keywords"],
@@ -143,8 +152,9 @@ class Service{
       $data["url_data"],
       $data["is_latest"],
       $data["reference_data"],
-      $data["input_crs"]
-    ));
+      $data["input_crs"],
+      $data["geometry"],
+      ));
 
     return $SQL->insertId;
   }

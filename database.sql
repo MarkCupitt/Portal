@@ -1,3 +1,6 @@
+-- PostGIS aktivieren
+-- create extension postgis;
+
 -- Table: service
 
 -- DROP TABLE service;
@@ -23,6 +26,9 @@ CREATE TABLE service
 ALTER TABLE service
   OWNER TO test_user;
 
+-- create Geometry Column   
+
+--ALTER TABLE test_db.public.service ADD COLUMN geometry geometry(Geometry, 4326);
 
 -- Table: "User"
 

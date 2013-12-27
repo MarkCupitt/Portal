@@ -1,0 +1,1 @@
+pg_dump -Utest_user -fportal_database test_db
