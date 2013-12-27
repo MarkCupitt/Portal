@@ -23,24 +23,26 @@ WHERE
 */
 
   public function getList($filter = NULL) {
-    $WHERE = "1";
+    $WHERE    = "1 = 1";
     $ORDER_BY = "date";
-    $LIMIT = 1000000;
+    $LIMIT    = 1000000;
+
+    $tags = array();
 
     if ($filter["search"]) {
       $words = preg_split("/\s+/", $filter["search"]);
-      $validWords = array();
+      $tags = array();
       $likeStr = array();
       for ($i = 0; $i < count($words); $i++) {
         $words[$i] = trim($words[$i]);
         if (strlen($words[$i]) < 2) {
           continue;
         }
-        $validWords[] = str_replace('%', '\%', $words[$i]);
+        $tags[] = str_replace('%', '\%', $words[$i]);
         $likeStr[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'"; // results in: ILIKE '%word%'
       }
 
-      if (count($validWords)) {
+      if (count($likeStr)) {
         $WHERE = implode(" AND ", $likeStr);
       } else {
         $LIMIT = 10;
@@ -52,7 +54,7 @@ WHERE
       $ORDER_BY = "date DESC";
     }
 
-    $res = $this->SQL->query("
+    $res = $this->SQL->query($q="
       SELECT
         id,
         title,
@@ -66,7 +68,7 @@ WHERE
         $ORDER_BY
       LIMIT
         $LIMIT
-    ");
+    ", $tags);
 
     return $res->fetchAll();
   }

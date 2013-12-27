@@ -40,6 +40,9 @@ body{
   font-size:12px;
   display: block;
 }
+#edit input, #edit textarea{
+  width: 300px;
+}
 
 
 h1{

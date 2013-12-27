@@ -45,12 +45,10 @@ class PostgreSQL {
     $type = strtoupper($regs[1]);
 
     if ($type == "INSERT") {
-//      $query .= " RETURNING currval('users_id_seq')";
       $query .= " RETURNING id";
     }
 
 		$resId = pg_query($this->_link, $query);
-
 		if (!$resId) {
 			$this->_error(pg_last_error()."\n".$query);
 			return;
