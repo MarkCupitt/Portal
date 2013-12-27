@@ -26,15 +26,13 @@ function fillList(data) {
 }
 
 $(function() {
-// TODO: get latest 10
-//  $.getJSON('server/?list', function(data) {
-//    fillList(data);
-//  });
+  $.getJSON('server/?list&latest=10', function(data) {
+    fillList(data);
+  });
 
   $('#search').submit(function(e) {
     e.preventDefault();
-    // TODO: use list+filter
-    $.getJSON('server/?search&searchterm='+ encodeURIComponent($('#search input').val()), function(data) {
+    $.getJSON('server/?list&search='+ encodeURIComponent($('#search input').val()), function(data) {
       fillList(data);
     });
   });

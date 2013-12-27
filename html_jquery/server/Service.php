@@ -22,35 +22,36 @@ WHERE
 ", array($w, $s, $e, $n));
 */
 
-  public function search($searchterm = "") {
-    $words = preg_split("/\s+/", $searchterm);
-    $validWords = array();
-    $WHERE = array();
-    for ($i = 0; $i < count($words); $i++) {
-      $words[$i] = trim($words[$i]);
-      if (strlen($words[$i]) < 2) {
-        continue;
-      }
-      $validWords[] = str_replace('%', '\%', $words[$i]);
-      $WHERE[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'";
-    }
-    if (!count($validWords)) {
-      return;
-    }
-
-    $res = $this->SQL->query("
-      SELECT
-        *
-      FROM
-        ".$this->table."
-      WHERE
-        ".implode(" AND ", $WHERE)
-    , $validWords);
-
-    return $res->fetchAll();
-  }
-
   public function getList($filter = NULL) {
+    $WHERE = "1";
+    $ORDER_BY = "date";
+    $LIMIT = 1000000;
+
+    if ($filter["search"]) {
+      $words = preg_split("/\s+/", $filter["search"]);
+      $validWords = array();
+      $likeStr = array();
+      for ($i = 0; $i < count($words); $i++) {
+        $words[$i] = trim($words[$i]);
+        if (strlen($words[$i]) < 2) {
+          continue;
+        }
+        $validWords[] = str_replace('%', '\%', $words[$i]);
+        $likeStr[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'"; // results in: ILIKE '%word%'
+      }
+
+      if (count($validWords)) {
+        $WHERE = implode(" AND ", $likeStr);
+      } else {
+        $LIMIT = 10;
+      }
+    }
+
+    if ($filter["latest"]) {
+      $LIMIT = $filter["latest"];
+      $ORDER_BY = "date DESC";
+    }
+
     $res = $this->SQL->query("
       SELECT
         id,
@@ -59,9 +60,14 @@ WHERE
         descr
       FROM
         ".$this->table."
+      WHERE
+        $WHERE
       ORDER BY
-        date
+        $ORDER_BY
+      LIMIT
+        $LIMIT
     ");
+
     return $res->fetchAll();
   }
 

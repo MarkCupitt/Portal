@@ -15,15 +15,11 @@ $service = new Service($SQL);
 
 if ($HTTP->method == "GET") {
   if ($HTTP->resource == "list") {
-    $HTTP->sendResponse($service->getList());
+    $HTTP->sendResponse($service->getList($HTTP->filter));
   }
 
   if ($HTTP->resource == "details") {
     $HTTP->sendResponse($service->getItem($HTTP->params["id"]));
-  }
-
-  if ($HTTP->resource == "search") {
-    $HTTP->sendResponse($service->search($HTTP->filter["searchterm"]));
   }
 
   $HTTP->sendStatus(422);
