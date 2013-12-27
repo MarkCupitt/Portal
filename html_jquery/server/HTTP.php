@@ -9,6 +9,31 @@ class HTTP {
   private $uid;
 
   private $statusCodes = array(
+    100 => "Continue",
+    101 => "Switching Protocols",
+    102 => "Processing",
+
+    200 => "OK",
+    201 => "Created",
+    202 => "Accepted",
+    203 => "Non-Authoritative Information",
+    204 => "No Content",
+    205 => "Reset Content",
+    206 => "Partial Content",
+    207 => "Multi-Status",
+    208 => "Already Reported",
+    226 => "IM Used",
+
+    300 => "Multiple Choices",
+    301 => "Moved Permanently",
+    302 => "Found",
+    303 => "See Other",
+    304 => "Not Modified",
+    305 => "Use Proxy",
+//  306 => "",
+    307 => "Temporary Redirect",
+    308 => "Permanent Redirect",
+
     400 => "Bad Request",
     401 => "Unauthorized",
     402 => "Payment Required",
@@ -27,6 +52,7 @@ class HTTP {
     415 => "Unsupported Media Type",
     416 => "Requested range not satisfiable",
     417 => "Expectation Failed",
+//  418 => "I’m a teapot",
     420 => "Policy Not Fulfilled",
     421 => "There are too many connections from your internet address",
     422 => "Unprocessable Entity",
@@ -35,6 +61,12 @@ class HTTP {
     425 => "Unordered Collection",
     426 => "Upgrade Required",
     429 => "Too Many Requests",
+    428 => "Precondition Required",
+    431=> "Request Header Fields Too Large",
+//  444 => "No Response",
+//  449 => "The request should be retried after doing the appropriate action",
+    451	=> "Unavailable For Legal Reasons",
+
     500 => "Internal Server Error",
     501 => "Not Implemented",
     502 => "Bad Gateway",
@@ -43,6 +75,7 @@ class HTTP {
     505 => "HTTP Version not supported",
     506 => "Variant Also Negotiates",
     507 => "Insufficient Storage",
+    508	=> "Loop Detected",
     509 => "Bandwidth Limit Exceeded",
     510 => "Not Extended"
   );
@@ -157,13 +190,11 @@ class HTTP {
     header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
 
     if (@strtotime($_SERVER["IF_MODIFIED_SINCE"]) == $lastModified) {
-      header("HTTP/1.1 304 Not Modified");
-      exit;
+      $this->sendStatus(304);
     }
 
     if (@$_SERVER["IF_NONE_MATCH"] == $this->uid) {
-      header("HTTP/1.1 304 Not Modified");
-      exit;
+      $this->sendStatus(304);
     }
 
     header("Etag: ".$this->uid);
@@ -175,8 +206,7 @@ class HTTP {
     $this->sendCorsHeaders();
 
     if (!$res) {
-      header("HTTP/1.0 204 No Content");
-      exit;
+      $this->sendStatus(204);
     }
 
     $json = json_encode($res);
@@ -187,10 +217,9 @@ class HTTP {
   }
 
   public function sendStatus($code = 500, $message = NULL) {
-    header("HTTP/1.0 ".$this->statusCodes[$code] ? "$code ".$this->statusCodes[$code] : "500 ".$this->statusCodes[500]);
-    if ($message) {
-      echo $message;
-    }
+    $code = $this->statusCodes[$code] ? $code : 500;
+    header("HTTP/1.1 $code ".$this->statusCodes[$code]);
+    echo $message ? $message : $this->statusCodes[$code];
     exit;
   }
 

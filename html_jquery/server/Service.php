@@ -10,14 +10,31 @@ class Service{
   }
 
   public function search($searchterm = "") {
-    $cleanSearchterm = trim($searchterm);
-    if ($cleanSearchterm == "") {
+    $words = preg_split("/\s+/", $searchterm);
+    $validWords = array();
+    $WHERE = array();
+    for ($i = 0; $i < count($words); $i++) {
+      $words[$i] = trim($words[$i]);
+      if (strlen($words[$i]) < 2) {
+        continue;
+      }
+      $validWords[] = str_replace('%', '\%', $words[$i]);
+//      $WHERE[] = "CONCAT_WS(' ', a.title, a.descr, b.crs) LIKE '%%%s%%'";
+      $WHERE[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'";
+    }
+    if (!count($validWords)) {
       return;
     }
 
-    $sql = "SELECT * FROM ".$this->table." WHERE descr LIKE '%$cleanSearchterm%' OR title LIKE '%$cleanSearchterm%'";
+    $res = $this->SQL->query("
+      SELECT
+        *
+      FROM
+        ".$this->table."
+      WHERE
+        ".implode(" AND ", $WHERE)
+    , $validWords);
 
-    $res = $this->SQL->query($sql);
     return $res->fetchAll();
 /*
     while ($row = $res->fetchRow($res)){
