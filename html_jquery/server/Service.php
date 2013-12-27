@@ -31,29 +31,14 @@ class Service{
 
 /*
 $words = preg_split("/\s+/", $searchterm);
-$WHERE = array();
 for ($i = 0; $i < count($words); $i++) {
+  $words[$i] = trim($words[$i]);
 	if (strlen($words[$i]) < 2) {
     continue;
   }
 	$words[$i] = str_replace('%', '\%', $words[$i]);
-	$WHERE[] = 'CONCAT_WS(" ", a.code, a.name, a.descr, b.name, d.name) LIKE "%'.$words[$i].'%"';
+  ...
 }
-
-$res = $sql->query("
-  SELECT	*
-  FROM		item AS a
-  LEFT JOIN	manuf AS b
-  ON			b.shop_manuf_id = a.shop_manuf_id
-  LEFT JOIN	categ_item AS c
-  ON			c.shop_item_id = a.shop_item_id
-  LEFT JOIN	categ AS d
-  ON			d.shop_categ_id = c.shop_categ_id
-  WHERE		'.implode(' AND ', $WHERE).' AND d.shop_categ_id IS NOT NULL
-  GROUP BY	d.shop_categ_id
-  ORDER BY	d.name
-");
-...
 */
 
 

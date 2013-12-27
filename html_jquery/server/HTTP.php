@@ -187,10 +187,10 @@ class HTTP {
   }
 
   public function sendStatus($code = 500, $message = NULL) {
-    header("HTTP/1.0 ".$this->statusCodes[$code] ? "$code ".$this->statusCodes[$code] : "500 ".$this->statusCodes[500]);
-    if ($message) {
-      echo $message;
-    }
+    $code = $this->statusCodes[$code] ? $code : 500;
+    $text = "$code ".$this->statusCodes[$code];
+    header("HTTP/1.0 $text");
+    echo $message ? $message : $text;
     exit;
   }
 
