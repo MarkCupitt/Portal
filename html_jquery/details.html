@@ -21,6 +21,7 @@ $(function() {
     $('#details').html(html);
     $('h1').html(data.title);
     document.title = data.title;
+console.log(data.geometry);
   });
 
   $('#btn_back').click(function() {
@@ -28,7 +29,7 @@ $(function() {
   });
 
   $('#btn_edit').click(function() {
-    location.href='edit.html?id='+ id;
+    location.href = 'edit.html?id='+ id;
   });
 
   $('#btn_delete').click(function() {});

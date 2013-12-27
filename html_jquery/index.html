@@ -16,12 +16,12 @@ var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'
   '<div class="listItem_descr">{descr}</div><br>'+
   '</li>';
 
-  
 function fillList(data) {
   var html = '';
   $.each(data, function(i, listItem) {
     html += util.parse(template, listItem);
   });
+
   $('#list').html(html);
 }
 

@@ -9,6 +9,19 @@ class Service{
     $this->SQL = $SQL;
   }
 
+/* Search by bbox
+list($n, $e, $s, $w) = explode(",", $bbox);
+...
+WHERE
+  wkb_geometry && ST_SetSRID(
+    ST_MakeBox2D(
+      ST_Point(%F,%F),
+      ST_Point(%F,%F)
+    ), 4326
+  )
+", array($w, $s, $e, $n));
+*/
+
   public function search($searchterm = "") {
     $words = preg_split("/\s+/", $searchterm);
     $validWords = array();
@@ -19,8 +32,7 @@ class Service{
         continue;
       }
       $validWords[] = str_replace('%', '\%', $words[$i]);
-//      $WHERE[] = "CONCAT_WS(' ', a.title, a.descr, b.crs) LIKE '%%%s%%'";
-      $WHERE[] = "CONCAT_WS(' ', title, descr) LIKE '%%%s%%'";
+      $WHERE[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'";
     }
     if (!count($validWords)) {
       return;
@@ -36,7 +48,6 @@ class Service{
     , $validWords);
 
     return $res->fetchAll();
-
   }
 
   public function getList($filter = NULL) {
@@ -69,27 +80,21 @@ class Service{
         url_data,
         is_latest,
         reference_data,
-        input_crs
+        input_crs,
+        ST_AsGeoJSON(
+         ST_Transform(
+            geometry, 4326
+          ), 5
+        ) AS geometry
       FROM
         ".$this->table."
       WHERE
         id = %u
     ", array($id));
-    return $res->fetchRow();
+    $row = $res->fetchRow();
+    $row["geometry"] = json_decode($row["geometry"], TRUE);
+    return $row;
   }
-
-/* Search by bbox
-list($n, $e, $s, $w) = explode(",", $bbox);
-...
-WHERE
-  wkb_geometry && ST_SetSRID(
-    ST_MakeBox2D(
-      ST_Point(%F,%F),
-      ST_Point(%F,%F)
-    ), 4326
-  )
-", array($w, $s, $e, $n));
-*/ 
 
   public function saveItem($id = NULL, $data) {
     $data["reference_data"] = "<"."?xml version=\"1.0\"?><root/>";
@@ -102,15 +107,16 @@ WHERE
           title = '%s',
           date = (TIMESTAMP '%s'),
           descr = '%s',
-          lang = %u,
-          keywords = %u,
-          input_format= %u,
+          lang = '%s',
+          keywords = '%s',
+          input_format= '%s',
           date_creation = (TIMESTAMP '%s'),
           url_reference = '%s',
           url_data = '%s',
           is_latest = '%s',
           reference_data = XMLParse(DOCUMENT '%s'),
-          input_crs = %u
+          input_crs = '%s',
+          geometry = '%s'
         WHERE
           id = %u
       ", array(
@@ -126,6 +132,7 @@ WHERE
         $data["is_latest"],
         $data["reference_data"],
         $data["input_crs"],
+        $data["geometry"],
         $id
       ));
 
@@ -149,8 +156,9 @@ WHERE
       $data["url_data"],
       $data["is_latest"],
       $data["reference_data"],
-      $data["input_crs"]
-    ));
+      $data["input_crs"],
+      $data["geometry"],
+      ));
 
     return $SQL->insertId;
   }

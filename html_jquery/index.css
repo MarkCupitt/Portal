@@ -51,9 +51,7 @@ a{
   color: darkblue;
   }
 
-a:hover{
-	font-weight:bold;
-  }
+a:hover{}
 
 li{
   list-style: none;
