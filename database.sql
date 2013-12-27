@@ -29,11 +29,11 @@ ALTER TABLE service
 
 -- Table: "Input_CRS"
 
-CREATE TABLE "Input_CRS"
+CREATE TABLE "input_crs"
 (
-  "ID" serial NOT NULL,
-  "CRS" character varying NOT NULL,
-  CONSTRAINT "Input_CRS_pkey" PRIMARY KEY ("ID")
+  "id" serial NOT NULL,
+  "crs" text NOT NULL,
+  CONSTRAINT "input_crs_pkey" PRIMARY KEY ("id")
 )
 WITH (
   OIDS=FALSE
@@ -45,11 +45,11 @@ ALTER TABLE "Input_CRS"
 
 -- Table: "Input_Format"
 
-CREATE TABLE "Input_Format"
+CREATE TABLE "input_format"
 (
-  "ID" serial NOT NULL,
+  "id" serial NOT NULL,
   "Format" character varying NOT NULL,
-  CONSTRAINT "Input_Format_pkey" PRIMARY KEY ("ID")
+  CONSTRAINT "Input_Format_pkey" PRIMARY KEY ("id")
 )
 WITH (
   OIDS=FALSE
@@ -63,9 +63,9 @@ ALTER TABLE "Input_Format"
 
 CREATE TABLE "Keywords"
 (
-  "ID" serial NOT NULL,
+  "id" serial NOT NULL,
   "Keyword" character varying NOT NULL,
-  CONSTRAINT "Keywords_pkey" PRIMARY KEY ("ID")
+  CONSTRAINT "Keywords_pkey" PRIMARY KEY ("id")
 )
 WITH (
   OIDS=FALSE
@@ -79,9 +79,9 @@ ALTER TABLE "Keywords"
 
 CREATE TABLE "Language"
 (
-  "ID" serial NOT NULL,
+  "id" serial NOT NULL,
   "Language" character varying NOT NULL,
-  CONSTRAINT "Language_pkey" PRIMARY KEY ("ID")
+  CONSTRAINT "Language_pkey" PRIMARY KEY ("id")
 )
 WITH (
   OIDS=FALSE
@@ -95,11 +95,11 @@ ALTER TABLE "Language"
 
 CREATE TABLE "User"
 (
-  "ID" serial NOT NULL,
+  "id" serial NOT NULL,
   user_name text NOT NULL,
   e_mail text,
   passwort character varying(64) NOT NULL,
-  CONSTRAINT "User_pkey" PRIMARY KEY ("ID"),
+  CONSTRAINT "User_pkey" PRIMARY KEY ("id"),
   CONSTRAINT "User_user_name_key" UNIQUE (user_name)
 )
 WITH (

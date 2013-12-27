@@ -11,9 +11,9 @@ class Service{
 
   public function search($searchterm = "") {
     $cleanSearchterm = trim($searchterm);
-//    if ($cleanSearchterm == "") {
-//      return;
-//    }
+    if ($cleanSearchterm == "") {
+      return;
+    }
 
     $sql = "SELECT * FROM ".$this->table." WHERE descr LIKE '%$cleanSearchterm%' OR title LIKE '%$cleanSearchterm%'";
 
@@ -27,7 +27,7 @@ class Service{
       echo $descr." ".$input_crs;
     }
 */
-  }  
+  }
 
   public function getList($filter = NULL) {
     $res = $this->SQL->query("

@@ -16,7 +16,7 @@ var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'
   '<div class="listItem_descr">{descr}</div><br>'+
   '</li>';
 
-  
+
 function fillList(data) {
   var html = '';
   $.each(data, function(i, listItem) {
@@ -25,15 +25,16 @@ function fillList(data) {
   $('<ul/>', {
     'class': 'services',
     html: html
-  }).appendTo('#content');
+  }).appendTo('#list');
 }
-  
+
 $(function() {
   $.getJSON('server/?list', function(data) {
     fillList(data);
   });
-  
+
   $('#form_search').submit(function(e) {
+    $('#list').empty();
     e.preventDefault();
     var searchterm = $('#searchterm').val();
     $.getJSON('server/?search&searchterm='+ encodeURIComponent(searchterm), function(data) {

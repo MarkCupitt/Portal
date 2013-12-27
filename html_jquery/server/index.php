@@ -23,9 +23,9 @@ if ($HTTP->method == "GET") {
   }
 
   if ($HTTP->resource == "search") {
-    $HTTP->sendResponse($service->search($HTTP->params["searchterm"]));
+    $HTTP->sendResponse($service->search($HTTP->filter["searchterm"]));
   }
-  
+
   $HTTP->sendStatus(422);
 }
 
