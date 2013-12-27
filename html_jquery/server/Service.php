@@ -9,6 +9,26 @@ class Service{
     $this->SQL = $SQL;
   }
 
+  public function search($searchterm = "") {
+    $cleanSearchterm = trim($searchterm);
+//    if ($cleanSearchterm == "") {
+//      return;
+//    }
+
+    $sql = "SELECT * FROM ".$this->table." WHERE descr LIKE '%$cleanSearchterm%' OR title LIKE '%$cleanSearchterm%'";
+
+    $res = $this->SQL->query($sql);
+    return $res->fetchAll();
+/*
+    while ($row = $res->fetchRow($res)){
+      $title = $row["title"];
+      $descr = $row["descr"];
+      $input_crs = $row["input_crs"];
+      echo $descr." ".$input_crs;
+    }
+*/
+  }  
+
   public function getList($filter = NULL) {
     $res = $this->SQL->query("
       SELECT

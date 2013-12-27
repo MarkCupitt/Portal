@@ -22,6 +22,10 @@ if ($HTTP->method == "GET") {
     $HTTP->sendResponse($service->getItem($HTTP->params["id"]));
   }
 
+  if ($HTTP->resource == "search") {
+    $HTTP->sendResponse($service->search($HTTP->params["searchterm"]));
+  }
+  
   $HTTP->sendStatus(422);
 }
 
