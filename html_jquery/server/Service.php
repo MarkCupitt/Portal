@@ -36,14 +36,7 @@ class Service{
     , $validWords);
 
     return $res->fetchAll();
-/*
-    while ($row = $res->fetchRow($res)){
-      $title = $row["title"];
-      $descr = $row["descr"];
-      $input_crs = $row["input_crs"];
-      echo $descr." ".$input_crs;
-    }
-*/
+
   }
 
   public function getList($filter = NULL) {
@@ -84,6 +77,19 @@ class Service{
     ", array($id));
     return $res->fetchRow();
   }
+
+/* Search by bbox
+list($n, $e, $s, $w) = explode(",", $bbox);
+...
+WHERE
+  wkb_geometry && ST_SetSRID(
+    ST_MakeBox2D(
+      ST_Point(%F,%F),
+      ST_Point(%F,%F)
+    ), 4326
+  )
+", array($w, $s, $e, $n));
+*/ 
 
   public function saveItem($id = NULL, $data) {
     $data["reference_data"] = "<"."?xml version=\"1.0\"?><root/>";
