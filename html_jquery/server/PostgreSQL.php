@@ -45,7 +45,8 @@ class PostgreSQL {
     $type = strtoupper($regs[1]);
 
     if ($type == "INSERT") {
-      $query .= " RETURNING Currval('users_id_seq')";
+//      $query .= " RETURNING currval('users_id_seq')";
+      $query .= " RETURNING id";
     }
 
 		$resId = pg_query($this->_link, $query);

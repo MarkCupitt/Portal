@@ -130,10 +130,10 @@ class Service{
       INSERT INTO
         ".$this->table." (title, date, descr, lang)
       VALUES
-        ('%s', '%s', '%s', %s')
+        ('%s', CURRENT_DATE, '%s', '%s')
     ", array(
       $data["title"],
-      $data["date"],
+//    $data["date"], => CURRENT_DATE
       $data["descr"],
       $data["lang"],
       $data["keywords"],
