@@ -149,9 +149,11 @@ WHERE
 
     $this->SQL->query("
       INSERT INTO
-        ".$this->table." (title, date, descr, lang)
+        ".$this->table." (title, date, descr, lang, keywords, input_format, date_creation, url_reference, url_data,
+          is_latest, reference_data, input_crs, geometry)
       VALUES
-        ('%s', CURRENT_DATE, '%s', '%s')
+        ('%s', CURRENT_DATE, '%s', '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
+         TRUE, '%s', '%s', '%s')
     ", array(
       $data["title"],
 //    $data["date"], => CURRENT_DATE
@@ -159,10 +161,10 @@ WHERE
       $data["lang"],
       $data["keywords"],
       $data["input_format"],
-      $data["date_creation"],
+//    $data["date_creation"], => CURRENT_DATE
       $data["url_reference"],
       $data["url_data"],
-      $data["is_latest"],
+//    $data["is_latest"], => TRUE
       $data["reference_data"],
       $data["input_crs"],
       $data["geometry"],
