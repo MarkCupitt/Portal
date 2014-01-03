@@ -35,7 +35,7 @@ $(function() {
       url: url,
       data: data,
       dataType: 'json',
-      success: function() {
+      success: function(id) {
         location.href = 'details.html?id='+ id;
       }
     });

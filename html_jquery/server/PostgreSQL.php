@@ -63,7 +63,7 @@ class PostgreSQL {
     if ($type == "INSERT") {
       $row = pg_fetch_row($resId);
       if ($row) {
-        $this->insertId = $row[0];
+        $this->insertId = $row[0]*1;
       }
 		}
 	}

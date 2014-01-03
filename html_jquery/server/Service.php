@@ -153,7 +153,7 @@ WHERE
           is_latest, reference_data, input_crs, geometry)
       VALUES
         ('%s', CURRENT_DATE, '%s', '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
-         TRUE, '%s', '%s', '%s')
+         TRUE, '%s', '%s', ST_GeometryFromText('%s', 4326))
     ", array(
       $data["title"],
 //    $data["date"], => CURRENT_DATE
@@ -167,10 +167,11 @@ WHERE
 //    $data["is_latest"], => TRUE
       $data["reference_data"],
       $data["input_crs"],
-      $data["geometry"],
-      ));
+//      $data["geometry"],
+      "POINT (13.0739 52.237982)"
+    ));
 
-    return $SQL->insertId;
+    return $this->SQL->insertId;
   }
 }
 ?>
