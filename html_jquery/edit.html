@@ -26,6 +26,36 @@ $(function() {
     });
   }
 
+  $('.input').change(function(e) {
+  var cleanValue = this.value.replace(/^\s+|\s+$/g,'');
+  var success = true;
+
+  switch (this.name){
+    case 'title':
+      success = cleanValue.match(/\S{3,}/);
+      break;
+    case 'source_date':
+      success = cleanValue.match(/20\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/);
+      break;
+    case 'url_reference':
+    case 'source_url':
+      success = cleanValue.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
+      break;
+    case 'source_crs':
+      success = cleanValue.match(/^(EPSG:)\d{4,}/);
+      break;
+  }
+
+  if (success){
+      $(this).removeClass('error');
+    } else{
+      $(this).addClass('error');
+    }
+
+  $('#btn_save').prop('disabled', $('.input.error').length);
+
+  });
+
   $('#btn_save').click(function() {
     $('.input').each(function(i, field) {
       data[field.name] = field.value;
@@ -60,32 +90,36 @@ $(function() {
     <li><label>Keywords</label>
     <input name="keywords" class="input" type="text"></li>
 
-    <li><label>Languages</label>
-    <input name="lang" class="input" type="text"></li>
+<!--    <li><label>Languages</label>
+    <input name="lang" class="input" type="text"></li>-->
 
     <li><label>Source format</label>
-    <input name="source_format" class="input" type="text"></li>
+    <select name="source_format" class="input" size="1">
+      <option selected="">cityGML</option>
+      <option>geoJSON</option>
+      <option>KML</option>
+    </select></li>
+    <!--<input name="source_format" class="input" type="text"></li>-->
 
     <li><label>Source date</label>
     <input name="source_date" class="input" type="text" maxlength="10"></li>
 
-    <li><label>Reference</label>
+    <li><label>Reference URL</label>
     <input name="url_reference" class="input" type="text"></li>
 
     <li><label>Source URL *</label>
     <input name="source_url" class="input" type="text"></li>
 
-    <li><label>GetCapabilities</label>
-    <input name="reference_data" class="input" type="text"></li>
+<!--    <li><label>GetCapabilities</label>
+    <input name="reference_data" class="input" type="text"></li>-->
 
     <li><label>Source CRS</label>
     <input name="source_crs" class="input" type="text"></li>
 
     <li><label>Geometry</label>
     <textarea name="geometry" class="input" rows="5"></textarea></li>
-    * required
   </ul></form>
-
+  * required<br>
   <button id="btn_save" type="submit">Save</button>
   <button id="btn_cancel" type="button">Cancel</button>
 </div>

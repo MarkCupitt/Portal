@@ -42,8 +42,12 @@ body{
 }
 #edit input, #edit textarea{
   width: 300px;
+  border: 1px solid #cccccc;
 }
 
+.input.error{
+  background-color: #ffcccc;
+}
 
 h1{
   font-family: serif;

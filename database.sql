@@ -9,15 +9,14 @@ CREATE TABLE service
   title character varying NOT NULL,
   descr text,
   keywords text,
-  lang text,
-  source_format text,
+  source_format character varying(20),
   source_date date,
   date date NOT NULL,
   url_reference text,
   source_url text NOT NULL,
   is_latest boolean NOT NULL,
   reference_data xml,
-  source_crs text,
+  source_crs character varying(15),
   geometry geometry(Geometry, 4326),
   CONSTRAINT service_pkey PRIMARY KEY (id),
   CONSTRAINT service_source_url_key UNIQUE (source_url)
@@ -25,16 +24,16 @@ CREATE TABLE service
 ALTER TABLE service
   OWNER TO test_user;
 
-DROP TABLE "User";
+DROP TABLE "user";
 
-CREATE TABLE "User"
+CREATE TABLE "user"
 (
   id serial NOT NULL,
   user_name text NOT NULL,
   e_mail text,
   passwort character varying(64) NOT NULL,
-  CONSTRAINT "User_pkey" PRIMARY KEY ("id"),
-  CONSTRAINT "User_user_name_key" UNIQUE (user_name)
+  CONSTRAINT "user_pkey" PRIMARY KEY ("id"),
+  CONSTRAINT "user_user_name_key" UNIQUE (user_name)
 );
 ALTER TABLE "User"
   OWNER TO test_user;

@@ -80,7 +80,6 @@ WHERE
         title,
         date,
         descr,
-        lang,
         keywords,
         source_format,
         source_date,
@@ -115,7 +114,6 @@ WHERE
           title = '%s',
           date = (TIMESTAMP '%s'),
           descr = '%s',
-          lang = '%s',
           keywords = '%s',
           source_format= '%s',
           source_date = (TIMESTAMP '%s'),
@@ -131,7 +129,6 @@ WHERE
         $data["title"],
         $data["date"],
         $data["descr"],
-        $data["lang"],
         $data["keywords"],
         $data["source_format"],
         $data["source_date"],
@@ -149,16 +146,15 @@ WHERE
 
     $this->SQL->query("
       INSERT INTO
-        ".$this->table." (title, date, descr, lang, keywords, source_format, source_date, url_reference, source_url,
+        ".$this->table." (title, date, descr, keywords, source_format, source_date, url_reference, source_url,
           is_latest, reference_data, source_crs, geometry)
       VALUES
-        ('%s', CURRENT_DATE, '%s', '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
+        ('%s', CURRENT_DATE, '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
          TRUE, '%s', '%s', ST_GeometryFromText('%s', 4326))
     ", array(
       $data["title"],
 //    $data["date"], => CURRENT_DATE
       $data["descr"],
-      $data["lang"],
       $data["keywords"],
       $data["source_format"],
 //    $data["source_date"], => CURRENT_DATE
