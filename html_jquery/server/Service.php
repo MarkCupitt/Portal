@@ -9,45 +9,52 @@ class Service{
     $this->SQL = $SQL;
   }
 
-  public function search($searchterm = "") {
-    $words = preg_split("/\s+/", $searchterm);
-    $validWords = array();
-    $WHERE = array();
-    for ($i = 0; $i < count($words); $i++) {
-      $words[$i] = trim($words[$i]);
-      if (strlen($words[$i]) < 2) {
-        continue;
-      }
-      $validWords[] = str_replace('%', '\%', $words[$i]);
-//      $WHERE[] = "CONCAT_WS(' ', a.title, a.descr, b.crs) LIKE '%%%s%%'";
-      $WHERE[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'";
-    }
-    if (!count($validWords)) {
-      return;
-    }
-
-    $res = $this->SQL->query("
-      SELECT
-        *
-      FROM
-        ".$this->table."
-      WHERE
-        ".implode(" AND ", $WHERE)
-    , $validWords);
-
-    return $res->fetchAll();
-/*
-    while ($row = $res->fetchRow($res)){
-      $title = $row["title"];
-      $descr = $row["descr"];
-      $input_crs = $row["input_crs"];
-      echo $descr." ".$input_crs;
-    }
+/* Search by bbox
+list($n, $e, $s, $w) = explode(",", $bbox);
+...
+WHERE
+  wkb_geometry && ST_SetSRID(
+    ST_MakeBox2D(
+      ST_Point(%F,%F),
+      ST_Point(%F,%F)
+    ), 4326
+  )
+", array($w, $s, $e, $n));
 */
-  }
 
   public function getList($filter = NULL) {
-    $res = $this->SQL->query("
+    $WHERE    = "1 = 1";
+    $ORDER_BY = "date";
+    $LIMIT    = 1000000;
+
+    $tags = array();
+
+    if ($filter["search"]) {
+      $words = preg_split("/\s+/", $filter["search"]);
+      $tags = array();
+      $likeStr = array();
+      for ($i = 0; $i < count($words); $i++) {
+        $words[$i] = trim($words[$i]);
+        if (strlen($words[$i]) < 2) {
+          continue;
+        }
+        $tags[] = str_replace('%', '\%', $words[$i]);
+        $likeStr[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'"; // results in: ILIKE '%word%'
+      }
+
+      if (count($likeStr)) {
+        $WHERE = implode(" AND ", $likeStr);
+      } else {
+        $LIMIT = 10;
+      }
+    }
+
+    if ($filter["latest"]) {
+      $LIMIT = $filter["latest"];
+      $ORDER_BY = "date DESC";
+    }
+
+    $res = $this->SQL->query($q="
       SELECT
         id,
         title,
@@ -55,9 +62,14 @@ class Service{
         descr
       FROM
         ".$this->table."
+      WHERE
+        $WHERE
       ORDER BY
-        date
-    ");
+        $ORDER_BY
+      LIMIT
+        $LIMIT
+    ", $tags);
+
     return $res->fetchAll();
   }
 

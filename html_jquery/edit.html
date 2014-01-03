@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Details</title>
+<title>Edit</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="index.css">
 <script src="js/jquery-2.0.3.js"></script>
@@ -12,69 +12,84 @@
 <script>
 var urlParams = util.getUrlParams();
 var id = urlParams.id || '';
+var data = {};
 
 $(function() {
   var url = 'server/?details/id/'+ id;
-  var _data = {};
-
-  $('#btn_save').click(function() {
-    $('.input').each(function(i, field) {
-    _data[field.name] = field.value;
-    });
-
-    $.ajax({
-    type: 'POST',
-    url: url,
-    data: _data,
-    dataType: 'json',
-    success: function() {
-      location.href = 'details.html?id='+ id;
-    }
-    });
-    console.log(JSON.stringify(_data));
-  });
-
-  $('#btn_cancel').click(function() {
-    location.href = 'details.html?id='+ id;
-  });
 
   if (id) {
-    $.getJSON(url, function(data) {
-      _data = data;
+    $.getJSON(url, function(data_) {
+      data = data_;
       $('.input').each(function(i, field) {
-      field.value = _data[field.name] || '';
+        field.value = data[field.name] || '';
       });
     });
   }
+
+  $('#btn_save').click(function() {
+    $('.input').each(function(i, field) {
+      data[field.name] = field.value;
+    });
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: data,
+      dataType: 'json',
+      success: function() {
+        location.href = 'details.html?id='+ id;
+      }
+    });
+  });
+
+  $('#btn_cancel').click(function() {
+    location.href = id ? 'details.html?id='+ id : 'index.html';
+  });
 });
 </script>
 
 <div id="content">
-<h1>Form for data editing</h1>
-<form id="editForm">
-<p>Title:<br><input name="title" class="input" type="text" size="30" maxlength="30"></p>
-<!--<p>date:<br><input name="date" class="input" type="text" size="30" maxlength="30"></p>-->
-<p>Description:<br><textarea name="descr" class="input" cols="50" rows="10"></textarea></p>
-<p>Keywords:<br><input name="keywords" class="input" type="text" size="30" maxlength="30"></p>
-<p>Languages:<br><input name="lang" class="input" type="text" size="30" maxlength="30"></p>
-<p>Input-Format:<br><input name="input_format" class="input" type="text" size="30" maxlength="30"></p>
-<p>Date creation:<br><input name="date_creation" class="input" type="text" size="30" maxlength="30"></p>
-<p>Reference:<br><input name="url_reference" class="input" type="text" size="30" maxlength="30"></p>
-<p>URL data:<br><input name="url_data" class="input" type="text" size="30" maxlength="30"></p>
-<p>Up to date?:<br><input name="is_latest" class="input" type="text" size="30" maxlength="30"></p>
-<p>GetCapabilities:<br><input name="reference_data" class="input" type="text" size="30" maxlength="30"></p>
-<p>Input CRS:<br><input name="input_crs" class="input" type="text" size="30" maxlength="30"></p>
-<p>Geometry:<br><input name="geometry" class="input" type="text" size="30" maxlength="30"></p>
+  <h1>Edit</h1>
 
-</form>
+  <form id="edit"><ul>
+    <li><label>Title</label>
+    <input name="title" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Description</label>
+    <textarea name="descr" class="input" rows="5"></textarea></li>
+
+    <li><label>Keywords</label>
+    <input name="keywords" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Languages</label>
+    <input name="lang" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Input-Format</label>
+    <input name="input_format" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Date creation</label>
+    <input name="date_creation" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Reference</label>
+    <input name="url_reference" class="input" type="text" maxlength="30"></li>
+
+    <li><label>URL data</label>
+    <input name="url_data" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Up to date?</label>
+    <input name="is_latest" class="input" type="text" maxlength="30"></li>
+
+    <li><label>GetCapabilities</label>
+    <input name="reference_data" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Input CRS</label>
+    <input name="input_crs" class="input" type="text" maxlength="30"></li>
+
+    <li><label>Geometry</label>
+    <textarea name="geometry" class="input" rows="5"></textarea></li>
+  </ul></form>
+
+  <button id="btn_save" type="submit">Save</button>
+  <button id="btn_cancel" type="button">Cancel</button>
 </div>
-
-<p id="buttons">
-<button id="btn_save" type="button" value="save">SAVE</button>
-<button id="btn_cancel" type="button" value ="cancel">CANCEL</button>
-</p>
-
-<a href="index.html">Zurück zur Liste</a>
-
 </body>
 </html>

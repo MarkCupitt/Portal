@@ -1,9 +1,7 @@
 -- PostGIS aktivieren
 -- create extension postgis;
 
--- Table: service
-
--- DROP TABLE service;
+DROP TABLE service;
 
 CREATE TABLE service
 (
@@ -20,18 +18,14 @@ CREATE TABLE service
   is_latest boolean NOT NULL,
   reference_data xml,
   input_crs text,
+  geometry geometry(Geometry, 4326),
   CONSTRAINT service_pkey PRIMARY KEY (id),
   CONSTRAINT service_url_data_key UNIQUE (url_data)
 );
 ALTER TABLE service
   OWNER TO test_user;
 
--- create Geometry Column   
-
---ALTER TABLE test_db.public.service ADD COLUMN geometry geometry(Geometry, 4326);
-
--- Table: "User"
-
+DROP TABLE "User";
 
 CREATE TABLE "User"
 (
