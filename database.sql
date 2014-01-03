@@ -10,17 +10,17 @@ CREATE TABLE service
   descr text,
   keywords text,
   lang text,
-  input_format text,
-  date_creation date,
+  source_format text,
+  source_date date,
   date date NOT NULL,
   url_reference text,
-  url_data text NOT NULL,
+  source_url text NOT NULL,
   is_latest boolean NOT NULL,
   reference_data xml,
-  input_crs text,
+  source_crs text,
   geometry geometry(Geometry, 4326),
   CONSTRAINT service_pkey PRIMARY KEY (id),
-  CONSTRAINT service_url_data_key UNIQUE (url_data)
+  CONSTRAINT service_source_url_key UNIQUE (source_url)
 );
 ALTER TABLE service
   OWNER TO test_user;

@@ -39,7 +39,7 @@ WHERE
           continue;
         }
         $tags[] = str_replace('%', '\%', $words[$i]);
-        $likeStr[] = "CONCAT_WS(' ', title, descr, keywords, input_crs) ILIKE '%%%s%%'"; // results in: ILIKE '%word%'
+        $likeStr[] = "CONCAT_WS(' ', title, descr, keywords, source_crs) ILIKE '%%%s%%'"; // results in: ILIKE '%word%'
       }
 
       if (count($likeStr)) {
@@ -82,13 +82,13 @@ WHERE
         descr,
         lang,
         keywords,
-        input_format,
-        date_creation,
+        source_format,
+        source_date,
         url_reference,
-        url_data,
+        source_url,
         is_latest,
         reference_data,
-        input_crs,
+        source_crs,
         ST_AsGeoJSON(
          ST_Transform(
             geometry, 4326
@@ -117,13 +117,13 @@ WHERE
           descr = '%s',
           lang = '%s',
           keywords = '%s',
-          input_format= '%s',
-          date_creation = (TIMESTAMP '%s'),
+          source_format= '%s',
+          source_date = (TIMESTAMP '%s'),
           url_reference = '%s',
-          url_data = '%s',
+          source_url = '%s',
           is_latest = '%s',
           reference_data = XMLParse(DOCUMENT '%s'),
-          input_crs = '%s',
+          source_crs = '%s',
           geometry = '%s'
         WHERE
           id = %u
@@ -133,13 +133,13 @@ WHERE
         $data["descr"],
         $data["lang"],
         $data["keywords"],
-        $data["input_format"],
-        $data["date_creation"],
+        $data["source_format"],
+        $data["source_date"],
         $data["url_reference"],
-        $data["url_data"],
+        $data["source_url"],
         $data["is_latest"],
         $data["reference_data"],
-        $data["input_crs"],
+        $data["source_crs"],
         $data["geometry"],
         $id
       ));
@@ -149,8 +149,8 @@ WHERE
 
     $this->SQL->query("
       INSERT INTO
-        ".$this->table." (title, date, descr, lang, keywords, input_format, date_creation, url_reference, url_data,
-          is_latest, reference_data, input_crs, geometry)
+        ".$this->table." (title, date, descr, lang, keywords, source_format, source_date, url_reference, source_url,
+          is_latest, reference_data, source_crs, geometry)
       VALUES
         ('%s', CURRENT_DATE, '%s', '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
          TRUE, '%s', '%s', '%s')
@@ -160,13 +160,13 @@ WHERE
       $data["descr"],
       $data["lang"],
       $data["keywords"],
-      $data["input_format"],
-//    $data["date_creation"], => CURRENT_DATE
+      $data["source_format"],
+//    $data["source_date"], => CURRENT_DATE
       $data["url_reference"],
-      $data["url_data"],
+      $data["source_url"],
 //    $data["is_latest"], => TRUE
       $data["reference_data"],
-      $data["input_crs"],
+      $data["source_crs"],
       $data["geometry"],
       ));
 

@@ -51,7 +51,7 @@ $(function() {
   <h1>Edit</h1>
 
   <form id="edit"><ul>
-    <li><label>Title</label>
+    <li><label>Title *</label>
     <input name="title" class="input" type="text"></li>
 
     <li><label>Description</label>
@@ -63,29 +63,27 @@ $(function() {
     <li><label>Languages</label>
     <input name="lang" class="input" type="text"></li>
 
-    <li><label>Input-Format</label>
-    <input name="input_format" class="input" type="text"></li>
+    <li><label>Source format</label>
+    <input name="source_format" class="input" type="text"></li>
 
-    <li><label>Date creation</label>
-    <input name="date_creation" class="input" type="text" maxlength="10"></li>
+    <li><label>Source date</label>
+    <input name="source_date" class="input" type="text" maxlength="10"></li>
 
     <li><label>Reference</label>
     <input name="url_reference" class="input" type="text"></li>
 
-    <li><label>URL data</label>
-    <input name="url_data" class="input" type="text"></li>
-
-    <li><label>Up to date?</label>
-    <input name="is_latest" class="input" type="text" maxlength="5"></li>
+    <li><label>Source URL *</label>
+    <input name="source_url" class="input" type="text"></li>
 
     <li><label>GetCapabilities</label>
     <input name="reference_data" class="input" type="text"></li>
 
-    <li><label>Input CRS</label>
-    <input name="input_crs" class="input" type="text"></li>
+    <li><label>Source CRS</label>
+    <input name="source_crs" class="input" type="text"></li>
 
     <li><label>Geometry</label>
     <textarea name="geometry" class="input" rows="5"></textarea></li>
+    * required
   </ul></form>
 
   <button id="btn_save" type="submit">Save</button>
