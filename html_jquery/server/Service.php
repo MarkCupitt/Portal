@@ -122,7 +122,7 @@ WHERE
           is_latest = '%s',
           reference_data = XMLParse(DOCUMENT '%s'),
           source_crs = '%s',
-          geometry = '%s'
+          geometry = ".(isset($data["geometry"]) ? "ST_GeometryFromText('".$data["geometry"]."', 4326)" : NULL)."
         WHERE
           id = %u
       ", array(
@@ -137,7 +137,6 @@ WHERE
         $data["is_latest"],
         $data["reference_data"],
         $data["source_crs"],
-        $data["geometry"],
         $id
       ));
 
@@ -150,7 +149,7 @@ WHERE
           is_latest, reference_data, source_crs, geometry)
       VALUES
         ('%s', CURRENT_DATE, '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
-         TRUE, '%s', '%s', ST_GeometryFromText('%s', 4326))
+         TRUE, '%s', '%s', ".(isset($data["geometry"]) ? "ST_GeometryFromText('".$data["geometry"]."', 4326)" : NULL).")
     ", array(
       $data["title"],
 //    $data["date"], => CURRENT_DATE
@@ -162,9 +161,7 @@ WHERE
       $data["source_url"],
 //    $data["is_latest"], => TRUE
       $data["reference_data"],
-      $data["input_crs"],
-//      $data["geometry"],
-      "POINT (13.0739 52.237982)"
+      $data["source_crs"]
     ));
 
     return $this->SQL->insertId;
