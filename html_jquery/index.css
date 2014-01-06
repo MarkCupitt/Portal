@@ -15,7 +15,7 @@ body{
 /*  border: 1px solid black;*/
 }
 
-#map{
+#map_details, #map_index, #map_edit{
   width: 450px;
   height: 350px;
 }

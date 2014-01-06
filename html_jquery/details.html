@@ -23,19 +23,23 @@ $(function() {
     $('#details').html(html);
     $('h1').html(data.title);
     document.title = data.title;
-    L.geoJson(data.geometry).addTo(map);
-    console.log(data.geometry);
+
+    var geojsonMarker = L.geoJson(data.geometry);
+    geojsonMarker.addTo(map);
+    map.fitBounds(geojsonMarker.getBounds());
+
+    if (map.getZoom() > 11){
+      map.setZoom(11);
+    }
   });
 
-
-  var map = new L.Map('map');
+  var map = new L.Map('map_details');
   var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osmAttrib='Map data &copy; OpenStreetMap contributors';
   var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
 
   map.addLayer(osm);
-  map.setView(new L.LatLng(52.505, 13.59),7);
-
+  map.setView(new L.LatLng(52.505, 13.59),5);
 
   $('#btn_back').click(function() {
     location.href = 'index.html';
@@ -91,7 +95,7 @@ $(function() {
   <button id="btn_edit" type="button">Edit</button>
   <button id="btn_delete" type="button">Delete</button>
 
-  <div id="map"></div>
+  <div id="map_details"></div>
 </div>
 </body>
 </html>
