@@ -60,7 +60,7 @@ WHERE
         title,
         date,
         descr,
-        SELECT ST_AsGeoJSON(ST_Centroid(geometry), 5) AS center
+        ST_AsGeoJSON(ST_Centroid(geometry), 5) AS center
       FROM
         ".$this->table."
       WHERE
