@@ -26,40 +26,52 @@ $(function() {
     });
   }
 
-  $('.input').change(function(e) {
+  $('.input').change(errorCheck).blur(errorCheck);
+
+  function errorCheck(e) {
   var cleanValue = this.value.replace(/^\s+|\s+$/g,'');
   var success = true;
 
-  switch (this.name){
-    case 'title':
-      success = cleanValue.match(/\S{3,}/);
-      break;
-    case 'source_date':
-      success = cleanValue.match(/20\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/);
-      break;
-    case 'url_reference':
-    case 'source_url':
-      success = cleanValue.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
-      break;
-    case 'source_crs':
-      success = cleanValue.match(/^(EPSG:)\d{4,}/);
-      break;
-  }
+    switch (this.name){
+      case 'title':
+        success = cleanValue.match(/\S{3,}/);
+        break;
+      case 'source_date':
+        success = cleanValue.match(/20\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/);
+        break;
+      case 'url_reference':
+      case 'source_url':
+        success = cleanValue.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
+        break;
+      case 'source_crs':
+        success = cleanValue.match(/^(EPSG:)\d{4,}/);
+        break;
+    }
 
   if (success){
       $(this).removeClass('error');
-    } else{
+      $('.div_error_' + this.name).removeClass('visible');
+  } else{
       $(this).addClass('error');
+      $('.div_error_' + this.name).addClass('visible');
     }
 
-  $('#btn_save').prop('disabled', $('.input.error').length);
-
-  });
+    $('#btn_save').prop('disabled', $('.input.error').length);
+  }
 
   $('#btn_save').click(function() {
     $('.input').each(function(i, field) {
       data[field.name] = field.value;
     });
+
+    if (data['url_reference'] === 'http://'){
+      delete data['url_reference'];
+    }
+
+    if (data['source_crs'] === 'EPSG:'){
+      delete data['source_crs'];
+    }
+
     $.ajax({
       type: 'POST',
       url: url,
@@ -74,6 +86,7 @@ $(function() {
   $('#btn_cancel').click(function() {
     location.href = id ? 'details.html?id='+ id : 'index.html';
   });
+
 });
 </script>
 
@@ -82,13 +95,16 @@ $(function() {
 
   <form id="edit"><ul>
     <li><label>Title *</label>
-    <input name="title" class="input" type="text"></li>
+    <input name="title" class="input" type="text" placeholder="min. 3 characters">
+    <div class="div_error_title">
+     Please insert at least 3 characters
+    </div></li>
 
     <li><label>Description</label>
-    <textarea name="descr" class="input" rows="5"></textarea></li>
+    <textarea name="descr" class="input" rows="5" placeholder="service description"></textarea></li>
 
     <li><label>Keywords</label>
-    <input name="keywords" class="input" type="text"></li>
+    <input name="keywords" class="input" type="text" placeholder="keywords separate by ;"></li>
 
 <!--    <li><label>Languages</label>
     <input name="lang" class="input" type="text"></li>-->
@@ -102,19 +118,31 @@ $(function() {
     <!--<input name="source_format" class="input" type="text"></li>-->
 
     <li><label>Source date</label>
-    <input name="source_date" class="input" type="text" maxlength="10"></li>
+    <input name="source_date" class="input" type="text" onClick="this.select();" maxlength="10" value="2014-01-06">
+    <div class="div_error_source_date">
+     Date-Format: &nbsp;&nbsp;YYYY-MM-DD
+    </div></li>
 
     <li><label>Reference URL</label>
-    <input name="url_reference" class="input" type="text"></li>
+    <input name="url_reference" class="input" type="text" onClick="this.select();" value="http://">
+    <div class="div_error_url_reference">
+     URL-Format: &nbsp;&nbsp;http:// or https://
+    </div></li>
 
     <li><label>Source URL *</label>
-    <input name="source_url" class="input" type="text"></li>
+    <input name="source_url" class="input" type="text" onClick="this.select();" value="http://">
+    <div class="div_error_source_url">
+     URL-Format: &nbsp;&nbsp;http:// or https://
+    </div></li>
 
 <!--    <li><label>GetCapabilities</label>
     <input name="reference_data" class="input" type="text"></li>-->
 
     <li><label>Source CRS</label>
-    <input name="source_crs" class="input" type="text"></li>
+    <input name="source_crs" class="input" type="text" onClick="this.select();" value="EPSG:">
+    <div class="div_error_source_crs">
+     CRS-Format Example: &nbsp;&nbsp;EPSG:4036
+    </div></li>
 
     <li><label>Geometry</label>
     <textarea name="geometry" class="input" rows="5"></textarea></li>

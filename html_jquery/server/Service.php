@@ -162,7 +162,7 @@ WHERE
       $data["source_url"],
 //    $data["is_latest"], => TRUE
       $data["reference_data"],
-      $data["input_crs"],
+      $data["source_crs"],
 //      $data["geometry"],
       "POINT (13.0739 52.237982)"
     ));

@@ -15,6 +15,11 @@ body{
 /*  border: 1px solid black;*/
 }
 
+#map{
+  width: 450px;
+  height: 350px;
+}
+
 #list .title{
   float:left;
   width: 50%;
@@ -47,6 +52,18 @@ body{
 
 .input.error{
   background-color: #ffcccc;
+}
+
+.div_error_title,.div_error_source_date,.div_error_url_reference,
+.div_error_source_url,.div_error_source_crs{
+  display: none;
+}
+
+.div_error_title.visible,.div_error_source_date.visible,.div_error_url_reference.visible,
+.div_error_source_url.visible,.div_error_source_crs.visible{
+  font-size:12px;
+  color: #ff9999;
+  display: block;
 }
 
 h1{
