@@ -54,12 +54,13 @@ WHERE
       $ORDER_BY = "date DESC";
     }
 
-    $res = $this->SQL->query($q="
+    $res = $this->SQL->query("
       SELECT
         id,
         title,
         date,
-        descr
+        descr,
+        ST_AsGeoJSON(ST_Centroid(geometry), 5) AS center
       FROM
         ".$this->table."
       WHERE
@@ -70,7 +71,15 @@ WHERE
         $LIMIT
     ", $tags);
 
-    return $res->fetchAll();
+    $data = [];
+    while ($row = $res->fetchRow()) {
+      $center = json_decode($row["center"], TRUE);
+      $coords = $row["center"]["coordinates"];
+      $row["center"] = array("latitude"=>$coords[1], "longitude"=>$coords[0]);
+      $data[] = $row;
+    }
+
+    return $data;
   }
 
   public function getItem($id, $filter = NULL) {
@@ -98,6 +107,7 @@ WHERE
       WHERE
         id = %u
     ", array($id));
+
     $row = $res->fetchRow();
     $row["geometry"] = json_decode($row["geometry"], TRUE);
     return $row;
