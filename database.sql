@@ -35,5 +35,5 @@ CREATE TABLE "user"
   CONSTRAINT "user_pkey" PRIMARY KEY ("id"),
   CONSTRAINT "user_user_name_key" UNIQUE (user_name)
 );
-ALTER TABLE "User"
+ALTER TABLE "user"
   OWNER TO test_user;

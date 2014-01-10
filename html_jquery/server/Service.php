@@ -71,11 +71,14 @@ WHERE
         $LIMIT
     ", $tags);
 
-    $data = [];
+    $data = array();
+
     while ($row = $res->fetchRow()) {
       $center = json_decode($row["center"], TRUE);
-      $coords = $row["center"]["coordinates"];
-      $row["center"] = array("latitude"=>$coords[1], "longitude"=>$coords[0]);
+      $row["center"] = array(
+        "latitude"=>$center["coordinates"][1],
+        "longitude"=>$center["coordinates"][0]
+      );
       $data[] = $row;
     }
 
