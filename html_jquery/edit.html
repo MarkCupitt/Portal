@@ -33,29 +33,29 @@ $(function() {
   $('.input').change(errorCheck).blur(errorCheck);
 
   function errorCheck(e) {
-  var cleanValue = this.value.replace(/^\s+|\s+$/g,'');
-  var success = true;
+    var cleanValue = this.value.replace(/^\s+|\s+$/g,'');
+    var success = true;
 
     switch (this.name){
       case 'title':
         success = cleanValue.match(/\S{3,}/);
-        break;
+      break;
       case 'source_date':
         success = cleanValue.match(/20\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/);
-        break;
+      break;
       case 'url_reference':
       case 'source_url':
         success = cleanValue.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
-        break;
+      break;
       case 'source_crs':
         success = cleanValue.match(/^(EPSG:)\d{4,}/);
-        break;
+      break;
     }
 
-  if (success){
+    if (success){
       $(this).removeClass('error');
       $('.div_error_' + this.name).removeClass('visible');
-  } else{
+    } else {
       $(this).addClass('error');
       $('.div_error_' + this.name).addClass('visible');
     }
@@ -68,12 +68,12 @@ $(function() {
       data[field.name] = field.value;
     });
 
-    if (data['url_reference'] === 'http://'){
-      delete data['url_reference'];
+    if (data.url_reference === 'http://') {
+      delete data.url_reference;
     }
 
-    if (data['source_crs'] === 'EPSG:'){
-      delete data['source_crs'];
+    if (data.source_crs === 'EPSG:') {
+      delete data.source_crs;
     }
 
     $.ajax({
@@ -94,19 +94,19 @@ $(function() {
 
   var map = new L.Map('map_edit');
   var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/161e545d845c4ed989ea71be98cc7aa1/68418/256/{z}/{x}/{y}.png';
-  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+//  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osmAttrib='Map data &copy; OpenStreetMap contributors';
   var osm = new L.TileLayer(cloudmadeUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
   var MyCustomMarker = L.Icon.extend({
     options: {
-        shadowUrl: null,
-        iconAnchor: new L.Point(12, 41),
-        iconSize: new L.Point(25, 41),
-        iconUrl: 'js/leaflet/images/marker-icon.png'
+      shadowUrl: null,
+      iconAnchor: new L.Point(12, 41),
+      iconSize: new L.Point(25, 41),
+      iconUrl: 'js/leaflet/images/marker-icon.png'
     }
   });
 
- // Initialise the FeatureGroup to store editable layers
+  // Initialise the FeatureGroup to store editable layers
   var drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);
 
@@ -127,42 +127,28 @@ $(function() {
       },
       circle: false, // Turns off this drawing tool
       rectangle: true,
-      marker: {
-        icon: new MyCustomMarker()
-      }
-  },
-  edit: {
-    featureGroup: drawnItems, //REQUIRED!!
-    remove: false
-  }
+      marker: { icon: new MyCustomMarker() }
+    },
+    edit: {
+      featureGroup: drawnItems, //REQUIRED!!
+      remove: false
+    }
   };
 
+// TODO: allow only one feature at a time!
+
   map.on('draw:created', function (e) {
-    var type = e.layerType,
-      layer = e.layer;
-
-    if (type === 'marker') {
-      var koord = layer.getLatLng().toString();
-      var geoJson = layer.toGeoJSON();
-      layer.bindPopup('Coordinates: ' + koord + '<br>GeoJSON: ' + geoJson);
-    }
-
-    if (type === 'rectangle'){
-      var geoJson = layer.toGeoJSON();
-      layer.bindPopup('GeoJSON ' + geoJson);
-    }
-
-    if (type === 'polygon'){
-      var geoJson = layer.toGeoJSON();
-      layer.bindPopup('GeoJSON: ' + geoJson);
-    }
+    var layer = e.layer;
+    data.geometry = layer.toGeoJSON().geometry;
+console.log(data.geometry)
     drawnItems.addLayer(layer);
   });
 
   map.on('draw:edited', function (e) {
     var layers = e.layers;
     layers.eachLayer(function (layer) {
-        //do whatever you want, most likely save back to db
+    data.geometry = layer.toGeoJSON().geometry;
+console.log(data.geometry)
     });
   });
 
@@ -171,7 +157,6 @@ $(function() {
 
   map.addLayer(osm);
   map.setView(new L.LatLng(52.505, 13.59),9);
-
 });
 </script>
 
@@ -233,7 +218,7 @@ $(function() {
     <textarea name="geometry" class="input" rows="5"></textarea></li>-->
   </ul></form>
   * required<br>
-    <button id="btn_save" type="submit">Save</button>
+  <button id="btn_save" type="submit">Save</button>
   <button id="btn_cancel" type="button">Cancel</button>
 
   <div id="map_edit"></div>

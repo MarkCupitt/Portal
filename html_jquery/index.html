@@ -21,25 +21,32 @@ var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'
   '<div class="listItem_descr">{descr}</div><br>'+
   '</li>';
 
-var markers = new L.MarkerClusterGroup();
+var markerGroup = new L.MarkerClusterGroup();
+
 function fillList(data) {
-  var html = '';
+  var html = '', marker;
   $.each(data, function(i, listItem) {
     html += util.parse(template, listItem);
-    console.log(listItem.center.latitude);
-    console.log(listItem.center.longitude);
-
-    markers.addLayer(new L.Marker(listItem.center.latitude, listItem.center.longitude));
-
-});
-
+    marker = new L.Marker([listItem.center.latitude, listItem.center.longitude], { data: listItem });
+    marker.on('click', function() {
+      location.href = 'details.html?id=' + listItem.id;
+    });
+    markerGroup.addLayer(marker);
+  });
 
   $('#list').html(html);
 }
 
-
-
 $(function() {
+  var map = new L.Map('map_index');
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib = 'Map data &copy; OpenStreetMap contributors';
+  var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 18, attribution: osmAttrib });
+
+  map.addLayer(osm);
+  map.addLayer(markerGroup);
+  map.setView(new L.LatLng(52.505, 13.59),5);
+
   $.getJSON('server/?list&latest=10', function(data) {
     fillList(data);
   });
@@ -54,16 +61,6 @@ $(function() {
   $('#btn_add').click(function() {
     location.href = 'edit.html';
   });
-
-  var map = new L.Map('map_index');
-  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  var osmAttrib='Map data &copy; OpenStreetMap contributors';
-  var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
-
-
-  map.addLayer(osm);
-  map.addLayer(markers);
-  map.setView(new L.LatLng(52.505, 13.59),5);
 });
 </script>
 
