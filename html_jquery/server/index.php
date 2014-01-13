@@ -18,8 +18,12 @@ if ($HTTP->method == "GET") {
     $HTTP->sendResponse($service->getList($HTTP->filter));
   }
 
+  if ($HTTP->resource == "import") {
+    $HTTP->sendResponse($service->importItem($HTTP->filter));
+  }
+
   if ($HTTP->resource == "details") {
-    $HTTP->sendResponse($service->getItem($HTTP->params["id"]));
+    $HTTP->sendResponse($service->getItem($HTTP->params["id"], $HTTP->filter));
   }
 
   $HTTP->sendStatus(422);

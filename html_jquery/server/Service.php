@@ -85,6 +85,26 @@ WHERE
     return $data;
   }
 
+  public function importItem($filter = NULL) {
+    global $HTTP;
+
+    $res = array();
+
+    $str = $HTTP->sendRequest($filter["url"]);
+
+    $xml = simplexml_load_string($str);
+
+    $ns = $xml->getDocNamespaces();
+
+    // http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities
+    // => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//cmgds.marine.usgs.gov/geoserver/bathy/ows%3FSERVICE%3DWMS%26SERVICE%3DWMS%26REQUEST%3DGetCapabilities
+
+//    $xml->registerXPathNamespace("gml", "http://www.opengis.net/gml");
+//    $bbox = $xml->xpath("gml:boundedBy/gml:Envelope/*");
+
+    return $res;
+  }
+
   public function getItem($id, $filter = NULL) {
     $res = $this->SQL->query("
       SELECT
