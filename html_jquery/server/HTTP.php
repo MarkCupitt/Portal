@@ -51,7 +51,7 @@ class HTTP {
     415 => "Unsupported Media Type",
     416 => "Requested range not satisfiable",
     417 => "Expectation Failed",
-//  418 => "I’m a teapot",
+//  418 => "I'm a teapot",
     420 => "Policy Not Fulfilled",
     421 => "There are too many connections from your internet address",
     422 => "Unprocessable Entity",
@@ -281,10 +281,10 @@ class HTTP {
 		echo "\x1f\x8b\x08\x00\x00\x00\x00\x00".$compressedStr.pack("V", $crc).pack("V", $size);
 		exit;
 	}
-  
+
   public function sendRequest($url) {
     if (!function_exists("curl_init")) {
-        die("CURL is not available");
+      die("CURL is not available");
     }
 
     $c = curl_init();

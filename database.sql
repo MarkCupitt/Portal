@@ -14,6 +14,7 @@ CREATE TABLE service
   date date NOT NULL,
   url_reference text,
   source_url text NOT NULL,
+  import_url text,
   is_latest boolean NOT NULL,
   reference_data xml,
   source_crs character varying(15),

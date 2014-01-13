@@ -54,6 +54,10 @@ body{
   background-color: #ffcccc;
 }
 
+.input.warning{
+  background-color: #ffcc99;
+}
+
 .div_error_title,.div_error_source_date,.div_error_url_reference,
 .div_error_source_url,.div_error_source_crs{
   display: none;
@@ -63,6 +67,16 @@ body{
 .div_error_source_url.visible,.div_error_source_crs.visible{
   font-size:12px;
   color: #ff9999;
+  display: block;
+}
+
+.div_import_title, .div_import_descr, .div_import_keywords{
+  display:none;
+}
+
+.div_import_title.visible, .div_import_descr.visible, .div_import_keywords.visible{
+  font-size:12px;
+  color: #ff9900;
   display: block;
 }
 
@@ -77,7 +91,6 @@ a{
 
 a:hover{}
 
-li{
-  list-style: none;
-  margin-bottom: 10px;
+.formItem{
+   margin-bottom: 10px;
 }

@@ -127,6 +127,7 @@ WHERE
         source_date,
         url_reference,
         source_url,
+        import_url,
         is_latest,
         reference_data,
         source_crs,
@@ -162,6 +163,7 @@ WHERE
           source_date = (TIMESTAMP '%s'),
           url_reference = '%s',
           source_url = '%s',
+          import_url = '%s',
           is_latest = '%s',
           reference_data = XMLParse(DOCUMENT '%s'),
           source_crs = '%s',
@@ -177,6 +179,7 @@ WHERE
         $data["source_date"],
         $data["url_reference"],
         $data["source_url"],
+        $data["import_url"],
         $data["is_latest"],
         $data["reference_data"],
         $data["source_crs"],
@@ -188,10 +191,10 @@ WHERE
 
     $this->SQL->query("
       INSERT INTO
-        ".$this->table." (title, date, descr, keywords, source_format, source_date, url_reference, source_url,
+        ".$this->table." (title, date, descr, keywords, source_format, source_date, url_reference, source_url, import_url,
           is_latest, reference_data, source_crs, geometry)
       VALUES
-        ('%s', CURRENT_DATE, '%s', '%s', '%s', CURRENT_DATE, '%s', '%s',
+        ('%s', CURRENT_DATE, '%s', '%s', '%s', CURRENT_DATE, '%s', '%s', '%s',
          TRUE, '%s', '%s', ".(isset($data["geometry"]) ? "ST_GeometryFromText('".$data["geometry"]."', 4326)" : NULL).")
     ", array(
       $data["title"],
@@ -202,6 +205,7 @@ WHERE
 //    $data["source_date"], => CURRENT_DATE
       $data["url_reference"],
       $data["source_url"],
+      $data["import_url"],
 //    $data["is_latest"], => TRUE
       $data["reference_data"],
       $data["source_crs"]
