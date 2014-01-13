@@ -1,7 +1,6 @@
 <?php
 /*
- * @date 2013-12-16 11:30
- * TODO: PROXY methods
+ * @date 2014-01-13 12:30
  */
 class HTTP {
 
@@ -282,5 +281,24 @@ class HTTP {
 		echo "\x1f\x8b\x08\x00\x00\x00\x00\x00".$compressedStr.pack("V", $crc).pack("V", $size);
 		exit;
 	}
+  
+  public function sendRequest($url) {
+    if (!function_exists("curl_init")) {
+        die("CURL is not available");
+    }
+
+    $c = curl_init();
+    curl_setopt($c, CURLOPT_URL, $url);
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($c, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt($c, CURLOPT_HEADER, FALSE);
+    curl_setopt($c, CURLOPT_ENCODING, "");
+
+    $contents = curl_exec($c);
+
+    curl_close($c);
+
+    return $contents;
+  }
 }
 ?>
