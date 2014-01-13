@@ -88,19 +88,30 @@ WHERE
   public function importItem($filter = NULL) {
     global $HTTP;
 
+    $doc = new DOMDocument();
+    $doc->preserveWhiteSpace = FALSE;
+    $doc->loadXML($HTTP->sendRequest($filter["url"]));
+
+    $xpath = new DOMXPath($doc);
+    $xpath->registerNamespace("x", "http://www.opengis.net/wms");
+
     $res = array();
 
-    $str = $HTTP->sendRequest($filter["url"]);
+    $nodes = $xpath->query("//x:Service/x:Title");
+    $res["title"] = $nodes->item(0)->nodeValue;
 
-    $xml = simplexml_load_string($str);
-    $xml->registerXPathNamespace("wms", "http://www.opengis.net/wms");
+    $nodes = $xpath->query("//x:Service/x:Abstract");
+    $res["descr"] = $nodes->item(0)->nodeValue;
 
-//    $ns = $xml->getDocNamespaces();
+    $nodes = $xpath->query("//x:Service/x:KeywordList/x:Keyword");
+    $res["keywords"] = array();
+    foreach ($nodes AS $item) {
+      $res["keywords"][] = $item->nodeValue;
+    }
 
     // http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities
     // => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//cmgds.marine.usgs.gov/geoserver/bathy/ows%3FSERVICE%3DWMS%26SERVICE%3DWMS%26REQUEST%3DGetCapabilities
 
-$res = $xml->xpath("wms:Service/wms:Title");
     return $res;
   }
 
