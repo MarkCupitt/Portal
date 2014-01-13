@@ -92,21 +92,40 @@ $(function() {
   });
 
   $('#btn_import').click(function() {
-    var field = $('.input[name=import_url]');
-   // alert(field.val());
+   // var field = $('.input[name=import_url]');
 
-    $.ajax({
-      type: 'GET',
-      url: field.val(),
-      data: data,
-      dataType: 'json',
-      success: function(xmldata){
-        //alert(xmldata);
-        console.log(xmldata);
-      }
+
+//    $.ajax({
+//      type: 'GET',
+//      url: field.val(),
+//      data: data,
+//      dataType: 'json',
+//      success: function(xmldata){
+//        //alert(xmldata);
+//        console.log(xmldata);
+//      }
+//    });
+    var id = 10;
+    var url = 'server/?details/id/'+ id;
+
+    $.getJSON(url, function(data_) {
+      data = data_;
+      $('.input').each(function(i, field) {
+
+        if (field.value !== data[field.name]){
+          $(this).addClass('warning');
+          $('.div_import_' + this.name).addClass('visible');
+          $('.div_import_' + this.name).html( 'Insert Import value? ' + data[field.name]);
+          $('<button class="btn_insert" type="button">Import</button>').click(function() {
+            if (field.name === 'descr'){
+              $('.input[name=' + field.name + ']').text(data[field.name]);
+            }
+            $('.input[name=' + field.name + ']').attr('value', data[field.name]);
+          }).appendTo('.div_import_' + this.name);
+         }
+      });
     });
   });
-
 
 
   var map = new L.Map('map_edit');
@@ -193,13 +212,22 @@ console.log(data.geometry)
     <input name="title" class="input" type="text" placeholder="min. 3 characters">
     <div class="div_error_title">
      Please insert at least 3 characters
+    </div>
+    <div class="div_import_title">
+     Different Import title
     </div></div>
 
     <div class="formItem"><label>Description</label>
-    <textarea name="descr" class="input" rows="5" placeholder="service description"></textarea></div>
+    <textarea name="descr" class="input" rows="5" placeholder="service description"></textarea>
+    <div class="div_import_descr">
+     Different Import Descripition
+    </div></div>
 
     <div class="formItem"><label>Keywords</label>
-    <input name="keywords" class="input" type="text" placeholder="keywords separate by ;"></div>
+    <input name="keywords" class="input" type="text" placeholder="keywords separate by ;">
+    <div class="div_import_keywords">
+     Different Import Keywords
+    </div></div>
 
 <!--    <div><label>Languages</label>
     <input name="lang" class="input" type="text"></div>-->
