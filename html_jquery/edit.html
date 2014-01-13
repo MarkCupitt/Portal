@@ -85,11 +85,28 @@ $(function() {
         location.href = 'details.html?id='+ id;
       }
     });
-  });
+ });
 
   $('#btn_cancel').click(function() {
     location.href = id ? 'details.html?id='+ id : 'index.html';
   });
+
+  $('#btn_import').click(function() {
+    var field = $('.input[name=import_url]');
+   // alert(field.val());
+
+    $.ajax({
+      type: 'GET',
+      url: field.val(),
+      data: data,
+      dataType: 'json',
+      success: function(xmldata){
+        //alert(xmldata);
+        console.log(xmldata);
+      }
+    });
+  });
+
 
 
   var map = new L.Map('map_edit');
@@ -139,6 +156,9 @@ $(function() {
 
   map.on('draw:created', function (e) {
     var layer = e.layer;
+    if (drawnItems.length !== 0){
+      drawnItems.clearLayers();
+    }
     data.geometry = layer.toGeoJSON().geometry;
 console.log(data.geometry)
     drawnItems.addLayer(layer);
@@ -163,60 +183,65 @@ console.log(data.geometry)
 <div id="content">
   <h1>Edit</h1>
 
-  <form id="edit"><ul>
-    <li><label>Title *</label>
+  <form id="edit">
+    <div class="formItem"><label>Import URL</label>
+    <input name="import_url" class="input" type="text" placeholder="GetCapabilities link"></div>
+    <button id="btn_import" type="button">Import</button>
+    <hr>
+
+    <div class="formItem"><label>Title *</label>
     <input name="title" class="input" type="text" placeholder="min. 3 characters">
     <div class="div_error_title">
      Please insert at least 3 characters
-    </div></li>
+    </div></div>
 
-    <li><label>Description</label>
-    <textarea name="descr" class="input" rows="5" placeholder="service description"></textarea></li>
+    <div class="formItem"><label>Description</label>
+    <textarea name="descr" class="input" rows="5" placeholder="service description"></textarea></div>
 
-    <li><label>Keywords</label>
-    <input name="keywords" class="input" type="text" placeholder="keywords separate by ;"></li>
+    <div class="formItem"><label>Keywords</label>
+    <input name="keywords" class="input" type="text" placeholder="keywords separate by ;"></div>
 
-<!--    <li><label>Languages</label>
-    <input name="lang" class="input" type="text"></li>-->
+<!--    <div><label>Languages</label>
+    <input name="lang" class="input" type="text"></div>-->
 
-    <li><label>Source format</label>
+    <div class="formItem"><label>Source format</label>
     <select name="source_format" class="input" size="1">
       <option selected="">cityGML</option>
       <option>geoJSON</option>
       <option>KML</option>
-    </select></li>
-    <!--<input name="source_format" class="input" type="text"></li>-->
+    </select></div>
+    <!--<input name="source_format" class="input" type="text"></div>-->
 
-    <li><label>Source date</label>
+    <div class="formItem"><label>Source date</label>
     <input name="source_date" class="input" type="text" onClick="this.select();" maxlength="10" value="2014-01-06">
     <div class="div_error_source_date">
      Date-Format: &nbsp;&nbsp;YYYY-MM-DD
-    </div></li>
+    </div></div>
 
-    <li><label>Reference URL</label>
+    <div class="formItem"><label>Reference URL</label>
     <input name="url_reference" class="input" type="text" onClick="this.select();" value="http://">
     <div class="div_error_url_reference">
      URL-Format: &nbsp;&nbsp;http:// or https://
-    </div></li>
+    </div></div>
 
-    <li><label>Source URL *</label>
+    <div class="formItem"><label>Source URL *</label>
     <input name="source_url" class="input" type="text" onClick="this.select();" value="http://">
     <div class="div_error_source_url">
      URL-Format: &nbsp;&nbsp;http:// or https://
-    </div></li>
+    </div></div>
 
-<!--    <li><label>GetCapabilities</label>
-    <input name="reference_data" class="input" type="text"></li>-->
+<!--    <div class="formItem"><label>GetCapabidivties</label>
+    <input name="reference_data" class="input" type="text"></div>-->
 
-    <li><label>Source CRS</label>
+    <div class="formItem"><label>Source CRS</label>
     <input name="source_crs" class="input" type="text" onClick="this.select();" value="EPSG:">
     <div class="div_error_source_crs">
      CRS-Format Example: &nbsp;&nbsp;EPSG:4036
-    </div></li>
+    </div></div>
 
-<!--    <li><label>Geometry</label>
-    <textarea name="geometry" class="input" rows="5"></textarea></li>-->
-  </ul></form>
+<!--    <div class="formItem"><label>Geometry</label>
+    <textarea name="geometry" class="input" rows="5"></textarea></div>-->
+  </form>
   * required<br>
   <button id="btn_save" type="submit">Save</button>
   <button id="btn_cancel" type="button">Cancel</button>
