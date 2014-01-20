@@ -85,7 +85,7 @@ WHERE
     return $data;
   }
 
-  public function importItem($filter = NULL) {
+public function importItem($filter = NULL) {
     global $HTTP;
 
     $doc = new DOMDocument();
@@ -93,67 +93,77 @@ WHERE
     $doc->loadXML($HTTP->sendRequest($filter["url"]));
 
     $xpath = new DOMXPath($doc);
-    $xpath->registerNamespace("x", "http://www.opengis.net/wms");
+    $xpath->registerNamespace("ows", "http://www.opengis.net/ows");
+    $xpath->registerNamespace("wfs", "http://www.opengis.net/wfs");
+    $xpath->registerNamespace("gml", "http://www.opengis.net/gml");
+    $xpath->registerNamespace("ogc", "http://www.opengis.net/ogc");
 
     $res = array();
 
-    $nodes = $xpath->query("//x:Service/x:Title");
+    $nodes = $xpath->query("//ows:Title");
     $res["title"] = $nodes->item(0)->nodeValue;
 
-    $nodes = $xpath->query("//x:Service/x:Abstract");
+    $nodes = $xpath->query("//ows:Abstract");
     $res["descr"] = $nodes->item(0)->nodeValue;
 
-    $nodes = $xpath->query("//x:Service/x:KeywordList/x:Keyword");
+    $nodes = $xpath->query("ows:ServiceIdentification/ows:Keywords/ows:Keyword");
     $res["keywords"] = array();
     foreach ($nodes AS $item) {
       $res["keywords"][] = $item->nodeValue;
     }
 
-     $res["layers"] = array();
+    $res["features"] = array();
 
-    $layerList = $xpath->query("//x:Capability/x:Layer/x:Layer");
+    $layerList = $xpath->query("//wfs:FeatureTypeList/wfs:FeatureType");
     foreach ($layerList as $layer) {
       $resLayer = array();
-      $nodes = $xpath->query("x:Name", $layer);
-      $resLayer["layersName"] = $nodes->item(0)->nodeValue;
 
-      $nodes = $xpath->query("x:Title", $layer);
-      $resLayer["layersTitle"] = $nodes->item(0)->nodeValue;
+      $nodes = $xpath->query("wfs:Name", $layer);
+      $resLayer["featureTypeName"] = $nodes->item(0)->nodeValue;
 
-      $nodes = $xpath->query("x:Abstract", $layer);
-      $resLayer["layersAbstract"] = $nodes->item(0)->nodeValue;
+      $nodes = $xpath->query("wfs:Title", $layer);
+      $resLayer["featureTypeTitle"] = $nodes->item(0)->nodeValue;
 
-      $nodes = $xpath->query("x:KeywordList/x:Keyword", $layer);
+      $nodes = $xpath->query("wfs:Abstract", $layer);
+      $resLayer["featuerTypeAbstract"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("ows:Keywords/ows:Keyword", $layer);
       foreach ($nodes AS $item) {
-        $resLayer["layersKeywords"][] = $item->nodeValue;
+        $resLayer["featureTypeKeywords"][] = $item->nodeValue;
       }
 
-      $nodes = $xpath->query("x:CRS", $layer);
+      $nodes = $xpath->query("wfs:DefaultSRS", $layer);
       foreach ($nodes AS $item) {
-        $resLayer["layersCRS"][] = $item->nodeValue;
+        $resLayer["featureTypeCRS"][] = $item->nodeValue;
       }
 
-      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:westBoundLongitude", $layer);
-      $resLayer["layersWestLong"] = $nodes->item(0)->nodeValue;
+      $nodes = $xpath->query("wfs:DefaultCRS", $layer);
+      foreach ($nodes AS $item) {
+        $resLayer["featureTypeCRS"][] = $item->nodeValue;
+      }
 
-      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:eastBoundLongitude", $layer);
-      $resLayer["layersEastLong"] = $nodes->item(0)->nodeValue;
+      $nodes = $xpath->query("ows:WGS84BoundingBox/ows:LowerCorner", $layer);
+      $resLayer["featureTypeBBLowerCorner"] = $nodes->item(0)->nodeValue;
 
-      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:southBoundLatitude", $layer);
-      $resLayer["layersSouthLat"] = $nodes->item(0)->nodeValue;
+      $nodes = $xpath->query("ows:WGS84BoundingBox/ows:UpperCorner", $layer);
+      $resLayer["featureTypeBBUpperCorner"] = $nodes->item(0)->nodeValue;
 
-      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:northBoundLatitude", $layer);
-      $resLayer["layersNorthLat"] = $nodes->item(0)->nodeValue;
-
-      $res["layers"][] = $resLayer;
+      $res["features"][] = $resLayer;
     }
+    // Examples:
+    //
+    // http://sedac.ciesin.columbia.edu/geoserver/wfs?SERVICE=WFS&REQUEST=GetCapabilities
+    // JAN => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//sedac.ciesin.columbia.edu/geoserver/wfs%3FSERVICE%3DWFS%26REQUEST%3DGetCapabilities
+    // Sören => http://localhost:80/OSMBuildings/Portal/html_jquery/server/index.php?import&url=http%3A//sedac.ciesin.columbia.edu/geoserver/wfs%3FSERVICE%3DWFS%26REQUEST%3DGetCapabilities
 
-    // http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities
-    // => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//cmgds.marine.usgs.gov/geoserver/bathy/ows%3FSERVICE%3DWMS%26SERVICE%3DWMS%26REQUEST%3DGetCapabilities
+    // http://maps.gns.cri.nz/geoserver/wfs?request=GetCapabilities&SERVICE=WFS&REQUEST=GetCapabilities
+    // JAN => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//maps.gns.cri.nz/geoserver/wfs%3Frequest%3DGetCapabilities%26SERVICE%3DWFS%26REQUEST%3DGetCapabilities
+    // Sören => http://localhost:80/OSMBuildings/Portal/html_jquery/server/index.php?import&url=http%3A//maps.gns.cri.nz/geoserver/wfs%3Frequest%3DGetCapabilities%26SERVICE%3DWFS%26REQUEST%3DGetCapabilities
 
 
     return $res;
   }
+
 
   public function getItem($id, $filter = NULL) {
     $res = $this->SQL->query("
