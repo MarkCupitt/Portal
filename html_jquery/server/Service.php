@@ -109,8 +109,48 @@ WHERE
       $res["keywords"][] = $item->nodeValue;
     }
 
+     $res["layers"] = array();
+
+    $layerList = $xpath->query("//x:Capability/x:Layer/x:Layer");
+    foreach ($layerList as $layer) {
+      $resLayer = array();
+      $nodes = $xpath->query("x:Name", $layer);
+      $resLayer["layersName"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:Title", $layer);
+      $resLayer["layersTitle"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:Abstract", $layer);
+      $resLayer["layersAbstract"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:KeywordList/x:Keyword", $layer);
+      foreach ($nodes AS $item) {
+        $resLayer["layersKeywords"][] = $item->nodeValue;
+      }
+
+      $nodes = $xpath->query("x:CRS", $layer);
+      foreach ($nodes AS $item) {
+        $resLayer["layersCRS"][] = $item->nodeValue;
+      }
+
+      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:westBoundLongitude", $layer);
+      $resLayer["layersWestLong"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:eastBoundLongitude", $layer);
+      $resLayer["layersEastLong"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:southBoundLatitude", $layer);
+      $resLayer["layersSouthLat"] = $nodes->item(0)->nodeValue;
+
+      $nodes = $xpath->query("x:EX_GeographicBoundingBox/x:northBoundLatitude", $layer);
+      $resLayer["layersNorthLat"] = $nodes->item(0)->nodeValue;
+
+      $res["layers"][] = $resLayer;
+    }
+
     // http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities
     // => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//cmgds.marine.usgs.gov/geoserver/bathy/ows%3FSERVICE%3DWMS%26SERVICE%3DWMS%26REQUEST%3DGetCapabilities
+
 
     return $res;
   }

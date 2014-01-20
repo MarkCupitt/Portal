@@ -105,8 +105,10 @@ $(function() {
 //        console.log(xmldata);
 //      }
 //    });
-    var id = 10;
-    var url = 'server/?details/id/'+ id;
+    //var id = 10;
+    //var url = 'server/?details/id/'+ id;
+
+    var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
 
     $.getJSON(url, function(data_) {
       data = data_;

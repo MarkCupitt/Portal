@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/css" href="js/leaflet/leaflet.css">
+<link rel="stylesheet" type="text/css" href="js/leaflet_draw/leaflet.draw.css">
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/util.js"></script>
+<script src="js/leaflet/leaflet.js"></script>
+<script src="js/leaflet_draw/leaflet.draw.js"></script>
+</head>
+<body>
+<script>
+var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'+
+  '{title}</a></div>'+
+  '<div class="listItem_date">{date}</div>'+
+  '<div class="listItem_descr">{descr}</div><br>'+
+  '</li>';
+
+function fillList(data) {
+   var html = ''
+   //, marker
+   ;
+   $.each(data, function(i, listItem) {
+     html += util.parse(template, listItem);
+     //marker = new L.Marker([listItem.center.latitude, listItem.center.longitude], { data: listItem });
+//     marker.on('click', function() {
+//       location.href = 'details.html?id=' + listItem.id;
+//     });
+//     markerGroup.addLayer(marker);
+   });
+
+   $('#list').html(html);
+ }
+
+
+$(function() {
+var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
+
+//  $.getJSON('server/?list&latest=10', function(data) {
+//     fillList(data);
+//  });
+
+  $('#btn_cancel').click(function() {
+    location.href = 'index.html';
+  });
+
+  $('#btn_import').click(function() {
+
+   // var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
+    var template = $('#importTitle').html();
+
+    $.getJSON(url, function(data_) {
+      data = data_;
+      var html = util.parse(template, data);
+    //console.log(data.layers);
+      $('#importTitle').html(html);
+      $('h1').html(data.title);
+      document.title = data.title;
+      $('h2').html(data.descr);
+
+//      $('.input').each(function(i, field) {
+//
+//        if (field.value !== data[field.name]){
+//          $(this).addClass('warning');
+//          $('.div_import_' + this.name).addClass('visible');
+//          $('.div_import_' + this.name).html( 'Insert Import value? ' + data[field.name]);
+//          $('<button class="btn_insert" type="button">Import</button>').click(function() {
+//            if (field.name === 'descr'){
+//              $('.input[name=' + field.name + ']').text(data[field.name]);
+//            }
+//            $('.input[name=' + field.name + ']').attr('value', data[field.name]);
+//          }).appendTo('.div_import_' + this.name);
+//         }
+//      });
+    });
+  });
+});
+</script>
+<div id="content">
+  <h1>Import</h1>
+  <div class="formItem"><label>Import URL</label>
+    <input name="import_url" class="input" type="text" placeholder="GetCapabilities link"></div>
+    <button id="btn_import" type="button">Import</button>
+    <button id="btn_cancel" type="button">Cancel</button>
+  <ul id="list"></ul>
+  <div id="importTitle">
+  </div>
+</div>
+</body>
+</html>
