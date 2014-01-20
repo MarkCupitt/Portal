@@ -148,8 +148,8 @@ WHERE
       $res["layers"][] = $resLayer;
     }
 
-    // http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities
-    // => http://localhost:8000/osm/Portal/html_jquery/server/index.php?import&url=http%3A//cmgds.marine.usgs.gov/geoserver/bathy/ows%3FSERVICE%3DWMS%26SERVICE%3DWMS%26REQUEST%3DGetCapabilities
+    // http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_gebgeschoss?REQUEST=GetCapabilities&SERVICE=WFS&VERSION=1.1.0
+    // => http://localhost/osm/Portal/html_jquery/server/index.php?import&url=http%3A//fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_gebgeschoss%3FREQUEST%3DGetCapabilities%26SERVICE%3DWFS%26VERSION%3D1.1.0
 
 
     return $res;
