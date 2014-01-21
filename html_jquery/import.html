@@ -13,6 +13,7 @@
 </head>
 <body>
 <script>
+// Muss noch angepasst werden
 var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'+
   '{title}</a></div>'+
   '<div class="listItem_date">{date}</div>'+
@@ -50,31 +51,14 @@ var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.g
   $('#btn_import').click(function() {
 
    // var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
-    var template = $('#importTitle').html();
+   // var template = $('#importResultMain').html();
 
     $.getJSON(url, function(data_) {
       data = data_;
       var html = util.parse(template, data);
-    //console.log(data.layers);
-      $('#importTitle').html(html);
       $('h1').html(data.title);
+      $('#list').html(data.descr);
       document.title = data.title;
-      $('h2').html(data.descr);
-
-//      $('.input').each(function(i, field) {
-//
-//        if (field.value !== data[field.name]){
-//          $(this).addClass('warning');
-//          $('.div_import_' + this.name).addClass('visible');
-//          $('.div_import_' + this.name).html( 'Insert Import value? ' + data[field.name]);
-//          $('<button class="btn_insert" type="button">Import</button>').click(function() {
-//            if (field.name === 'descr'){
-//              $('.input[name=' + field.name + ']').text(data[field.name]);
-//            }
-//            $('.input[name=' + field.name + ']').attr('value', data[field.name]);
-//          }).appendTo('.div_import_' + this.name);
-//         }
-//      });
     });
   });
 });
@@ -85,8 +69,9 @@ var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.g
     <input name="import_url" class="input" type="text" placeholder="GetCapabilities link"></div>
     <button id="btn_import" type="button">Import</button>
     <button id="btn_cancel" type="button">Cancel</button>
+    <hr>
+  <div id="importResultMain">
   <ul id="list"></ul>
-  <div id="importTitle">
   </div>
 </div>
 </body>
