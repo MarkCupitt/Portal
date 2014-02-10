@@ -13,12 +13,15 @@
 </head>
 <body>
 <script>
-// Muss noch angepasst werden
-var template = '<li><div class="listItem_title"><a href="details.html?id={id}">'+
-  '{title}</a></div>'+
-  '<div class="listItem_date">{date}</div>'+
-  '<div class="listItem_descr">{descr}</div><br>'+
-  '</li>';
+var template = '<div class="import_title"><h1>{title}</h1></div>' +
+        '<div class="import_descr">{descr}</div>' +
+        '<div class="import_keywords">{keywords}</div><br>';
+
+var template_list = '<li><div class="ImportListItem_title"><a href="edit.html?featureTypeTitle={title}' +
+        '&featureURL=encodeURL">{title}</a></div>' +
+        '<div class="ImportListItem_abstract">{descr}</div>' +
+        '<div class="ImportListItem_keywords">{keywords}</div>' +
+        '<div class="ImportListItem_crs">{source_crs}</div></li>';
 
 function fillList(data) {
    var html = ''
@@ -36,28 +39,35 @@ function fillList(data) {
    $('#list').html(html);
  }
 
-
 $(function() {
-var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
-
-//  $.getJSON('server/?list&latest=10', function(data) {
-//     fillList(data);
-//  });
 
   $('#btn_cancel').click(function() {
     location.href = 'index.html';
   });
 
   $('#btn_import').click(function() {
+    var encodeURL = encodeURIComponent($('.input').val());
+    template_list = template_list.replace('encodeURL', encodeURL);
 
-   // var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
-   // var template = $('#importResultMain').html();
+    var url = 'server/?import&url=' + encodeURL;
 
     $.getJSON(url, function(data_) {
       data = data_;
       var html = util.parse(template, data);
-      $('h1').html(data.title);
-      $('#list').html(data.descr);
+
+      var noValue = 'nicht vorhanden';
+      var featuresList = ['descr', 'keywords', 'source_crs'];
+      $.each(data.features, function(i, listItem) {
+        $.each(featuresList, function(j, featureListItem) {
+          if (!listItem[featureListItem] ){
+            listItem[featureListItem] = noValue;
+          }
+        });
+
+        html += util.parse(template_list, listItem);
+       });
+
+      $('#importResult').html(html);
       document.title = data.title;
     });
   });
@@ -66,12 +76,11 @@ var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.g
 <div id="content">
   <h1>Import</h1>
   <div class="formItem"><label>Import URL</label>
-    <input name="import_url" class="input" type="text" placeholder="GetCapabilities link"></div>
+    <input name="import_url" class="input" type="text" value="http://maps.gns.cri.nz/geoserver/wfs?SERVICE=WFS&REQUEST=GetCapabilities"></div>
     <button id="btn_import" type="button">Import</button>
     <button id="btn_cancel" type="button">Cancel</button>
     <hr>
-  <div id="importResultMain">
-  <ul id="list"></ul>
+  <div id="importResult">
   </div>
 </div>
 </body>

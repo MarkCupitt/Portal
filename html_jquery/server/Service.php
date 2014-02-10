@@ -122,24 +122,32 @@ WHERE
       $resLayer["featureTypeName"] = $nodes->item(0)->nodeValue;
 
       $nodes = $xpath->query("wfs:Title", $layer);
-      $resLayer["featureTypeTitle"] = $nodes->item(0)->nodeValue;
+      $resLayer["title"] = $nodes->item(0)->nodeValue;
+      if ($filter["featureTypeTitle"]){
+        if ($filter["featureTypeTitle"] !== $resLayer["title"]){
+          continue;
+        }
+      }
 
       $nodes = $xpath->query("wfs:Abstract", $layer);
-      $resLayer["featureTypeAbstract"] = $nodes->item(0)->nodeValue;
+      $resLayer["descr"] = $nodes->item(0)->nodeValue;
 
       $nodes = $xpath->query("ows:Keywords/ows:Keyword", $layer);
       foreach ($nodes AS $item) {
-        $resLayer["featureTypeKeywords"][] = $item->nodeValue;
+        $resLayer["keywords"][] = $item->nodeValue;
       }
+
+      $search = '/.*:(\d+)$/';
+      $replace = 'EPSG:${1}';
 
       $nodes = $xpath->query("wfs:DefaultSRS", $layer);
       foreach ($nodes AS $item) {
-        $resLayer["featureTypeCRS"][] = $item->nodeValue;
+        $resLayer["source_crs"][] = preg_replace($search, $replace, $item->nodeValue);
       }
 
       $nodes = $xpath->query("wfs:DefaultCRS", $layer);
       foreach ($nodes AS $item) {
-        $resLayer["featureTypeCRS"][] = $item->nodeValue;
+        $resLayer["source_crs"][] = preg_replace($search, $replace, $item->nodeValue);
       }
 
       $nodes = $xpath->query("ows:WGS84BoundingBox/ows:LowerCorner", $layer);

@@ -17,6 +17,8 @@
 var urlParams = util.getUrlParams();
 var id = urlParams.id || '';
 var data = {};
+var title = urlParams.featureTypeTitle || '';
+var featureURL = urlParams.featureURL;
 
 $(function() {
   var url = 'server/?details/id/'+ id;
@@ -26,6 +28,22 @@ $(function() {
       data = data_;
       $('.input').each(function(i, field) {
         field.value = data[field.name] || '';
+      });
+    });
+  }else if (title){
+     var url_feature = 'server/?import&url=' + featureURL + "&featureTypeTitle=" + title;
+     console.log(title);
+
+    $.getJSON(url_feature, function(data_) {
+    data = data_;
+       $('.input').each(function(i, field) {
+        field.value = data.features[0][field.name] || '';
+       });
+
+      $('.input').each(function(i, field) {
+        if (!field.value){
+          field.value = data[field.name] || 'nicht vorhanden';
+        }
       });
     });
   }
@@ -92,23 +110,7 @@ $(function() {
   });
 
   $('#btn_import').click(function() {
-   // var field = $('.input[name=import_url]');
-
-
-//    $.ajax({
-//      type: 'GET',
-//      url: field.val(),
-//      data: data,
-//      dataType: 'json',
-//      success: function(xmldata){
-//        //alert(xmldata);
-//        console.log(xmldata);
-//      }
-//    });
-    //var id = 10;
-    //var url = 'server/?details/id/'+ id;
-
-    var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
+      var url = 'server/?import&url=' + encodeURIComponent('http://cmgds.marine.usgs.gov/geoserver/bathy/ows?SERVICE=WMS&SERVICE=WMS&REQUEST=GetCapabilities');
 
     $.getJSON(url, function(data_) {
       data = data_;
@@ -172,8 +174,6 @@ $(function() {
       remove: false
     }
   };
-
-// TODO: allow only one feature at a time!
 
   map.on('draw:created', function (e) {
     var layer = e.layer;
