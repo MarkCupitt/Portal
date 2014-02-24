@@ -1,0 +1,745 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'xml2json' ]
+2 info using npm@1.3.24
+3 info using node@v0.10.25
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json portal@0.0.1 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'xml2json', null ]
+8 verbose cache add name=undefined spec="xml2json" args=["xml2json",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'xml2json',
+9 verbose parsed url   path: 'xml2json',
+9 verbose parsed url   href: 'xml2json' }
+10 silly lockFile 4a765045-xml2json xml2json
+11 verbose lock xml2json C:\Users\Soeren\AppData\Roaming\npm-cache\4a765045-xml2json.lock
+12 silly lockFile 4a765045-xml2json xml2json
+13 silly lockFile 4a765045-xml2json xml2json
+14 verbose addNamed [ 'xml2json', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 58d55085-xml2json xml2json@
+17 verbose lock xml2json@ C:\Users\Soeren\AppData\Roaming\npm-cache\58d55085-xml2json.lock
+18 silly addNameRange { name: 'xml2json', range: '*', hasData: false }
+19 verbose url raw xml2json
+20 verbose url resolving [ 'https://registry.npmjs.org/', './xml2json' ]
+21 verbose url resolved https://registry.npmjs.org/xml2json
+22 info trying registry request attempt 1 at 13:44:38
+23 verbose etag "6OHRTFUQV03ORD78LF4AAYVDQ"
+24 http GET https://registry.npmjs.org/xml2json
+25 http 304 https://registry.npmjs.org/xml2json
+26 silly registry.get cb [ 304,
+26 silly registry.get   { date: 'Wed, 19 Feb 2014 12:44:38 GMT',
+26 silly registry.get     server: 'Apache',
+26 silly registry.get     connection: 'Keep-Alive',
+26 silly registry.get     'keep-alive': 'timeout=10, max=50',
+26 silly registry.get     etag: '"6OHRTFUQV03ORD78LF4AAYVDQ"',
+26 silly registry.get     'cache-control': 'max-age=1',
+26 silly registry.get     vary: 'Accept' } ]
+27 verbose etag xml2json from cache
+28 silly addNameRange number 2 { name: 'xml2json', range: '*', hasData: true }
+29 silly addNameRange versions [ 'xml2json',
+29 silly addNameRange   [ '0.1.0',
+29 silly addNameRange     '0.1.1',
+29 silly addNameRange     '0.2.0',
+29 silly addNameRange     '0.2.1',
+29 silly addNameRange     '0.2.2',
+29 silly addNameRange     '0.2.3',
+29 silly addNameRange     '0.2.4',
+29 silly addNameRange     '0.3.0',
+29 silly addNameRange     '0.3.1',
+29 silly addNameRange     '0.3.2',
+29 silly addNameRange     '0.4.0' ] ]
+30 verbose addNamed [ 'xml2json', '0.4.0' ]
+31 verbose addNamed [ '0.4.0', '0.4.0' ]
+32 silly lockFile 7e41c6a4-xml2json-0-4-0 xml2json@0.4.0
+33 verbose lock xml2json@0.4.0 C:\Users\Soeren\AppData\Roaming\npm-cache\7e41c6a4-xml2json-0-4-0.lock
+34 silly lockFile 7e41c6a4-xml2json-0-4-0 xml2json@0.4.0
+35 silly lockFile 7e41c6a4-xml2json-0-4-0 xml2json@0.4.0
+36 silly lockFile 58d55085-xml2json xml2json@
+37 silly lockFile 58d55085-xml2json xml2json@
+38 silly resolved [ { name: 'xml2json',
+38 silly resolved     version: '0.4.0',
+38 silly resolved     author: { name: 'Andrew Turley' },
+38 silly resolved     email: 'aturley@buglabs.net',
+38 silly resolved     description: 'Converts xml to json and viceverza, using node-expat.',
+38 silly resolved     repository:
+38 silly resolved      { type: 'git',
+38 silly resolved        url: 'git://github.com/buglabs/node-xml2json.git' },
+38 silly resolved     main: 'index',
+38 silly resolved     contributors: [ [Object] ],
+38 silly resolved     dependencies: { 'node-expat': '2.1.4' },
+38 silly resolved     bin: { xml2json: 'bin/xml2json' },
+38 silly resolved     readme: '# Simple SAX-based XML2JSON Parser.\n\nIt does not parse the following elements:\n\n* CDATA sections (*)\n* Processing instructions\n* XML declarations\n* Entity declarations\n* Comments\n\n## Installation\n```\n$ npm install xml2json\n```\n\n## Usage\n```javascript\nvar parser = require(\'xml2json\');\n\nvar xml = "<foo>bar</foo>";\nvar json = parser.toJson(xml); //returns a string containing the JSON structure by default\nconsole.log(json);\n```\n## API\n\n```javascript\nparser.toJson(xml, options);\n```\n```javascript\nparser.toXml(json, options);\n```\n\n### Options object\n\nDefault values:\n```javascript\nvar options = {\n    object: false,\n    reversible: false,\n    coerce: true,\n    sanitize: true,\n    trim: true,\n    arrayNotation: false\n};\n```\n\n* **object:** Returns a Javascript object instead of a JSON string\n* **reversible:** Makes the JSON reversible to XML (*)\n* **coerce:** Makes type coercion. i.e.: numbers and booleans present in attributes and element values are converted from string to its correspondent data types.\n* **trim:** Removes leading and trailing whitespaces as well as line terminators in element values.\n* **arrayNotation:** XML child nodes are always treated as arrays\n* **sanitize:** Sanitizes the following characters present in element values:\n\n```javascript\nvar chars =  {\n    \'<\': \'&lt;\',\n    \'>\': \'&gt;\',\n    \'(\': \'&#40;\',\n    \')\': \'&#41;\',\n    \'#\': \'&#35;\',\n    \'&\': \'&amp;\',\n    \'"\': \'&quot;\',\n    "\'": \'&apos;\'\n};\n```\n\n\n\n\n(*) xml2json tranforms CDATA content to JSON, but it doesn\'t generate a reversible structure.\n\n## License\n(The MIT License)\n\nCopyright 2012 BugLabs. All rights reserved.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to\ndeal in the Software without restriction, including without limitation the\nrights to use, copy, modify, merge, publish, distribute, sublicense, and/or\nsell copies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS\nIN THE SOFTWARE.\n',
+38 silly resolved     readmeFilename: 'README.md',
+38 silly resolved     bugs: { url: 'https://github.com/buglabs/node-xml2json/issues' },
+38 silly resolved     homepage: 'https://github.com/buglabs/node-xml2json',
+38 silly resolved     _id: 'xml2json@0.4.0',
+38 silly resolved     _from: 'xml2json@' } ]
+39 info install xml2json@0.4.0 into D:\OSMBuildings\Portal\server
+40 info installOne xml2json@0.4.0
+41 info D:\OSMBuildings\Portal\server\node_modules\xml2json unbuild
+42 verbose tar unpack C:\Users\Soeren\AppData\Roaming\npm-cache\xml2json\0.4.0\package.tgz
+43 silly lockFile afd6ed9c-tal-server-node-modules-xml2json tar://D:\OSMBuildings\Portal\server\node_modules\xml2json
+44 verbose lock tar://D:\OSMBuildings\Portal\server\node_modules\xml2json C:\Users\Soeren\AppData\Roaming\npm-cache\afd6ed9c-tal-server-node-modules-xml2json.lock
+45 silly lockFile bdd6ceac-cache-xml2json-0-4-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\xml2json\0.4.0\package.tgz
+46 verbose lock tar://C:\Users\Soeren\AppData\Roaming\npm-cache\xml2json\0.4.0\package.tgz C:\Users\Soeren\AppData\Roaming\npm-cache\bdd6ceac-cache-xml2json-0-4-0-package-tgz.lock
+47 silly gunzTarPerm modes [ '755', '644' ]
+48 silly gunzTarPerm extractEntry package.json
+49 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+50 silly gunzTarPerm extractEntry .npmignore
+51 silly gunzTarPerm modified mode [ '.npmignore', 438, 420 ]
+52 silly gunzTarPerm extractEntry README.md
+53 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+54 silly gunzTarPerm extractEntry index.js
+55 silly gunzTarPerm modified mode [ 'index.js', 438, 420 ]
+56 silly gunzTarPerm extractEntry bin/xml2json
+57 silly gunzTarPerm modified mode [ 'bin/xml2json', 438, 420 ]
+58 silly gunzTarPerm extractEntry lib/index.js
+59 silly gunzTarPerm modified mode [ 'lib/index.js', 438, 420 ]
+60 silly gunzTarPerm extractEntry lib/json2xml.js
+61 silly gunzTarPerm modified mode [ 'lib/json2xml.js', 438, 420 ]
+62 silly gunzTarPerm extractEntry lib/xml2json.js
+63 silly gunzTarPerm modified mode [ 'lib/xml2json.js', 438, 420 ]
+64 silly gunzTarPerm extractEntry test/.npmignore
+65 silly gunzTarPerm modified mode [ 'test/.npmignore', 438, 420 ]
+66 silly gunzTarPerm extractEntry test/coerce-overhead.js
+67 silly gunzTarPerm modified mode [ 'test/coerce-overhead.js', 438, 420 ]
+68 silly gunzTarPerm extractEntry test/test-array-notation.js
+69 silly gunzTarPerm modified mode [ 'test/test-array-notation.js', 438, 420 ]
+70 silly gunzTarPerm extractEntry test/test-coerce.js
+71 silly gunzTarPerm modified mode [ 'test/test-coerce.js', 438, 420 ]
+72 silly gunzTarPerm extractEntry test/test-reorder.js
+73 silly gunzTarPerm modified mode [ 'test/test-reorder.js', 438, 420 ]
+74 silly gunzTarPerm extractEntry test/test-space.js
+75 silly gunzTarPerm modified mode [ 'test/test-space.js', 438, 420 ]
+76 silly gunzTarPerm extractEntry test/test.js
+77 silly gunzTarPerm modified mode [ 'test/test.js', 438, 420 ]
+78 silly gunzTarPerm extractEntry test/fixtures/domain.xml
+79 silly gunzTarPerm modified mode [ 'test/fixtures/domain.xml', 438, 420 ]
+80 silly gunzTarPerm extractEntry test/fixtures/array-notation.json
+81 silly gunzTarPerm modified mode [ 'test/fixtures/array-notation.json', 438, 420 ]
+82 silly gunzTarPerm extractEntry test/fixtures/coerce.json
+83 silly gunzTarPerm modified mode [ 'test/fixtures/coerce.json', 438, 420 ]
+84 silly gunzTarPerm extractEntry test/fixtures/coerce.xml
+85 silly gunzTarPerm modified mode [ 'test/fixtures/coerce.xml', 438, 420 ]
+86 silly gunzTarPerm extractEntry test/fixtures/domain-reversible.json
+87 silly gunzTarPerm modified mode [ 'test/fixtures/domain-reversible.json', 438, 420 ]
+88 silly gunzTarPerm extractEntry test/fixtures/domain.json
+89 silly gunzTarPerm modified mode [ 'test/fixtures/domain.json', 438, 420 ]
+90 silly gunzTarPerm extractEntry test/fixtures/array-notation.xml
+91 silly gunzTarPerm modified mode [ 'test/fixtures/array-notation.xml', 438, 420 ]
+92 silly gunzTarPerm extractEntry test/fixtures/large.json
+93 silly gunzTarPerm modified mode [ 'test/fixtures/large.json', 438, 420 ]
+94 silly gunzTarPerm extractEntry test/fixtures/large.xml
+95 silly gunzTarPerm modified mode [ 'test/fixtures/large.xml', 438, 420 ]
+96 silly gunzTarPerm extractEntry test/fixtures/reorder.json
+97 silly gunzTarPerm modified mode [ 'test/fixtures/reorder.json', 438, 420 ]
+98 silly gunzTarPerm extractEntry test/fixtures/reorder.xml
+99 silly gunzTarPerm modified mode [ 'test/fixtures/reorder.xml', 438, 420 ]
+100 silly gunzTarPerm extractEntry test/fixtures/spacetext.json
+101 silly gunzTarPerm modified mode [ 'test/fixtures/spacetext.json', 438, 420 ]
+102 silly gunzTarPerm extractEntry test/fixtures/spacetext.xml
+103 silly gunzTarPerm modified mode [ 'test/fixtures/spacetext.xml', 438, 420 ]
+104 silly lockFile afd6ed9c-tal-server-node-modules-xml2json tar://D:\OSMBuildings\Portal\server\node_modules\xml2json
+105 silly lockFile afd6ed9c-tal-server-node-modules-xml2json tar://D:\OSMBuildings\Portal\server\node_modules\xml2json
+106 silly lockFile bdd6ceac-cache-xml2json-0-4-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\xml2json\0.4.0\package.tgz
+107 silly lockFile bdd6ceac-cache-xml2json-0-4-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\xml2json\0.4.0\package.tgz
+108 info preinstall xml2json@0.4.0
+109 verbose readDependencies using package.json deps
+110 verbose readDependencies using package.json deps
+111 verbose cache add [ 'node-expat@2.1.4', null ]
+112 verbose cache add name=undefined spec="node-expat@2.1.4" args=["node-expat@2.1.4",null]
+113 verbose parsed url { protocol: null,
+113 verbose parsed url   slashes: null,
+113 verbose parsed url   auth: null,
+113 verbose parsed url   host: null,
+113 verbose parsed url   port: null,
+113 verbose parsed url   hostname: null,
+113 verbose parsed url   hash: null,
+113 verbose parsed url   search: null,
+113 verbose parsed url   query: null,
+113 verbose parsed url   pathname: 'node-expat@2.1.4',
+113 verbose parsed url   path: 'node-expat@2.1.4',
+113 verbose parsed url   href: 'node-expat@2.1.4' }
+114 verbose cache add name="node-expat" spec="2.1.4" args=["node-expat","2.1.4"]
+115 verbose parsed url { protocol: null,
+115 verbose parsed url   slashes: null,
+115 verbose parsed url   auth: null,
+115 verbose parsed url   host: null,
+115 verbose parsed url   port: null,
+115 verbose parsed url   hostname: null,
+115 verbose parsed url   hash: null,
+115 verbose parsed url   search: null,
+115 verbose parsed url   query: null,
+115 verbose parsed url   pathname: '2.1.4',
+115 verbose parsed url   path: '2.1.4',
+115 verbose parsed url   href: '2.1.4' }
+116 verbose addNamed [ 'node-expat', '2.1.4' ]
+117 verbose addNamed [ '2.1.4', '2.1.4' ]
+118 silly lockFile d7358e55-node-expat-2-1-4 node-expat@2.1.4
+119 verbose lock node-expat@2.1.4 C:\Users\Soeren\AppData\Roaming\npm-cache\d7358e55-node-expat-2-1-4.lock
+120 verbose url raw node-expat/2.1.4
+121 verbose url resolving [ 'https://registry.npmjs.org/', './node-expat/2.1.4' ]
+122 verbose url resolved https://registry.npmjs.org/node-expat/2.1.4
+123 info trying registry request attempt 1 at 13:44:39
+124 verbose etag "5FXI3E1RTMR5IFFCFUD6LT14P"
+125 http GET https://registry.npmjs.org/node-expat/2.1.4
+126 http 304 https://registry.npmjs.org/node-expat/2.1.4
+127 silly registry.get cb [ 304,
+127 silly registry.get   { date: 'Wed, 19 Feb 2014 12:44:39 GMT',
+127 silly registry.get     server: 'Apache',
+127 silly registry.get     connection: 'Keep-Alive',
+127 silly registry.get     'keep-alive': 'timeout=10, max=50',
+127 silly registry.get     etag: '"5FXI3E1RTMR5IFFCFUD6LT14P"',
+127 silly registry.get     'cache-control': 'max-age=1',
+127 silly registry.get     vary: 'Accept' } ]
+128 verbose etag node-expat/2.1.4 from cache
+129 silly lockFile d7358e55-node-expat-2-1-4 node-expat@2.1.4
+130 silly lockFile d7358e55-node-expat-2-1-4 node-expat@2.1.4
+131 silly resolved [ { name: 'node-expat',
+131 silly resolved     version: '2.1.4',
+131 silly resolved     main: './lib/node-expat',
+131 silly resolved     description: 'NodeJS binding for fast XML parsing.',
+131 silly resolved     keywords: [ 'xml', 'sax', 'expat', 'libexpat', 'parse', 'parsing' ],
+131 silly resolved     scripts: { test: 'vows --spec ./test.js', install: 'node-gyp rebuild' },
+131 silly resolved     dependencies: { nan: '~0.6.0' },
+131 silly resolved     devDependencies: { vows: '>=0.5.12' },
+131 silly resolved     repository:
+131 silly resolved      { type: 'git',
+131 silly resolved        path: 'git://github.com/node-xmpp/node-expat.git' },
+131 silly resolved     homepage: 'http://github.com/node-xmpp/node-expat',
+131 silly resolved     bugs: { url: 'http://github.com/node-xmpp/node-expat/issues' },
+131 silly resolved     author:
+131 silly resolved      { name: 'Astro',
+131 silly resolved        email: 'astro@spaceboyz.net',
+131 silly resolved        url: 'http://spaceboyz.net/~astro/' },
+131 silly resolved     maintainers: [ [Object] ],
+131 silly resolved     contributors:
+131 silly resolved      [ [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object],
+131 silly resolved        [Object] ],
+131 silly resolved     licenses: [ [Object] ],
+131 silly resolved     engines: { node: '>=0.8' },
+131 silly resolved     gypfile: true,
+131 silly resolved     readme: '# node-expat \n\n## Motivation \n\nYou use [node.js](http://github.com/ry/node) for speed? You process\nXML streams? Then you want the fastest XML parser: [libexpat](http://expat.sourceforge.net/)!\n\n## Speed \n\nA stupid speed test is supplied in `bench.js`. We measure how many\n25-byte elements a SAX parser can process:\n\n- [node-xml](http://github.com/robrighter/node-xml) (pure JavaScript): 23,000 el/s\n- [libxmljs](http://github.com/polotek/libxmljs) (libxml2 binding): 77,000 el/s\n- [node-expat](http://github.com/astro/node-expat) (libexpat binding, this): 113,000 el/s\n\nThese numbers were recorded on a Core 2 2400 MHz.\n\n## Instructions \n\nInstall node-expat:\n\n    npm i node-expat\n  \n### Installing on windows?\n\nSee https://github.com/node-xmpp/node-expat/issues/78 if you are getting errors about not finding `nan.h`.\n\n## Testing\n\n```\nnpm test\n```\n\n[![Build Status](https://travis-ci.org/node-xmpp/node-expat.png?branch=v2.1.2)](https://travis-ci.org/node-xmpp/node-expat)\n\n\n## Usage ##\n\nImportant events emitted by a parser:\n\n```javascript\n(function () {\n  "use strict";\n\n  var expat = require(\'node-expat\')\n    , parser\n    ;\n\n  parser = new expat.Parser("UTF-8");\n  parser.on(\'startElement\', function (name, attrs) {\n    console.log(name, attrs);\n  });\n  parser.on(\'endElement\', function (name) {\n    console.log(name);\n  });\n  parser.on(\'text\', function (text) {\n    console.log(text);\n  });\n  parser.on(\'error\', function (err) {\n    console.error(err); \n  });\n  parser.write("<html><head><title>Hello World</title></head><body><p>Foobar</p></body></html>");\n}());\n\n```\n\nUse `test.js` for reference.\n\n## API ##\n\n- `#on(\'startElement\' function (name, attrs) {})`\n- `#on(\'endElement\' function (name) {})`\n- `#on(\'text\' function (text) {})`\n- `#on(\'processingInstruction\', function (target, data) {})`\n- `#on(\'comment\', function (s) {})`\n- `#on(\'xmlDecl\', function (version, encoding, standalone) {})`\n- `#on(\'startCdata\', function () {})`\n- `#on(\'startCdata\', function () {})`\n- `#on(\'endCdata\', function () {})`\n- `#on(\'entityDecl\', function (entityName, isParameterEntity, value, base, systemId, publicId, notationName) {})`\n- `#on(\'error\', function (e) {})`\n- `#stop()` pauses\n- `#resume()` resumes\n\n## Error handling ##\n\nWe don\'t emit an error event because libexpat doesn\'t use a callback\neither. Instead, check that `parse()` returns `true`. A descriptive\nstring can be obtained via `getError()` to provide user feedback.\n\nAlternatively, use the Parser like a node Stream. `write()` will emit\nerror events.\n\n## Namespace handling ##\n\nA word about special parsing of *xmlns:* this is not neccessary in a\nbare SAX parser like this, given that the DOM replacement you are\nusing (if any) is not relevant to the parser.\n',
+131 silly resolved     readmeFilename: 'README.markdown',
+131 silly resolved     _id: 'node-expat@2.1.4',
+131 silly resolved     _from: 'node-expat@2.1.4' } ]
+132 info install node-expat@2.1.4 into D:\OSMBuildings\Portal\server\node_modules\xml2json
+133 info installOne node-expat@2.1.4
+134 info D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat unbuild
+135 verbose tar unpack C:\Users\Soeren\AppData\Roaming\npm-cache\node-expat\2.1.4\package.tgz
+136 silly lockFile 9ad873a9-xml2json-node-modules-node-expat tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+137 verbose lock tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat C:\Users\Soeren\AppData\Roaming\npm-cache\9ad873a9-xml2json-node-modules-node-expat.lock
+138 silly lockFile 8ccdc0db-che-node-expat-2-1-4-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\node-expat\2.1.4\package.tgz
+139 verbose lock tar://C:\Users\Soeren\AppData\Roaming\npm-cache\node-expat\2.1.4\package.tgz C:\Users\Soeren\AppData\Roaming\npm-cache\8ccdc0db-che-node-expat-2-1-4-package-tgz.lock
+140 silly gunzTarPerm modes [ '755', '644' ]
+141 silly gunzTarPerm extractEntry package.json
+142 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+143 silly gunzTarPerm extractEntry .npmignore
+144 silly gunzTarPerm modified mode [ '.npmignore', 438, 420 ]
+145 silly gunzTarPerm extractEntry LICENSE
+146 silly gunzTarPerm modified mode [ 'LICENSE', 438, 420 ]
+147 silly gunzTarPerm extractEntry bench.js
+148 silly gunzTarPerm modified mode [ 'bench.js', 438, 420 ]
+149 silly gunzTarPerm extractEntry test.js
+150 silly gunzTarPerm modified mode [ 'test.js', 438, 420 ]
+151 silly gunzTarPerm extractEntry binding.gyp
+152 silly gunzTarPerm modified mode [ 'binding.gyp', 438, 420 ]
+153 silly gunzTarPerm extractEntry deps/libexpat/README
+154 silly gunzTarPerm modified mode [ 'deps/libexpat/README', 438, 420 ]
+155 silly gunzTarPerm extractEntry deps/libexpat/expat.pc.in
+156 silly gunzTarPerm modified mode [ 'deps/libexpat/expat.pc.in', 438, 420 ]
+157 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat_static.bpf
+158 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat_static.bpf', 438, 420 ]
+159 silly gunzTarPerm extractEntry deps/libexpat/bcb5/all_projects.bpg
+160 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/all_projects.bpg', 438, 420 ]
+161 silly gunzTarPerm extractEntry deps/libexpat/bcb5/elements.bpr
+162 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/elements.bpr', 438, 420 ]
+163 silly gunzTarPerm extractEntry deps/libexpat/bcb5/elements.mak
+164 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/elements.mak', 438, 420 ]
+165 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat.bpf
+166 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat.bpf', 438, 420 ]
+167 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat.bpr
+168 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat.bpr', 438, 420 ]
+169 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat.mak
+170 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat.mak', 438, 420 ]
+171 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw.bpf
+172 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw.bpf', 438, 420 ]
+173 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw.bpr
+174 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw.bpr', 438, 420 ]
+175 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw.mak
+176 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw.mak', 438, 420 ]
+177 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw_static.bpf
+178 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw_static.bpf', 438, 420 ]
+179 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw_static.bpr
+180 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw_static.bpr', 438, 420 ]
+181 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expatw_static.mak
+182 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expatw_static.mak', 438, 420 ]
+183 silly gunzTarPerm extractEntry deps/libexpat/bcb5/elements.bpf
+184 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/elements.bpf', 438, 420 ]
+185 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat_static.bpr
+186 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat_static.bpr', 438, 420 ]
+187 silly gunzTarPerm extractEntry deps/libexpat/bcb5/expat_static.mak
+188 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/expat_static.mak', 438, 420 ]
+189 silly gunzTarPerm extractEntry deps/libexpat/bcb5/libexpatw_mtd.def
+190 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/libexpatw_mtd.def', 438, 420 ]
+191 silly gunzTarPerm extractEntry deps/libexpat/bcb5/libexpat_mtd.def
+192 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/libexpat_mtd.def', 438, 420 ]
+193 silly gunzTarPerm extractEntry deps/libexpat/bcb5/makefile.mak
+194 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/makefile.mak', 438, 420 ]
+195 silly gunzTarPerm extractEntry deps/libexpat/bcb5/outline.bpf
+196 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/outline.bpf', 438, 420 ]
+197 silly gunzTarPerm extractEntry deps/libexpat/bcb5/outline.bpr
+198 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/outline.bpr', 438, 420 ]
+199 silly gunzTarPerm extractEntry deps/libexpat/bcb5/outline.mak
+200 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/outline.mak', 438, 420 ]
+201 silly gunzTarPerm extractEntry deps/libexpat/bcb5/README.txt
+202 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/README.txt', 438, 420 ]
+203 silly gunzTarPerm extractEntry deps/libexpat/bcb5/setup.bat
+204 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/setup.bat', 438, 420 ]
+205 silly gunzTarPerm extractEntry deps/libexpat/bcb5/xmlwf.bpf
+206 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/xmlwf.bpf', 438, 420 ]
+207 silly gunzTarPerm extractEntry deps/libexpat/bcb5/xmlwf.bpr
+208 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/xmlwf.bpr', 438, 420 ]
+209 silly gunzTarPerm extractEntry deps/libexpat/bcb5/xmlwf.mak
+210 silly gunzTarPerm modified mode [ 'deps/libexpat/bcb5/xmlwf.mak', 438, 420 ]
+211 silly gunzTarPerm extractEntry deps/libexpat/Changes
+212 silly gunzTarPerm modified mode [ 'deps/libexpat/Changes', 438, 420 ]
+213 silly gunzTarPerm extractEntry deps/libexpat/CMake.README
+214 silly gunzTarPerm modified mode [ 'deps/libexpat/CMake.README', 438, 420 ]
+215 silly gunzTarPerm extractEntry deps/libexpat/CMakeLists.txt
+216 silly gunzTarPerm modified mode [ 'deps/libexpat/CMakeLists.txt', 438, 420 ]
+217 silly gunzTarPerm extractEntry deps/libexpat/configure
+218 silly gunzTarPerm modified mode [ 'deps/libexpat/configure', 438, 420 ]
+219 silly gunzTarPerm extractEntry deps/libexpat/configure.in
+220 silly gunzTarPerm modified mode [ 'deps/libexpat/configure.in', 438, 420 ]
+221 silly gunzTarPerm extractEntry deps/libexpat/ConfigureChecks.cmake
+222 silly gunzTarPerm modified mode [ 'deps/libexpat/ConfigureChecks.cmake', 438, 420 ]
+223 silly gunzTarPerm extractEntry deps/libexpat/conftools/ac_c_bigendian_cross.m4
+224 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/ac_c_bigendian_cross.m4', 438, 420 ]
+225 silly gunzTarPerm extractEntry deps/libexpat/conftools/config.guess
+226 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/config.guess', 438, 420 ]
+227 silly gunzTarPerm extractEntry deps/libexpat/conftools/config.sub
+228 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/config.sub', 438, 420 ]
+229 silly gunzTarPerm extractEntry deps/libexpat/conftools/expat.m4
+230 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/expat.m4', 438, 420 ]
+231 silly gunzTarPerm extractEntry deps/libexpat/conftools/get-version.sh
+232 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/get-version.sh', 438, 420 ]
+233 silly gunzTarPerm extractEntry deps/libexpat/conftools/install-sh
+234 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/install-sh', 438, 420 ]
+235 silly gunzTarPerm extractEntry deps/libexpat/conftools/ltmain.sh
+236 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/ltmain.sh', 438, 420 ]
+237 silly gunzTarPerm extractEntry deps/libexpat/conftools/mkinstalldirs
+238 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/mkinstalldirs', 438, 420 ]
+239 silly gunzTarPerm extractEntry deps/libexpat/conftools/PrintPath
+240 silly gunzTarPerm modified mode [ 'deps/libexpat/conftools/PrintPath', 438, 420 ]
+241 silly gunzTarPerm extractEntry deps/libexpat/COPYING
+242 silly gunzTarPerm modified mode [ 'deps/libexpat/COPYING', 438, 420 ]
+243 silly gunzTarPerm extractEntry deps/libexpat/doc/expat.png
+244 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/expat.png', 438, 420 ]
+245 silly gunzTarPerm extractEntry deps/libexpat/doc/reference.html
+246 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/reference.html', 438, 420 ]
+247 silly gunzTarPerm extractEntry deps/libexpat/doc/style.css
+248 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/style.css', 438, 420 ]
+249 silly gunzTarPerm extractEntry deps/libexpat/doc/valid-xhtml10.png
+250 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/valid-xhtml10.png', 438, 420 ]
+251 silly gunzTarPerm extractEntry deps/libexpat/doc/xmlwf.1
+252 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/xmlwf.1', 438, 420 ]
+253 silly gunzTarPerm extractEntry deps/libexpat/doc/xmlwf.sgml
+254 silly gunzTarPerm modified mode [ 'deps/libexpat/doc/xmlwf.sgml', 438, 420 ]
+255 silly gunzTarPerm extractEntry deps/libexpat/examples/elements.c
+256 silly gunzTarPerm modified mode [ 'deps/libexpat/examples/elements.c', 438, 420 ]
+257 silly gunzTarPerm extractEntry deps/libexpat/examples/elements.dsp
+258 silly gunzTarPerm modified mode [ 'deps/libexpat/examples/elements.dsp', 438, 420 ]
+259 silly gunzTarPerm extractEntry deps/libexpat/examples/outline.c
+260 silly gunzTarPerm modified mode [ 'deps/libexpat/examples/outline.c', 438, 420 ]
+261 silly gunzTarPerm extractEntry deps/libexpat/examples/outline.dsp
+262 silly gunzTarPerm modified mode [ 'deps/libexpat/examples/outline.dsp', 438, 420 ]
+263 silly gunzTarPerm extractEntry deps/libexpat/expat.dsw
+264 silly gunzTarPerm modified mode [ 'deps/libexpat/expat.dsw', 438, 420 ]
+265 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_lib.c
+266 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_lib.c', 438, 420 ]
+267 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat.xml
+268 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat.xml', 438, 420 ]
+269 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_68k.h
+270 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_68k.h', 438, 420 ]
+271 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_68k_handler_stubs.c
+272 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_68k_handler_stubs.c', 438, 420 ]
+273 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_base.h
+274 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_base.h', 438, 420 ]
+275 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_68k.c
+276 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_68k.c', 438, 420 ]
+277 silly gunzTarPerm extractEntry deps/libexpat/amiga/expat_vectors.c
+278 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/expat_vectors.c', 438, 420 ]
+279 silly gunzTarPerm extractEntry deps/libexpat/amiga/include/inline4/expat.h
+280 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/include/inline4/expat.h', 438, 420 ]
+281 silly gunzTarPerm extractEntry deps/libexpat/amiga/include/interfaces/expat.h
+282 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/include/interfaces/expat.h', 438, 420 ]
+283 silly gunzTarPerm extractEntry deps/libexpat/amiga/include/libraries/expat.h
+284 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/include/libraries/expat.h', 438, 420 ]
+285 silly gunzTarPerm extractEntry deps/libexpat/amiga/include/proto/expat.h
+286 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/include/proto/expat.h', 438, 420 ]
+287 silly gunzTarPerm extractEntry deps/libexpat/amiga/launch.c
+288 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/launch.c', 438, 420 ]
+289 silly gunzTarPerm extractEntry deps/libexpat/amiga/Makefile
+290 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/Makefile', 438, 420 ]
+291 silly gunzTarPerm extractEntry deps/libexpat/amiga/README.txt
+292 silly gunzTarPerm modified mode [ 'deps/libexpat/amiga/README.txt', 438, 420 ]
+293 silly gunzTarPerm extractEntry deps/libexpat/expat_config.h
+294 silly gunzTarPerm modified mode [ 'deps/libexpat/expat_config.h', 438, 420 ]
+295 silly gunzTarPerm extractEntry deps/libexpat/expat_config.h.cmake
+296 silly gunzTarPerm modified mode [ 'deps/libexpat/expat_config.h.cmake', 438, 420 ]
+297 silly gunzTarPerm extractEntry deps/libexpat/expat_config.h.in
+298 silly gunzTarPerm modified mode [ 'deps/libexpat/expat_config.h.in', 438, 420 ]
+299 silly gunzTarPerm extractEntry deps/libexpat/lib/libexpatw.def
+300 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/libexpatw.def', 438, 420 ]
+301 silly gunzTarPerm extractEntry deps/libexpat/lib/amigaconfig.h
+302 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/amigaconfig.h', 438, 420 ]
+303 silly gunzTarPerm extractEntry deps/libexpat/lib/asciitab.h
+304 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/asciitab.h', 438, 420 ]
+305 silly gunzTarPerm extractEntry deps/libexpat/lib/expat.dsp
+306 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expat.dsp', 438, 420 ]
+307 silly gunzTarPerm extractEntry deps/libexpat/lib/expat.h
+308 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expat.h', 438, 420 ]
+309 silly gunzTarPerm extractEntry deps/libexpat/lib/expatw.dsp
+310 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expatw.dsp', 438, 420 ]
+311 silly gunzTarPerm extractEntry deps/libexpat/lib/expatw_static.dsp
+312 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expatw_static.dsp', 438, 420 ]
+313 silly gunzTarPerm extractEntry deps/libexpat/lib/expat_external.h
+314 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expat_external.h', 438, 420 ]
+315 silly gunzTarPerm extractEntry deps/libexpat/lib/expat_static.dsp
+316 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/expat_static.dsp', 438, 420 ]
+317 silly gunzTarPerm extractEntry deps/libexpat/lib/iasciitab.h
+318 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/iasciitab.h', 438, 420 ]
+319 silly gunzTarPerm extractEntry deps/libexpat/lib/internal.h
+320 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/internal.h', 438, 420 ]
+321 silly gunzTarPerm extractEntry deps/libexpat/lib/latin1tab.h
+322 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/latin1tab.h', 438, 420 ]
+323 silly gunzTarPerm extractEntry deps/libexpat/lib/libexpat.def
+324 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/libexpat.def', 438, 420 ]
+325 silly gunzTarPerm extractEntry deps/libexpat/lib/ascii.h
+326 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/ascii.h', 438, 420 ]
+327 silly gunzTarPerm extractEntry deps/libexpat/lib/macconfig.h
+328 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/macconfig.h', 438, 420 ]
+329 silly gunzTarPerm extractEntry deps/libexpat/lib/Makefile.MPW
+330 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/Makefile.MPW', 438, 420 ]
+331 silly gunzTarPerm extractEntry deps/libexpat/lib/nametab.h
+332 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/nametab.h', 438, 420 ]
+333 silly gunzTarPerm extractEntry deps/libexpat/lib/utf8tab.h
+334 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/utf8tab.h', 438, 420 ]
+335 silly gunzTarPerm extractEntry deps/libexpat/lib/winconfig.h
+336 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/winconfig.h', 438, 420 ]
+337 silly gunzTarPerm extractEntry deps/libexpat/lib/xmlparse.c
+338 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmlparse.c', 438, 420 ]
+339 silly gunzTarPerm extractEntry deps/libexpat/lib/xmlrole.c
+340 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmlrole.c', 438, 420 ]
+341 silly gunzTarPerm extractEntry deps/libexpat/lib/xmlrole.h
+342 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmlrole.h', 438, 420 ]
+343 silly gunzTarPerm extractEntry deps/libexpat/lib/xmltok.c
+344 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmltok.c', 438, 420 ]
+345 silly gunzTarPerm extractEntry deps/libexpat/lib/xmltok.h
+346 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmltok.h', 438, 420 ]
+347 silly gunzTarPerm extractEntry deps/libexpat/lib/xmltok_impl.c
+348 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmltok_impl.c', 438, 420 ]
+349 silly gunzTarPerm extractEntry deps/libexpat/lib/xmltok_impl.h
+350 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmltok_impl.h', 438, 420 ]
+351 silly gunzTarPerm extractEntry deps/libexpat/lib/xmltok_ns.c
+352 silly gunzTarPerm modified mode [ 'deps/libexpat/lib/xmltok_ns.c', 438, 420 ]
+353 silly gunzTarPerm extractEntry deps/libexpat/libexpat.gyp
+354 silly gunzTarPerm modified mode [ 'deps/libexpat/libexpat.gyp', 438, 420 ]
+355 silly gunzTarPerm extractEntry deps/libexpat/m4/libtool.m4
+356 silly gunzTarPerm modified mode [ 'deps/libexpat/m4/libtool.m4', 438, 420 ]
+357 silly gunzTarPerm extractEntry deps/libexpat/m4/ltoptions.m4
+358 silly gunzTarPerm modified mode [ 'deps/libexpat/m4/ltoptions.m4', 438, 420 ]
+359 silly gunzTarPerm extractEntry deps/libexpat/m4/ltsugar.m4
+360 silly gunzTarPerm modified mode [ 'deps/libexpat/m4/ltsugar.m4', 438, 420 ]
+361 silly gunzTarPerm extractEntry deps/libexpat/m4/ltversion.m4
+362 silly gunzTarPerm modified mode [ 'deps/libexpat/m4/ltversion.m4', 438, 420 ]
+363 silly gunzTarPerm extractEntry deps/libexpat/m4/lt~obsolete.m4
+364 silly gunzTarPerm modified mode [ 'deps/libexpat/m4/lt~obsolete.m4', 438, 420 ]
+365 silly gunzTarPerm extractEntry deps/libexpat/Makefile.in
+366 silly gunzTarPerm modified mode [ 'deps/libexpat/Makefile.in', 438, 420 ]
+367 silly gunzTarPerm extractEntry deps/libexpat/MANIFEST
+368 silly gunzTarPerm modified mode [ 'deps/libexpat/MANIFEST', 438, 420 ]
+369 silly gunzTarPerm extractEntry deps/libexpat/aclocal.m4
+370 silly gunzTarPerm modified mode [ 'deps/libexpat/aclocal.m4', 438, 420 ]
+371 silly gunzTarPerm extractEntry deps/libexpat/tests/benchmark/benchmark.c
+372 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/benchmark/benchmark.c', 438, 420 ]
+373 silly gunzTarPerm extractEntry deps/libexpat/tests/benchmark/benchmark.dsp
+374 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/benchmark/benchmark.dsp', 438, 420 ]
+375 silly gunzTarPerm extractEntry deps/libexpat/tests/benchmark/benchmark.dsw
+376 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/benchmark/benchmark.dsw', 438, 420 ]
+377 silly gunzTarPerm extractEntry deps/libexpat/tests/benchmark/README.txt
+378 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/benchmark/README.txt', 438, 420 ]
+379 silly gunzTarPerm extractEntry deps/libexpat/tests/chardata.c
+380 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/chardata.c', 438, 420 ]
+381 silly gunzTarPerm extractEntry deps/libexpat/tests/chardata.h
+382 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/chardata.h', 438, 420 ]
+383 silly gunzTarPerm extractEntry deps/libexpat/tests/minicheck.c
+384 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/minicheck.c', 438, 420 ]
+385 silly gunzTarPerm extractEntry deps/libexpat/tests/minicheck.h
+386 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/minicheck.h', 438, 420 ]
+387 silly gunzTarPerm extractEntry deps/libexpat/tests/README.txt
+388 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/README.txt', 438, 420 ]
+389 silly gunzTarPerm extractEntry deps/libexpat/tests/runtests.c
+390 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/runtests.c', 438, 420 ]
+391 silly gunzTarPerm extractEntry deps/libexpat/tests/runtestspp.cpp
+392 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/runtestspp.cpp', 438, 420 ]
+393 silly gunzTarPerm extractEntry deps/libexpat/tests/xmltest.sh
+394 silly gunzTarPerm modified mode [ 'deps/libexpat/tests/xmltest.sh', 438, 420 ]
+395 silly gunzTarPerm extractEntry deps/libexpat/version.c
+396 silly gunzTarPerm modified mode [ 'deps/libexpat/version.c', 438, 420 ]
+397 silly gunzTarPerm extractEntry deps/libexpat/vms/descrip.mms
+398 silly gunzTarPerm modified mode [ 'deps/libexpat/vms/descrip.mms', 438, 420 ]
+399 silly gunzTarPerm extractEntry deps/libexpat/vms/expat_config.h
+400 silly gunzTarPerm modified mode [ 'deps/libexpat/vms/expat_config.h', 438, 420 ]
+401 silly gunzTarPerm extractEntry deps/libexpat/vms/README.vms
+402 silly gunzTarPerm modified mode [ 'deps/libexpat/vms/README.vms', 438, 420 ]
+403 silly gunzTarPerm extractEntry deps/libexpat/win32/expat.iss
+404 silly gunzTarPerm modified mode [ 'deps/libexpat/win32/expat.iss', 438, 420 ]
+405 silly gunzTarPerm extractEntry deps/libexpat/win32/MANIFEST.txt
+406 silly gunzTarPerm modified mode [ 'deps/libexpat/win32/MANIFEST.txt', 438, 420 ]
+407 silly gunzTarPerm extractEntry deps/libexpat/win32/README.txt
+408 silly gunzTarPerm modified mode [ 'deps/libexpat/win32/README.txt', 438, 420 ]
+409 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlfile.h
+410 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlfile.h', 438, 420 ]
+411 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/codepage.c
+412 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/codepage.c', 438, 420 ]
+413 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/ct.c
+414 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/ct.c', 438, 420 ]
+415 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/filemap.h
+416 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/filemap.h', 438, 420 ]
+417 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/readfilemap.c
+418 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/readfilemap.c', 438, 420 ]
+419 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/unixfilemap.c
+420 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/unixfilemap.c', 438, 420 ]
+421 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/win32filemap.c
+422 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/win32filemap.c', 438, 420 ]
+423 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlfile.c
+424 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlfile.c', 438, 420 ]
+425 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/codepage.h
+426 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/codepage.h', 438, 420 ]
+427 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlmime.c
+428 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlmime.c', 438, 420 ]
+429 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlmime.h
+430 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlmime.h', 438, 420 ]
+431 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmltchar.h
+432 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmltchar.h', 438, 420 ]
+433 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlurl.h
+434 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlurl.h', 438, 420 ]
+435 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlwf.c
+436 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlwf.c', 438, 420 ]
+437 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlwf.dsp
+438 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlwf.dsp', 438, 420 ]
+439 silly gunzTarPerm extractEntry deps/libexpat/xmlwf/xmlwin32url.cxx
+440 silly gunzTarPerm modified mode [ 'deps/libexpat/xmlwf/xmlwin32url.cxx', 438, 420 ]
+441 silly gunzTarPerm extractEntry lib/node-expat.js
+442 silly gunzTarPerm modified mode [ 'lib/node-expat.js', 438, 420 ]
+443 silly gunzTarPerm extractEntry .travis.yml
+444 silly gunzTarPerm modified mode [ '.travis.yml', 438, 420 ]
+445 silly gunzTarPerm extractEntry node-expat.cc
+446 silly gunzTarPerm modified mode [ 'node-expat.cc', 438, 420 ]
+447 silly gunzTarPerm extractEntry README.markdown
+448 silly gunzTarPerm modified mode [ 'README.markdown', 438, 420 ]
+449 silly gunzTarPerm extractEntry test-mystic-library.xml
+450 silly gunzTarPerm modified mode [ 'test-mystic-library.xml', 438, 420 ]
+451 silly lockFile 9ad873a9-xml2json-node-modules-node-expat tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+452 silly lockFile 9ad873a9-xml2json-node-modules-node-expat tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+453 silly lockFile 8ccdc0db-che-node-expat-2-1-4-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\node-expat\2.1.4\package.tgz
+454 silly lockFile 8ccdc0db-che-node-expat-2-1-4-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\node-expat\2.1.4\package.tgz
+455 info preinstall node-expat@2.1.4
+456 verbose readDependencies using package.json deps
+457 verbose readDependencies using package.json deps
+458 verbose cache add [ 'nan@~0.6.0', null ]
+459 verbose cache add name=undefined spec="nan@~0.6.0" args=["nan@~0.6.0",null]
+460 verbose parsed url { protocol: null,
+460 verbose parsed url   slashes: null,
+460 verbose parsed url   auth: null,
+460 verbose parsed url   host: null,
+460 verbose parsed url   port: null,
+460 verbose parsed url   hostname: null,
+460 verbose parsed url   hash: null,
+460 verbose parsed url   search: null,
+460 verbose parsed url   query: null,
+460 verbose parsed url   pathname: 'nan@~0.6.0',
+460 verbose parsed url   path: 'nan@~0.6.0',
+460 verbose parsed url   href: 'nan@~0.6.0' }
+461 verbose cache add name="nan" spec="~0.6.0" args=["nan","~0.6.0"]
+462 verbose parsed url { protocol: null,
+462 verbose parsed url   slashes: null,
+462 verbose parsed url   auth: null,
+462 verbose parsed url   host: null,
+462 verbose parsed url   port: null,
+462 verbose parsed url   hostname: null,
+462 verbose parsed url   hash: null,
+462 verbose parsed url   search: null,
+462 verbose parsed url   query: null,
+462 verbose parsed url   pathname: '~0.6.0',
+462 verbose parsed url   path: '~0.6.0',
+462 verbose parsed url   href: '~0.6.0' }
+463 verbose addNamed [ 'nan', '~0.6.0' ]
+464 verbose addNamed [ null, '>=0.6.0-0 <0.7.0-0' ]
+465 silly lockFile bb2a8d25-nan-0-6-0 nan@~0.6.0
+466 verbose lock nan@~0.6.0 C:\Users\Soeren\AppData\Roaming\npm-cache\bb2a8d25-nan-0-6-0.lock
+467 silly addNameRange { name: 'nan', range: '>=0.6.0-0 <0.7.0-0', hasData: false }
+468 verbose url raw nan
+469 verbose url resolving [ 'https://registry.npmjs.org/', './nan' ]
+470 verbose url resolved https://registry.npmjs.org/nan
+471 info trying registry request attempt 1 at 13:44:40
+472 verbose etag "37ANZBW39BZR8XGNNF9P4ZLJI"
+473 http GET https://registry.npmjs.org/nan
+474 http 304 https://registry.npmjs.org/nan
+475 silly registry.get cb [ 304,
+475 silly registry.get   { date: 'Wed, 19 Feb 2014 12:44:40 GMT',
+475 silly registry.get     server: 'Apache',
+475 silly registry.get     connection: 'Keep-Alive',
+475 silly registry.get     'keep-alive': 'timeout=10, max=50',
+475 silly registry.get     etag: '"37ANZBW39BZR8XGNNF9P4ZLJI"',
+475 silly registry.get     'cache-control': 'max-age=1',
+475 silly registry.get     vary: 'Accept' } ]
+476 verbose etag nan from cache
+477 silly addNameRange number 2 { name: 'nan', range: '>=0.6.0-0 <0.7.0-0', hasData: true }
+478 silly addNameRange versions [ 'nan',
+478 silly addNameRange   [ '0.3.0-wip',
+478 silly addNameRange     '0.3.0-wip2',
+478 silly addNameRange     '0.3.0',
+478 silly addNameRange     '0.3.1',
+478 silly addNameRange     '0.3.2',
+478 silly addNameRange     '0.4.0',
+478 silly addNameRange     '0.4.1',
+478 silly addNameRange     '0.4.2',
+478 silly addNameRange     '0.4.3',
+478 silly addNameRange     '0.4.4',
+478 silly addNameRange     '0.5.0',
+478 silly addNameRange     '0.5.1',
+478 silly addNameRange     '0.5.2',
+478 silly addNameRange     '0.6.0',
+478 silly addNameRange     '0.7.0',
+478 silly addNameRange     '0.7.1',
+478 silly addNameRange     '0.8.0' ] ]
+479 verbose addNamed [ 'nan', '0.6.0' ]
+480 verbose addNamed [ '0.6.0', '0.6.0' ]
+481 silly lockFile fb2e119c-nan-0-6-0 nan@0.6.0
+482 verbose lock nan@0.6.0 C:\Users\Soeren\AppData\Roaming\npm-cache\fb2e119c-nan-0-6-0.lock
+483 silly lockFile fb2e119c-nan-0-6-0 nan@0.6.0
+484 silly lockFile fb2e119c-nan-0-6-0 nan@0.6.0
+485 silly lockFile bb2a8d25-nan-0-6-0 nan@~0.6.0
+486 silly lockFile bb2a8d25-nan-0-6-0 nan@~0.6.0
+487 silly resolved [ { name: 'nan',
+487 silly resolved     version: '0.6.0',
+487 silly resolved     description: 'Native Abstractions for Node.js: C++ header for Node 0.8->0.12 compatibility',
+487 silly resolved     main: 'include_dirs.js',
+487 silly resolved     repository: { type: 'git', url: 'git://github.com/rvagg/nan.git' },
+487 silly resolved     contributors: [ [Object], [Object], [Object], [Object] ],
+487 silly resolved     license: 'MIT',
+487 silly resolved     readme: 'Native Abstractions for Node.js\n===============================\n\n**A header file filled with macro and utility goodness for making add-on development for Node.js easier across versions 0.8, 0.10 and 0.11, and eventually 0.12.**\n\n***Current version: 0.6.0*** *(See [nan.h](https://github.com/rvagg/nan/blob/master/nan.h) for complete ChangeLog)*\n\n[![NPM](https://nodei.co/npm/nan.png?downloads=true)](https://nodei.co/npm/nan/) [![NPM](https://nodei.co/npm-dl/nan.png?months=6)](https://nodei.co/npm/nan/)\n\nThanks to the crazy changes in V8 (and some in Node core), keeping native addons compiling happily across versions, particularly 0.10 to 0.11/0.12, is a minor nightmare. The goal of this project is to store all logic necessary to develop native Node.js addons without having to inspect `NODE_MODULE_VERSION` and get yourself into a macro-tangle.\n\nThis project also contains some helper utilities that make addon development a bit more pleasant.\n\n * **[News & Updates](#news)**\n * **[Usage](#usage)**\n * **[Example](#example)**\n * **[API](#api)**\n\n<a name="news"></a>\n## News & Updates\n\n### Nov-2013: Node 0.11.9+ breaking V8 change\n\nThe version of V8 that\'s shipping with Node 0.11.9+ has changed the signature for new `Local`s to: `v8::Local<T>::New(isolate, value)`, i.e. introducing the `isolate` argument and therefore breaking all new `Local` declarations for previous versions. NAN 0.6+ now includes a `NanNewLocal<T>(value)` that can be used in place to work around this incompatibility and maintain compatibility with 0.8->0.11.9+ (minus a few early 0.11 releases).\n\nFor example, if you wanted to return a `null` on a callback you will have to change the argument from `v8::Local<v8::Value>::New(v8::Null())` to `NanNewLocal<v8::Value>(v8::Null())`.\n\n### Nov-2013: Change to binding.gyp `"include_dirs"` for NAN\n\nInclusion of NAN in a project\'s binding.gyp is now greatly simplified. You can now just use `"<!(node -e \\"require(\'nan\')\\")"` in your `"include_dirs"`, see example below.\n\n<a name="usage"></a>\n## Usage\n\nSimply add **NAN** as a dependency in the *package.json* of your Node addon:\n\n``` bash\n$ npm install --save nan\n```\n\nPull in the path to **NAN** in your *binding.gyp* so that you can use `#include "nan.h"` in your *.cpp* files:\n\n``` python\n"include_dirs" : [\n    "<!(node -e \\"require(\'nan\')\\")"\n]\n```\n\nThis works like a `-I<path-to-NAN>` when compiling your addon.\n\n<a name="example"></a>\n## Example\n\nSee **[LevelDOWN](https://github.com/rvagg/node-leveldown/pull/48)** for a full example of **NAN** in use.\n\nFor a simpler example, see the **[async pi estimation example](https://github.com/rvagg/nan/tree/master/examples/async_pi_estimate)** in the examples directory for full code and an explanation of what this Monte Carlo Pi estimation example does. Below are just some parts of the full example that illustrate the use of **NAN**.\n\nCompare to the current 0.10 version of this example, found in the [node-addon-examples](https://github.com/rvagg/node-addon-examples/tree/master/9_async_work) repository and also a 0.11 version of the same found [here](https://github.com/kkoopa/node-addon-examples/tree/5c01f58fc993377a567812597e54a83af69686d7/9_async_work).\n\nNote that there is no embedded version sniffing going on here and also the async work is made much simpler, see below for details on the `NanAsyncWorker` class.\n\n```c++\n// addon.cc\n#include <node.h>\n#include "nan.h"\n// ...\n\nusing namespace v8;\n\nvoid InitAll(Handle<Object> exports) {\n  exports->Set(NanSymbol("calculateSync"),\n    FunctionTemplate::New(CalculateSync)->GetFunction());\n\n  exports->Set(NanSymbol("calculateAsync"),\n    FunctionTemplate::New(CalculateAsync)->GetFunction());\n}\n\nNODE_MODULE(addon, InitAll)\n```\n\n```c++\n// sync.h\n#include <node.h>\n#include "nan.h"\n\nNAN_METHOD(CalculateSync);\n```\n\n```c++\n// sync.cc\n#include <node.h>\n#include "nan.h"\n#include "sync.h"\n// ...\n\nusing namespace v8;\n\n// Simple synchronous access to the `Estimate()` function\nNAN_METHOD(CalculateSync) {\n  NanScope();\n\n  // expect a number as the first argument\n  int points = args[0]->Uint32Value();\n  double est = Estimate(points);\n\n  NanReturnValue(Number::New(est));\n}\n```\n\n```c++\n// async.cc\n#include <node.h>\n#include "nan.h"\n#include "async.h"\n\n// ...\n\nusing namespace v8;\n\nclass PiWorker : public NanAsyncWorker {\n public:\n  PiWorker(NanCallback *callback, int points)\n    : NanAsyncWorker(callback), points(points) {}\n  ~PiWorker() {}\n\n  // Executed inside the worker-thread.\n  // It is not safe to access V8, or V8 data structures\n  // here, so everything we need for input and output\n  // should go on `this`.\n  void Execute () {\n    estimate = Estimate(points);\n  }\n\n  // Executed when the async work is complete\n  // this function will be run inside the main event loop\n  // so it is safe to use V8 again\n  void HandleOKCallback () {\n    NanScope();\n\n    Local<Value> argv[] = {\n        Local<Value>::New(Null())\n      , Number::New(estimate)\n    };\n\n    callback->Call(2, argv);\n  };\n\n private:\n  int points;\n  double estimate;\n};\n\n// Asynchronous access to the `Estimate()` function\nNAN_METHOD(CalculateAsync) {\n  NanScope();\n\n  int points = args[0]->Uint32Value();\n  NanCallback *callback = new NanCallback(args[1].As<Function>());\n\n  NanAsyncQueueWorker(new PiWorker(callback, points));\n  NanReturnUndefined();\n}\n```\n\n<a name="api"></a>\n## API\n\n * <a href="#api_nan_method"><b><code>NAN_METHOD</code></b></a>\n * <a href="#api_nan_getter"><b><code>NAN_GETTER</code></b></a>\n * <a href="#api_nan_setter"><b><code>NAN_SETTER</code></b></a>\n * <a href="#api_nan_property_getter"><b><code>NAN_PROPERTY_GETTER</code></b></a>\n * <a href="#api_nan_property_setter"><b><code>NAN_PROPERTY_SETTER</code></b></a>\n * <a href="#api_nan_property_enumerator"><b><code>NAN_PROPERTY_ENUMERATOR</code></b></a>\n * <a href="#api_nan_property_deleter"><b><code>NAN_PROPERTY_DELETER</code></b></a>\n * <a href="#api_nan_property_query"><b><code>NAN_PROPERTY_QUERY</code></b></a>\n * <a href="#api_nan_index_getter"><b><code>NAN_INDEX_GETTER</code></b></a>\n * <a href="#api_nan_index_setter"><b><code>NAN_INDEX_SETTER</code></b></a>\n * <a href="#api_nan_index_enumerator"><b><code>NAN_INDEX_ENUMERATOR</code></b></a>\n * <a href="#api_nan_index_deleter"><b><code>NAN_INDEX_DELETER</code></b></a>\n * <a href="#api_nan_index_query"><b><code>NAN_INDEX_QUERY</code></b></a>\n * <a href="#api_nan_weak_callback"><b><code>NAN_WEAK_CALLBACK</code></b></a>\n * <a href="#api_nan_deprecated"><b><code>NAN_DEPRECATED</code></b></a>\n * <a href="#api_nan_inline"><b><code>NAN_INLINE</code></b></a> \n * <a href="#api_nan_new_local"><b><code>NanNewLocal</code></b></a>\n * <a href="#api_nan_return_value"><b><code>NanReturnValue</code></b></a>\n * <a href="#api_nan_return_undefined"><b><code>NanReturnUndefined</code></b></a>\n * <a href="#api_nan_return_null"><b><code>NanReturnNull</code></b></a>\n * <a href="#api_nan_return_empty_string"><b><code>NanReturnEmptyString</code></b></a>\n * <a href="#api_nan_scope"><b><code>NanScope</code></b></a>\n * <a href="#api_nan_locker"><b><code>NanLocker</code></b></a>\n * <a href="#api_nan_unlocker"><b><code>NanUnlocker</code></b></a>\n * <a href="#api_nan_get_internal_field_pointer"><b><code>NanGetInternalFieldPointer</code></b></a>\n * <a href="#api_nan_set_internal_field_pointer"><b><code>NanSetInternalFieldPointer</code></b></a>\n * <a href="#api_nan_object_wrap_handle"><b><code>NanObjectWrapHandle</code></b></a>\n * <a href="#api_nan_make_weak"><b><code>NanMakeWeak</code></b></a>\n * <a href="#api_nan_symbol"><b><code>NanSymbol</code></b></a>\n * <a href="#api_nan_get_pointer_safe"><b><code>NanGetPointerSafe</code></b></a>\n * <a href="#api_nan_set_pointer_safe"><b><code>NanSetPointerSafe</code></b></a>\n * <a href="#api_nan_from_v8_string"><b><code>NanFromV8String</code></b></a>\n * <a href="#api_nan_boolean_option_value"><b><code>NanBooleanOptionValue</code></b></a>\n * <a href="#api_nan_uint32_option_value"><b><code>NanUInt32OptionValue</code></b></a>\n * <a href="#api_nan_error"><b><code>NanError</code></b>, <b><code>NanTypeError</code></b>, <b><code>NanRangeError</code></b></a>\n * <a href="#api_nan_throw_error"><b><code>NanThrowError</code></b>, <b><code>NanThrowTypeError</code></b>, <b><code>NanThrowRangeError</code></b>, <b><code>NanThrowError(Handle<Value>)</code></b>, <b><code>NanThrowError(Handle<Value>, int)</code></b></a>\n * <a href="#api_nan_new_buffer_handle"><b><code>NanNewBufferHandle(char *, size_t, FreeCallback, void *)</code></b>, <b><code>NanNewBufferHandle(char *, uint32_t)</code></b>, <b><code>NanNewBufferHandle(uint32_t)</code></b></a>\n * <a href="#api_nan_buffer_use"><b><code>NanBufferUse(char *, uint32_t)</code></b></a>\n * <a href="#api_nan_new_context_handle"><b><code>NanNewContextHandle</code></b></a>\n * <a href="#api_nan_has_instance"><b><code>NanHasInstance</code></b></a>\n * <a href="#api_nan_persistent_to_local"><b><code>NanPersistentToLocal</code></b></a>\n * <a href="#api_nan_dispose"><b><code>NanDispose</code></b></a>\n * <a href="#api_nan_assign_persistent"><b><code>NanAssignPersistent</code></b></a>\n * <a href="#api_nan_init_persistent"><b><code>NanInitPersistent</code></b></a>\n * <a href="#api_nan_callback"><b><code>NanCallback</code></b></a>\n * <a href="#api_nan_async_worker"><b><code>NanAsyncWorker</code></b></a>\n * <a href="#api_nan_async_queue_worker"><b><code>NanAsyncQueueWorker</code></b></a>\n\n<a name="api_nan_method"></a>\n### NAN_METHOD(methodname)\n\nUse `NAN_METHOD` to define your V8 accessible methods:\n\n```c++\n// .h:\nclass Foo : public node::ObjectWrap {\n  ...\n\n  static NAN_METHOD(Bar);\n  static NAN_METHOD(Baz);\n}\n\n\n// .cc:\nNAN_METHOD(Foo::Bar) {\n  ...\n}\n\nNAN_METHOD(Foo::Baz) {\n  ...\n}\n```\n\nThe reason for this macro is because of the method signature change in 0.11:\n\n```c++\n// 0.10 and below:\nHandle<Value> name(const Arguments& args)\n\n// 0.11 and above\nvoid name(const FunctionCallbackInfo<Value>& args)\n```\n\nThe introduction of `FunctionCallbackInfo` brings additional complications:\n\n<a name="api_nan_getter"></a>\n### NAN_GETTER(methodname)\n\nUse `NAN_GETTER` to declare your V8 accessible getters. You get a `Local<String>` `property` and an appropriately typed `args` object that can act like the `args` argument to a `NAN_METHOD` call.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_GETTER`.\n\n<a name="api_nan_setter"></a>\n### NAN_SETTER(methodname)\n\nUse `NAN_SETTER` to declare your V8 accessible setters. Same as `NAN_GETTER` but you also get a `Local<Value>` `value` object to work with.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_SETTER`.\n\n<a name="api_nan_property_getter"></a>\n### NAN_PROPERTY_GETTER(cbname)\nUse `NAN_PROPERTY_GETTER` to declare your V8 accessible property getters. You get a `Local<String>` `property` and an appropriately typed `args` object that can act similar to the `args` argument to a `NAN_METHOD` call.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_PROPERTY_GETTER`.\n\n<a name="api_nan_property_setter"></a>\n### NAN_PROPERTY_SETTER(cbname)\nUse `NAN_PROPERTY_SETTER` to declare your V8 accessible property setters. Same as `NAN_PROPERTY_GETTER` but you also get a `Local<Value>` `value` object to work with.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_PROPERTY_SETTER`.\n\n<a name="api_nan_property_enumerator"></a>\n### NAN_PROPERTY_ENUMERATOR(cbname)\nUse `NAN_PROPERTY_ENUMERATOR` to declare your V8 accessible property enumerators. You get an appropriately typed `args` object like the `args` argument to a `NAN_PROPERTY_GETTER` call.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_PROPERTY_ENUMERATOR`.\n\n<a name="api_nan_property_deleter"></a>\n### NAN_PROPERTY_DELETER(cbname)\nUse `NAN_PROPERTY_DELETER` to declare your V8 accessible property deleters. Same as `NAN_PROPERTY_GETTER`.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_PROPERTY_DELETER`.\n\n<a name="api_nan_property_query"></a>\n### NAN_PROPERTY_QUERY(cbname)\nUse `NAN_PROPERTY_QUERY` to declare your V8 accessible property queries. Same as `NAN_PROPERTY_GETTER`.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_PROPERTY_QUERY`.\n\n<a name="api_nan_index_getter"></a>\n### NAN_INDEX_GETTER(cbname)\nUse `NAN_INDEX_GETTER` to declare your V8 accessible index getters. You get a `uint32_t` `index` and an appropriately typed `args` object that can act similar to the `args` argument to a `NAN_METHOD` call.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_INDEX_GETTER`.\n\n<a name="api_nan_index_setter"></a>\n### NAN_INDEX_SETTER(cbname)\nUse `NAN_INDEX_SETTER` to declare your V8 accessible index setters. Same as `NAN_INDEX_GETTER` but you also get a `Local<Value>` `value` object to work with.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_INDEX_SETTER`.\n\n<a name="api_nan_index_enumerator"></a>\n### NAN_INDEX_ENUMERATOR(cbname)\nUse `NAN_INDEX_ENUMERATOR` to declare your V8 accessible index enumerators. You get an appropriately typed `args` object like the `args` argument to a `NAN_INDEX_GETTER` call.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_INDEX_ENUMERATOR`.\n\n<a name="api_nan_index_deleter"></a>\n### NAN_INDEX_DELETER(cbname)\nUse `NAN_INDEX_DELETER` to declare your V8 accessible index deleters. Same as `NAN_INDEX_GETTER`.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_INDEX_DELETER`.\n\n<a name="api_nan_index_query"></a>\n### NAN_INDEX_QUERY(cbname)\nUse `NAN_INDEX_QUERY` to declare your V8 accessible index queries. Same as `NAN_INDEX_GETTER`.\n\nYou can use `NanReturnNull()`, `NanReturnEmptyString()`, `NanReturnUndefined()` and `NanReturnValue()` in a `NAN_INDEX_QUERY`.\n\n<a name="api_nan_weak_callback"></a>\n### NAN_WEAK_CALLBACK(type, cbname)\n\nUse `NAN_WEAK_CALLBACK` to declare your V8 WeakReference callbacks. There is an object argument accessible through `NAN_WEAK_CALLBACK_OBJECT`. The `type` argument gives the type of the `data` argument, accessible through `NAN_WEAK_CALLBACK_DATA(type)`.\n\n```c++\nstatic NAN_WEAK_CALLBACK(BufferReference*, WeakCheck) {\n  if (NAN_WEAK_CALLBACK_DATA(BufferReference*)->noLongerNeeded_) {\n    delete NAN_WEAK_CALLBACK_DATA(BufferReference*);\n  } else {\n    // Still in use, revive, prevent GC\n    NanMakeWeak(NAN_WEAK_CALLBACK_OBJECT, NAN_WEAK_CALLBACK_DATA(BufferReference*), &WeakCheck);\n  }\n}\n```\n\n<a name="api_nan_deprecated"></a>\n### NAN_DEPRECATED(declarator)\nDeclares a function as deprecated. Identical to `V8_DEPRECATED`.\n\n```c++\nstatic NAN_DEPRECATED(NAN_METHOD(foo)) {\n  ...\n}\n```\n\n<a name="api_nan_inline"></a>\n### NAN_INLINE(declarator)\nInlines a function. Identical to `V8_INLINE`.\n\n```c++\nstatic NAN_INLINE(int foo(int bar)) {\n  ...\n}\n```\n\n<a name="api_nan_new_local"></a>\n### NanNewLocal&lt;T&gt;(Handle&lt;Value&gt;)\n\nUse `NanNewLocal` in place of `v8::Local<T>::New(...)` as this function\nrequires an `isolate` argument in recent versions of V8 but not in older versions.\n\n```c++\nNanNewLocal<v8::Value>(v8::Null())\n```\n\n<a name="api_nan_return_value"></a>\n### NanReturnValue(Handle&lt;Value&gt;)\n\nUse `NanReturnValue` when you want to return a value from your V8 accessible method:\n\n```c++\nNAN_METHOD(Foo::Bar) {\n  ...\n\n  NanReturnValue(String::New("FooBar!"));\n}\n```\n\nNo `return` statement required.\n\n<a name="api_nan_return_undefined"></a>\n### NanReturnUndefined()\n\nUse `NanReturnUndefined` when you don\'t want to return anything from your V8 accessible method:\n\n```c++\nNAN_METHOD(Foo::Baz) {\n  ...\n\n  NanReturnUndefined();\n}\n```\n\n<a name="api_nan_return_null"></a>\n### NanReturnNull()\n\nUse `NanReturnNull` when you want to return `Null` from your V8 accessible method:\n\n```c++\nNAN_METHOD(Foo::Baz) {\n  ...\n\n  NanReturnNull();\n}\n```\n\n<a name="api_nan_return_empty_string"></a>\n### NanReturnEmptyString()\n\nUse `NanReturnEmptyString` when you want to return an empty `String` from your V8 accessible method:\n\n```c++\nNAN_METHOD(Foo::Baz) {\n  ...\n\n  NanReturnEmptyString();\n}\n```\n\n<a name="api_nan_scope"></a>\n### NanScope()\n\nThe introduction of `isolate` references for many V8 calls in Node 0.11 makes `NanScope()` necessary, use it in place of `HandleScope scope`:\n\n```c++\nNAN_METHOD(Foo::Bar) {\n  NanScope();\n\n  NanReturnValue(String::New("FooBar!"));\n}\n```\n\n<a name="api_nan_locker"></a>\n### NanLocker()\n\nThe introduction of `isolate` references for many V8 calls in Node 0.11 makes `NanLocker()` necessary, use it in place of `Locker locker`:\n\n```c++\nNAN_METHOD(Foo::Bar) {\n  NanLocker();\n  ...\n  NanUnlocker();\n}\n```\n\n<a name="api_nan_unlocker"></a>\n### NanUnlocker()\n\nThe introduction of `isolate` references for many V8 calls in Node 0.11 makes `NanUnlocker()` necessary, use it in place of `Unlocker unlocker`:\n\n```c++\nNAN_METHOD(Foo::Bar) {\n  NanLocker();\n  ...\n  NanUnlocker();\n}\n```\n\n<a name="api_nan_get_internal_field_pointer"></a>\n### void * NanGetInternalFieldPointer(Handle&lt;Object&gt;, int)\n\nGets a pointer to the internal field with at `index` from a V8 `Object` handle.\n\n```c++\nLocal<Object> obj;\n...\nNanGetInternalFieldPointer(obj, 0);\n```\n<a name="api_nan_set_internal_field_pointer"></a>\n### void NanSetInternalFieldPointer(Handle&lt;Object&gt;, int, void *)\n\nSets the value of the internal field at `index` on a V8 `Object` handle.\n\n```c++\nstatic Persistent<Function> dataWrapperCtor;\n...\nLocal<Object> wrapper = NanPersistentToLocal(dataWrapperCtor)->NewInstance();\nNanSetInternalFieldPointer(wrapper, 0, this);\n```\n\n<a name="api_nan_object_wrap_handle"></a>\n### Local&lt;Object&gt; NanObjectWrapHandle(Object)\n\nWhen you want to fetch the V8 object handle from a native object you\'ve wrapped with Node\'s `ObjectWrap`, you should use `NanObjectWrapHandle`:\n\n```c++\nNanObjectWrapHandle(iterator)->Get(String::NewSymbol("end"))\n```\n\n<a name="api_nan_make_weak"></a>\n### NanMakeWeak(Persistent&lt;T&gt;, parameter, callback)\n\nMake a persistent reference weak.\n\n<a name="api_nan_symbol"></a>\n### String NanSymbol(char *)\n\nThis isn\'t strictly about compatibility, it\'s just an easier way to create string symbol objects (i.e. `String::NewSymbol(x)`), for getting and setting object properties, or names of objects.\n\n```c++\nbool foo = false;\nif (obj->Has(NanSymbol("foo")))\n  foo = optionsObj->Get(NanSymbol("foo"))->BooleanValue()\n```\n\n<a name="api_nan_get_pointer_safe"></a>\n### Type NanGetPointerSafe(Type *[, Type])\n\nA helper for getting values from optional pointers. If the pointer is `NULL`, the function returns the optional default value, which defaults to `0`.  Otherwise, the function returns the value the pointer points to.\n\n```c++\nchar *plugh(uint32_t *optional) {\n  char res[] = "xyzzy";\n  uint32_t param = NanGetPointerSafe<uint32_t>(optional, 0x1337);\n  switch (param) {\n    ...\n  }\n  NanSetPointerSafe<uint32_t>(optional, 0xDEADBEEF);\n}  \n```\n\n<a name="api_nan_set_pointer_safe"></a>\n### bool NanSetPointerSafe(Type *, Type)\n\nA helper for setting optional argument pointers. If the pointer is `NULL`, the function simply return `false`.  Otherwise, the value is assigned to the variable the pointer points to.\n\n```c++\nconst char *plugh(size_t *outputsize) {\n  char res[] = "xyzzy";\n  if !(NanSetPointerSafe<size_t>(outputsize, strlen(res) + 1)) {\n    ...\n  }\n\n  ...\n}\n```\n\n<a name="api_nan_from_v8_string"></a>\n### char* NanFromV8String(Handle&lt;Value&gt;[, enum Nan::Encoding, size_t *, char *, size_t, int])\n\nWhen you want to convert a V8 `String` to a `char*` use `NanFromV8String`. It is possible to define an encoding that defaults to `Nan::UTF8` as well as a pointer to a variable that will be assigned the number of bytes in the returned string. It is also possible to supply a buffer and its length to the function in order not to have a new buffer allocated. The final argument allows optionally setting `String::WriteOptions`, which default to `String::HINT_MANY_WRITES_EXPECTED | String::NO_NULL_TERMINATION`.\nJust remember that you\'ll end up with an object that you\'ll need to `delete[]` at some point unless you supply your own buffer:\n\n```c++\nsize_t count;\nchar* name = NanFromV8String(args[0]);\nchar* decoded = NanFromV8String(args[1], Nan::BASE64, &count, NULL, 0, String::HINT_MANY_WRITES_EXPECTED);\nchar param_copy[count];\nmemcpy(param_copy, decoded, count);\ndelete[] decoded;\n```\n\n<a name="api_nan_boolean_option_value"></a>\n### bool NanBooleanOptionValue(Handle&lt;Value&gt;, Handle&lt;String&gt;[, bool])\n\nWhen you have an "options" object that you need to fetch properties from, boolean options can be fetched with this pair. They check first if the object exists (`IsEmpty`), then if the object has the given property (`Has`) then they get and convert/coerce the property to a `bool`.\n\nThe optional last parameter is the *default* value, which is `false` if left off:\n\n```c++\n// `foo` is false unless the user supplies a truthy value for it\nbool foo = NanBooleanOptionValue(optionsObj, NanSymbol("foo"));\n// `bar` is true unless the user supplies a falsy value for it\nbool bar = NanBooleanOptionValueDefTrue(optionsObj, NanSymbol("bar"), true);\n```\n\n<a name="api_nan_uint32_option_value"></a>\n### uint32_t NanUInt32OptionValue(Handle&lt;Value&gt;, Handle&lt;String&gt;, uint32_t)\n\nSimilar to `NanBooleanOptionValue`, use `NanUInt32OptionValue` to fetch an integer option from your options object. Can be any kind of JavaScript `Number` and it will be coerced to an unsigned 32-bit integer.\n\nRequires all 3 arguments as a default is not optional:\n\n```c++\nuint32_t count = NanUInt32OptionValue(optionsObj, NanSymbol("count"), 1024);\n```\n\n<a name="api_nan_error"></a>\n### NanError(message), NanTypeError(message), NanRangeError(message)\n\nFor making `Error`, `TypeError` and `RangeError` objects.\n\n```c++\nLocal<Value> res = NanError("you must supply a callback argument");\n```\n\n<a name="api_nan_throw_error"></a>\n### NanThrowError(message), NanThrowTypeError(message), NanThrowRangeError(message), NanThrowError(Local&lt;Value&gt;), NanThrowError(Local&lt;Value&gt;, int)\n\nFor throwing `Error`, `TypeError` and `RangeError` objects. You should `return` this call:\n\n```c++\nreturn NanThrowError("you must supply a callback argument");\n```\n\nCan also handle any custom object you may want to throw. If used with the error code argument, it will add the supplied error code to the error object as a property called `code`.\n\n<a name="api_nan_new_buffer_handle"></a>\n### Local&lt;Object&gt; NanNewBufferHandle(char *, uint32_t), Local&lt;Object&gt; NanNewBufferHandle(uint32_t)\n\nThe `Buffer` API has changed a little in Node 0.11, this helper provides consistent access to `Buffer` creation:\n\n```c++\nNanNewBufferHandle((char*)value.data(), value.size());\n```\n\nCan also be used to initialize a `Buffer` with just a `size` argument.\n\nCan also be supplied with a `NAN_WEAK_CALLBACK` and a hint for the garbage collector, when dealing with weak references.\n\n<a name="api_nan_buffer_use"></a>\n### Local&lt;Object&gt; NanBufferUse(char*, uint32_t)\n\n`Buffer::New(char*, uint32_t)` prior to 0.11 would make a copy of the data.\nWhile it was possible to get around this, it required a shim by passing a\ncallback. So the new API `Buffer::Use(char*, uint32_t)` was introduced to remove\nneeding to use this shim.\n\n`NanBufferUse` uses the `char*` passed as the backing data, and will free the\nmemory automatically when the weak callback is called. Keep this in mind, as\ncareless use can lead to "double free or corruption" and other cryptic failures.\n\n<a name="api_nan_has_instance"></a>\n### bool NanHasInstance(Persistent&lt;FunctionTemplate&gt;&, Handle&lt;Value&gt;)\n\nCan be used to check the type of an object to determine it is of a particular class you have already defined and have a `Persistent<FunctionTemplate>` handle for.\n\n<a name="api_nan_persistent_to_local"></a>\n### Local&lt;Type&gt; NanPersistentToLocal(Persistent&lt;Type&gt;&)\n\nAside from `FunctionCallbackInfo`, the biggest and most painful change to V8 in Node 0.11 is the many restrictions now placed on `Persistent` handles. They are difficult to assign and difficult to fetch the original value out of.\n\nUse `NanPersistentToLocal` to convert a `Persistent` handle back to a `Local` handle.\n\n```c++\nLocal<Object> handle = NanPersistentToLocal(persistentHandle);\n```\n\n<a href="#api_nan_new_context_handle">\n### Local&lt;Context&gt; NanNewContextHandle([ExtensionConfiguration*, Handle&lt;ObjectTemplate&gt;, Handle&lt;Value&gt;])\nCreates a new `Local<Context>` handle.\n\n```c++\nLocal<FunctionTemplate> ftmpl = FunctionTemplate::New();\nLocal<ObjectTemplate> otmpl = ftmpl->InstanceTemplate();\nLocal<Context> ctx =  NanNewContextHandle(NULL, otmpl);\n```\n\n<a name="api_nan_dispose"></a>\n### void NanDispose(Persistent&lt;T&gt; &)\n\nUse `NanDispose` to dispose a `Persistent` handle.\n\n```c++\nNanDispose(persistentHandle);\n```\n\n<a name="api_nan_assign_persistent"></a>\n### NanAssignPersistent(type, handle, object)\n\nUse `NanAssignPersistent` to assign a non-`Persistent` handle to a `Persistent` one. You can no longer just declare a `Persistent` handle and assign directly to it later, you have to `Reset` it in Node 0.11, so this makes it easier.\n\nIn general it is now better to place anything you want to protect from V8\'s garbage collector as properties of a generic `Object` and then assign that to a `Persistent`. This works in older versions of Node also if you use `NanAssignPersistent`:\n\n```c++\nPersistent<Object> persistentHandle;\n\n...\n\nLocal<Object> obj = Object::New();\nobj->Set(NanSymbol("key"), keyHandle); // where keyHandle might be a Local<String>\nNanAssignPersistent(Object, persistentHandle, obj)\n```\n\n<a name="api_nan_init_persistent"></a>\n### NanInitPersistent(type, name, object)\n\nUser `NanInitPersistent` to declare and initialize a new `Persistent` with the supplied object. The assignment operator for `Persistent` is no longer public in Node 0.11, so this macro makes it easier to declare and initializing a new `Persistent`. See <a href="#api_nan_assign_persistent"><b><code>NanAssignPersistent</code></b></a> for more information.\n\n```c++\nLocal<Object> obj = Object::New();\nobj->Set(NanSymbol("key"), keyHandle); // where keyHandle might be a Local<String>\nNanInitPersistent(Object, persistentHandle, obj);\n```\n\n<a name="api_nan_callback"></a>\n### NanCallback\n\nBecause of the difficulties imposed by the changes to `Persistent` handles in V8 in Node 0.11, creating `Persistent` versions of your `Local<Function>` handles is annoyingly tricky. `NanCallback` makes it easier by taking your `Local` handle, making it persistent until the `NanCallback` is deleted and even providing a handy `Call()` method to fetch and execute the callback `Function`.\n\n```c++\nLocal<Function> callbackHandle = args[0].As<Function>();\nNanCallback *callback = new NanCallback(callbackHandle);\n// pass `callback` around and it\'s safe from GC until you:\ndelete callback;\n```\n\nYou can execute the callback like so:\n\n```c++\n// no arguments:\ncallback->Call(0, NULL);\n\n// an error argument:\nLocal<Value> argv[] = {\n  Exception::Error(String::New("fail!"))\n};\ncallback->Call(1, argv);\n\n// a success argument:\nLocal<Value> argv[] = {\n  Local<Value>::New(Null()),\n  String::New("w00t!")\n};\ncallback->Call(2, argv);\n```\n\n`NanCallback` also has a `Local<Function> GetCallback()` method that you can use to fetch a local handle to the underlying callback function if you need it.\n\n<a name="api_nan_async_worker"></a>\n### NanAsyncWorker\n\n`NanAsyncWorker` is an abstract class that you can subclass to have much of the annoying async queuing and handling taken care of for you. It can even store arbitrary V8 objects for you and have them persist while the async work is in progress.\n\nSee a rough outline of the implementation:\n\n```c++\nclass NanAsyncWorker {\npublic:\n  NanAsyncWorker (NanCallback *callback);\n\n  // Clean up persistent handles and delete the *callback\n  virtual ~NanAsyncWorker ();\n\n  // Check the `char *errmsg` property and call HandleOKCallback()\n  // or HandleErrorCallback depending on whether it has been set or not\n  virtual void WorkComplete ();\n\n  // You must implement this to do some async work. If there is an\n  // error then allocate `errmsg` to to a message and the callback will\n  // be passed that string in an Error object\n  virtual void Execute ();\n\n  // Save a V8 object in a Persistent handle to protect it from GC\n  void SavePersistent(const char *key, Local<Object> &obj);\n\n  // Fetch a stored V8 object (don\'t call from within `Execute()`)\n  Local<Object> GetFromPersistent(const char *key);\n\nprotected:\n  // Set this if there is an error, otherwise it\'s NULL\n  const char *errmsg;\n\n  // Default implementation calls the callback function with no arguments.\n  // Override this to return meaningful data\n  virtual void HandleOKCallback ();\n\n  // Default implementation calls the callback function with an Error object\n  // wrapping the `errmsg` string\n  virtual void HandleErrorCallback ();\n};\n```\n\n<a name="api_nan_async_queue_worker"></a>\n### NanAsyncQueueWorker(NanAsyncWorker *)\n\n`NanAsyncQueueWorker` will run a `NanAsyncWorker` asynchronously via libuv. Both the *execute* and *after_work* steps are taken care of for you&mdash;most of the logic for this is embedded in `NanAsyncWorker`.\n\n### Contributors\n\nNAN is only possible due to the excellent work of the following contributors:\n\n<table><tbody>\n<tr><th align="left">Rod Vagg</th><td><a href="https://github.com/rvagg">GitHub/rvagg</a></td><td><a href="http://twitter.com/rvagg">Twitter/@rvagg</a></td></tr>\n<tr><th align="left">Benjamin Byholm</th><td><a href="https://github.com/kkoopa/">GitHub/kkoopa</a></td></tr>\n<tr><th align="left">Trevor Norris</th><td><a href="https://github.com/trevnorris">GitHub/trevnorris</a></td><td><a href="http://twitter.com/trevnorris">Twitter/@trevnorris</a></td></tr>\n<tr><th align="left">Nathan Rajlich</th><td><a href="https://github.com/TooTallNate">GitHub/TooTallNate</a></td><td><a href="http://twitter.com/TooTallNate">Twitter/@TooTallNate</a></td></tr>\n</tbody></table>\n\nLicence &amp; copyright\n-----------------------\n\nCopyright (c) 2013 NAN contributors (listed above).\n\nNative Abstractions for Node.js is licensed under an MIT +no-false-attribs license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.\n',
+487 silly resolved     readmeFilename: 'README.md',
+487 silly resolved     bugs: { url: 'https://github.com/rvagg/nan/issues' },
+487 silly resolved     homepage: 'https://github.com/rvagg/nan',
+487 silly resolved     _id: 'nan@0.6.0',
+487 silly resolved     _from: 'nan@~0.6.0' } ]
+488 info install nan@0.6.0 into D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+489 info installOne nan@0.6.0
+490 info D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan unbuild
+491 verbose tar unpack C:\Users\Soeren\AppData\Roaming\npm-cache\nan\0.6.0\package.tgz
+492 silly lockFile 12d74baa-ules-node-expat-node-modules-nan tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan
+493 verbose lock tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan C:\Users\Soeren\AppData\Roaming\npm-cache\12d74baa-ules-node-expat-node-modules-nan.lock
+494 silly lockFile ae9cc8a3--npm-cache-nan-0-6-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\nan\0.6.0\package.tgz
+495 verbose lock tar://C:\Users\Soeren\AppData\Roaming\npm-cache\nan\0.6.0\package.tgz C:\Users\Soeren\AppData\Roaming\npm-cache\ae9cc8a3--npm-cache-nan-0-6-0-package-tgz.lock
+496 silly gunzTarPerm modes [ '755', '644' ]
+497 silly gunzTarPerm extractEntry package.json
+498 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+499 silly gunzTarPerm extractEntry README.md
+500 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+501 silly gunzTarPerm extractEntry LICENSE
+502 silly gunzTarPerm modified mode [ 'LICENSE', 438, 420 ]
+503 silly gunzTarPerm extractEntry include_dirs.js
+504 silly gunzTarPerm modified mode [ 'include_dirs.js', 438, 420 ]
+505 silly gunzTarPerm extractEntry build/config.gypi
+506 silly gunzTarPerm modified mode [ 'build/config.gypi', 438, 420 ]
+507 silly gunzTarPerm extractEntry nan.h
+508 silly gunzTarPerm modified mode [ 'nan.h', 438, 420 ]
+509 silly lockFile 12d74baa-ules-node-expat-node-modules-nan tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan
+510 silly lockFile 12d74baa-ules-node-expat-node-modules-nan tar://D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan
+511 silly lockFile ae9cc8a3--npm-cache-nan-0-6-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\nan\0.6.0\package.tgz
+512 silly lockFile ae9cc8a3--npm-cache-nan-0-6-0-package-tgz tar://C:\Users\Soeren\AppData\Roaming\npm-cache\nan\0.6.0\package.tgz
+513 info preinstall nan@0.6.0
+514 verbose readDependencies using package.json deps
+515 verbose readDependencies using package.json deps
+516 silly resolved []
+517 verbose about to build D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan
+518 info build D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat\node_modules\nan
+519 verbose linkStuff [ false,
+519 verbose linkStuff   false,
+519 verbose linkStuff   false,
+519 verbose linkStuff   'D:\\OSMBuildings\\Portal\\server\\node_modules\\xml2json\\node_modules\\node-expat\\node_modules' ]
+520 info linkStuff nan@0.6.0
+521 verbose linkBins nan@0.6.0
+522 verbose linkMans nan@0.6.0
+523 verbose rebuildBundles nan@0.6.0
+524 info install nan@0.6.0
+525 info postinstall nan@0.6.0
+526 verbose about to build D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+527 info build D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat
+528 verbose linkStuff [ false,
+528 verbose linkStuff   false,
+528 verbose linkStuff   false,
+528 verbose linkStuff   'D:\\OSMBuildings\\Portal\\server\\node_modules\\xml2json\\node_modules' ]
+529 info linkStuff node-expat@2.1.4
+530 verbose linkBins node-expat@2.1.4
+531 verbose linkMans node-expat@2.1.4
+532 verbose rebuildBundles node-expat@2.1.4
+533 verbose rebuildBundles [ 'nan' ]
+534 info install node-expat@2.1.4
+535 verbose unsafe-perm in lifecycle true
+536 info node-expat@2.1.4 Failed to exec install script
+537 info D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules\node-expat unbuild
+538 info preuninstall node-expat@2.1.4
+539 info uninstall node-expat@2.1.4
+540 verbose false,D:\OSMBuildings\Portal\server\node_modules,D:\OSMBuildings\Portal\server\node_modules\xml2json\node_modules unbuild node-expat@2.1.4
+541 info postuninstall node-expat@2.1.4
+542 verbose about to build D:\OSMBuildings\Portal\server\node_modules\xml2json
+543 info D:\OSMBuildings\Portal\server\node_modules\xml2json unbuild
+544 info preuninstall xml2json@0.4.0
+545 info uninstall xml2json@0.4.0
+546 verbose true,D:\OSMBuildings\Portal\server\node_modules,D:\OSMBuildings\Portal\server\node_modules unbuild xml2json@0.4.0
+547 verbose D:\OSMBuildings\Portal\server\node_modules\.bin,[object Object] binRoot
+548 info postuninstall xml2json@0.4.0
+549 error node-expat@2.1.4 install: `node-gyp rebuild`
+549 error Exit status 1
+550 error Failed at the node-expat@2.1.4 install script.
+550 error This is most likely a problem with the node-expat package,
+550 error not with npm itself.
+550 error Tell the author that this fails on your system:
+550 error     node-gyp rebuild
+550 error You can get their info via:
+550 error     npm owner ls node-expat
+550 error There is likely additional logging output above.
+551 error System Windows_NT 6.1.7601
+552 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "xml2json"
+553 error cwd D:\OSMBuildings\Portal\server
+554 error node -v v0.10.25
+555 error npm -v 1.3.24
+556 error code ELIFECYCLE
+557 verbose exit [ 1, true ]

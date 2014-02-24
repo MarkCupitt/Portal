@@ -1,0 +1,5626 @@
+<wfs:WFS_Capabilities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.opengis.net/wfs/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:it.geosolutions="http://www.geo-solutions.it" xmlns:pbe="http://data.gns.cri.nz" xmlns:tiger="http://www.census.gov" xmlns:topp="http://www.openplans.org/topp" xmlns:ggw="http://ggw.gns.cri.nz/" xmlns:sf="http://www.openplans.org/spearfish" xmlns:cite="http://www.opengeospatial.net/cite" xmlns:gsml="urn:cgi:xmlns:CGI:GeoSciML:2.0" xmlns:gns="http://www.gns.cri.nz" xmlns:r="linz.govt.nz" xmlns:sde="http://geoserver.sf.net" xmlns:nurc="http://www.nurc.nato.int" xmlns:lcr="http://maps.scinfo.org.nz/" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://maps.gns.cri.nz:80/geoserver/schemas/wfs/2.0/wfs.xsd" updateSequence="815">
+<ows:ServiceIdentification>
+<ows:Title>GeoServer Web Feature Service</ows:Title>
+<ows:Abstract>
+This is the reference implementation of WFS 1.0.0 and WFS 1.1.0, supports all WFS operations including Transaction.
+</ows:Abstract>
+<ows:Keywords>
+<ows:Keyword>WFS</ows:Keyword>
+<ows:Keyword>WMS</ows:Keyword>
+<ows:Keyword>GEOSERVER</ows:Keyword>
+</ows:Keywords>
+<ows:ServiceType>WFS</ows:ServiceType>
+<ows:ServiceTypeVersion>2.0.0</ows:ServiceTypeVersion>
+<ows:Fees>NONE</ows:Fees>
+<ows:AccessConstraints>NONE</ows:AccessConstraints>
+</ows:ServiceIdentification>
+<ows:ServiceProvider>
+<ows:ProviderName>GNS Science</ows:ProviderName>
+<ows:ServiceContact>
+<ows:IndividualName>Soren Haubrock</ows:IndividualName>
+<ows:PositionName/>
+<ows:ContactInfo>
+<ows:Phone>
+<ows:Voice>+64 4 570 4630</ows:Voice>
+<ows:Facsimile/>
+</ows:Phone>
+<ows:Address>
+<ows:City>Lower Hutt</ows:City>
+<ows:AdministrativeArea/>
+<ows:PostalCode>5040</ows:PostalCode>
+<ows:Country>New Zealand</ows:Country>
+</ows:Address>
+</ows:ContactInfo>
+</ows:ServiceContact>
+</ows:ServiceProvider>
+<ows:OperationsMetadata>
+<ows:Operation name="GetCapabilities">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="AcceptVersions">
+<ows:AllowedValues>
+<ows:Value>1.0.0</ows:Value>
+<ows:Value>1.1.0</ows:Value>
+<ows:Value>2.0.0</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Parameter name="AcceptFormats">
+<ows:AllowedValues>
+<ows:Value>text/xml</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+</ows:Operation>
+<ows:Operation name="DescribeFeatureType">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="outputFormat">
+<ows:AllowedValues>
+<ows:Value>text/xml; subtype=gml/3.2</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+</ows:Operation>
+<ows:Operation name="GetFeature">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="resultType">
+<ows:AllowedValues>
+<ows:Value>results</ows:Value>
+<ows:Value>hits</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Parameter name="outputFormat">
+<ows:AllowedValues>
+<ows:Value>text/xml; subtype=gml/3.2</ows:Value>
+<ows:Value>GML2</ows:Value>
+<ows:Value>GML2-GZIP</ows:Value>
+<ows:Value>SHAPE-ZIP</ows:Value>
+<ows:Value>application/gml+xml; version=3.2</ows:Value>
+<ows:Value>application/json</ows:Value>
+<ows:Value>csv</ows:Value>
+<ows:Value>gml3</ows:Value>
+<ows:Value>gml32</ows:Value>
+<ows:Value>json</ows:Value>
+<ows:Value>text/xml; subtype=gml/2.1.2</ows:Value>
+<ows:Value>text/xml; subtype=gml/3.1.1</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Constraint name="PagingIsTransactionSafe">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="CountDefault">
+<ows:NoValues/>
+<ows:DefaultValue>1000000</ows:DefaultValue>
+</ows:Constraint>
+</ows:Operation>
+<ows:Operation name="GetPropertyValue">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="resolve">
+<ows:AllowedValues>
+<ows:Value>none</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+</ows:Operation>
+<ows:Operation name="ListStoredQueries">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+<ows:Operation name="DescribeStoredQueries">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+<ows:Operation name="CreateStoredQuery">
+<ows:DCP>
+<ows:HTTP>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+<ows:Operation name="DropStoredQuery">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+<ows:Operation name="LockFeature">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="releaseAction">
+<ows:AllowedValues>
+<ows:Value>ALL</ows:Value>
+<ows:Value>SOME</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+</ows:Operation>
+<ows:Operation name="GetFeatureWithLock">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="resultType">
+<ows:AllowedValues>
+<ows:Value>results</ows:Value>
+<ows:Value>hits</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Parameter name="outputFormat">
+<ows:AllowedValues>
+<ows:Value>text/xml; subtype=gml/3.2</ows:Value>
+<ows:Value>GML2</ows:Value>
+<ows:Value>GML2-GZIP</ows:Value>
+<ows:Value>SHAPE-ZIP</ows:Value>
+<ows:Value>application/gml+xml; version=3.2</ows:Value>
+<ows:Value>application/json</ows:Value>
+<ows:Value>csv</ows:Value>
+<ows:Value>gml3</ows:Value>
+<ows:Value>gml32</ows:Value>
+<ows:Value>json</ows:Value>
+<ows:Value>text/xml; subtype=gml/2.1.2</ows:Value>
+<ows:Value>text/xml; subtype=gml/3.1.1</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Constraint name="PagingIsTransactionSafe">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="CountDefault">
+<ows:NoValues/>
+<ows:DefaultValue>1000000</ows:DefaultValue>
+</ows:Constraint>
+</ows:Operation>
+<ows:Operation name="Transaction">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+<ows:Post xlink:href="http://maps.gns.cri.nz:80/geoserver/wfs"/>
+</ows:HTTP>
+</ows:DCP>
+<ows:Parameter name="inputFormat">
+<ows:AllowedValues>
+<ows:Value>text/xml; subtype=gml/3.2</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+<ows:Parameter name="releaseAction">
+<ows:AllowedValues>
+<ows:Value>ALL</ows:Value>
+<ows:Value>SOME</ows:Value>
+</ows:AllowedValues>
+</ows:Parameter>
+</ows:Operation>
+<ows:Constraint name="ImplementsBasicWFS">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsTransactionalWFS">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsLockingWFS">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="KVPEncoding">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="XMLEncoding">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="SOAPEncoding">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsInheritance">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsRemoteResolve">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsResultPaging">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsStandardJoins">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsSpatialJoins">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsTemporalJoins">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ImplementsFeatureVersioning">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="ManageStoredQueries">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="PagingIsTransactionSafe">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</ows:Constraint>
+<ows:Constraint name="QueryExpressions">
+<ows:AllowedValues>
+<ows:Value>wfs:Query</ows:Value>
+<ows:Value>wfs:StoredQuery</ows:Value>
+</ows:AllowedValues>
+</ows:Constraint>
+</ows:OperationsMetadata>
+<FeatureTypeList>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:1mgeology</Name>
+<Title>1mgeology</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.427 -47.293</ows:LowerCorner>
+<ows:UpperCorner>178.577 -34.145</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:AF.FAULTS_GROUPED_VIEW</Name>
+<Title>AF.FAULTS_GROUPED_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>AF.FAULTS_GROUPED_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.3729447293714 -46.59532248929138</ows:LowerCorner>
+<ows:UpperCorner>179.06123326739845 -36.85789036826121</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Aucklandurbanaquifers</Name>
+<Title>Auckland urban aquifers</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>v_aucklandurbanaquifers_features</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.71371624163967 -38.712477129316184</ows:LowerCorner>
+<ows:UpperCorner>176.0869210454106 -36.85988285834801</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MIS.GNS_BUILDING_FOOTPRINT</Name>
+<Title>Building Footprint</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>GNS</ows:Keyword>
+<ows:Keyword>buildings</ows:Keyword>
+<ows:Keyword>footprint</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.51335720141336 -45.88837478493096</ows:LowerCorner>
+<ows:UpperCorner>176.46451602211573 -38.63275247150488</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:FR.FRED_SITE_VIEW</Name>
+<Title>FR.FRED_SITE_VIEW</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.953 -88.075</ows:LowerCorner>
+<ows:UpperCorner>179.991 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:FRED_SITE_VIEW</Name>
+<Title>FRED_SITE_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>FRED</ows:Keyword>
+<ows:Keyword>Fossil record locations</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.953 -88.075</ows:LowerCorner>
+<ows:UpperCorner>179.933 76.703</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GIS.DISTRICT_COUNCIL</Name>
+<Title>GIS..DISTRICT_COUNCIL</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>versioned</ows:Keyword>
+<ows:Keyword>GIS.TERRITORIAL_COUNCIL</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.2645856750312 -47.42553586384433</ows:LowerCorner>
+<ows:UpperCorner>179.48463595477975 -34.26242006105786</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GIS.REGIONAL_COUNCIL_CLIP_SIMP</Name>
+<Title>GIS.REGIONAL_COUNCIL_CLIP_SIMP</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.266 -47.411</ows:LowerCorner>
+<ows:UpperCorner>179.452 -34.264</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GIS.TERRITORIAL_COUNCIL</Name>
+<Title>GIS.TERRITORIAL_COUNCIL</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>versioned</ows:Keyword>
+<ows:Keyword>GIS.TERRITORIAL_COUNCIL</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.2645856750312 -47.42553586384433</ows:LowerCorner>
+<ows:UpperCorner>179.48463595477975 -34.26242006105786</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MIS.GNS_ROOM_VIEW</Name>
+<Title>GNS Floor Plan</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>GNS</ows:Keyword>
+<ows:Keyword>site</ows:Keyword>
+<ows:Keyword>floor</ows:Keyword>
+<ows:Keyword>plan</ows:Keyword>
+<ows:Keyword>map</ows:Keyword>
+<ows:Keyword>rooms</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.513 -45.888</ows:LowerCorner>
+<ows:UpperCorner>176.464 -38.632</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Access_Vehicle</Name>
+<Title>GPS_Access_Vehicle</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Access_Vehicle_old</Name>
+<Title>GPS_Access_Vehicle_old</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>gps_site_latlon_view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.22745212165137 -50.517304497415005</ows:LowerCorner>
+<ows:UpperCorner>178.81110042286645 -34.403732935051124</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Beacon</Name>
+<Title>GPS_Beacon</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Beacon_old</Name>
+<Title>GPS_Beacon_old</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.227 -50.518</ows:LowerCorner>
+<ows:UpperCorner>178.811 -34.404</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Current</Name>
+<Title>GPS_Current</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Current_old</Name>
+<Title>GPS_Current_old</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.227 -50.518</ows:LowerCorner>
+<ows:UpperCorner>178.811 -34.404</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_LABEL</Name>
+<Title>GPS_LABEL</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_LABEL_old</Name>
+<Title>GPS_LABEL_old</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>gps_site_latlon_view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.22745212165137 -50.517304497415005</ows:LowerCorner>
+<ows:UpperCorner>178.81110042286645 -34.403732935051124</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Other</Name>
+<Title>GPS_Other</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GPS_Other_old</Name>
+<Title>GPS_Other_old</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.227 -50.518</ows:LowerCorner>
+<ows:UpperCorner>178.811 -34.404</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:GRATICULE_5_DEGREE</Name>
+<Title>GRATICULE_5_DEGREE</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.904 -47.665</ows:LowerCorner>
+<ows:UpperCorner>179.852 -33.506</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Kaitunarivercatchment</Name>
+<Title>Kaituna river catchment</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_kaitunarivercatchment_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>176.16854082915367 -38.156485795498405</ows:LowerCorner>
+<ows:UpperCorner>176.48737981794855 -37.755140114552304</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MARINE.DSDP_ODP_VIEW</Name>
+<Title>MARINE.DSDP_ODP_VIEW</Title>
+<Abstract>
+Ocean Drilling Program and Deep Sea Drilling Program locations
+ 
+ URL:
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>ODP</ows:Keyword>
+<ows:Keyword>DSDP</ows:Keyword>
+<ows:Keyword>drillholes</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.555 -77.441</ows:LowerCorner>
+<ows:UpperCorner>179.738 80.475</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MASTERFILE_AREAS</Name>
+<Title>MASTERFILE_AREAS</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>165.846 -47.593</ows:LowerCorner>
+<ows:UpperCorner>179.612 -33.958</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MASTERFILE_AREAS_SHP</Name>
+<Title>MASTERFILE_AREAS_SHP</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>165.846 -47.593</ows:LowerCorner>
+<ows:UpperCorner>179.612 -33.958</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.COALFIELDS</Name>
+<Title>MINERAL.COALFIELDS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>MINERAL.COALFIELDS</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.6733315641567 -46.62913959747905</ows:LowerCorner>
+<ows:UpperCorner>175.75310512261214 -35.31394167125582</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.COAL_DRILLHOLE</Name>
+<Title>MINERAL.COAL_DRILLHOLE</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>MINERAL.COAL_DRILLHOLE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.69614988407315 -46.64203542203566</ows:LowerCorner>
+<ows:UpperCorner>176.22815951451634 -34.94401392768627</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.GEOTHERMAL_FIELDS</Name>
+<Title>MINERAL.GEOTHERMAL_FIELDS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>MINERAL.GEOTHERMAL_FIELDS</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.83186553684422 -38.73570392747234</ows:LowerCorner>
+<ows:UpperCorner>176.76779765855042 -35.323379765379556</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.GERM_FEATURE_VIEW</Name>
+<Title>MINERAL.GERM_FEATURE_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>MINERAL.GERM_FEATURE_VIEW</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-176.78598145022968 -46.930063976362725</ows:LowerCorner>
+<ows:UpperCorner>178.47633160658384 -34.39672975202638</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.IRONSAND_DEPOSITS</Name>
+<Title>MINERAL.IRONSAND_DEPOSITS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>MINERAL.IRONSAND_DEPOSITS</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.44275110174792 -38.204566956443735</ows:LowerCorner>
+<ows:UpperCorner>174.86992690581857 -36.87542872254376</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.MINERAL_DRILLHOLE</Name>
+<Title>MINERAL.MINERAL_DRILLHOLE</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>MINERAL.MINERAL_DRILLHOLE</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.80118477777947 -76.92116797666627</ows:LowerCorner>
+<ows:UpperCorner>179.91736504205545 -32.46293751470949</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:MINERAL.PERMIT</Name>
+<Title>MINERAL.PERMIT</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>MINERAL.PERMIT</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -46.820639254787444</ows:LowerCorner>
+<ows:UpperCorner>180.0 -25.971936317911418</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Maraekakahofeedlot</Name>
+<Title>Maraekakaho feedlot</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_maraekakahofeedlot_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>176.57525215841534 -39.651051051047446</ows:LowerCorner>
+<ows:UpperCorner>176.62175026677502 -39.635353670394956</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.PETROLEUM_WELL_VIEW</Name>
+<Title>NZ Petroleum Wells</Title>
+<Abstract>
+New Zealand Petroleum Wells
+ Keywords
+ Theme: Petroleum exploration wells
+ Place: New Zealand, Onshore, Offshore
+ Stratum: Sedimentary basins
+ Temporal: 1866-2006
+ 
+ Description
+ Abstract 
+ GNS Petroleum Well header reference data
+ 
+ Purpose 
+ Master spatial dataset of NZ petroleum wells
+ 
+ Supplementary Information 
+ Updated and maintained by the Petroleum Geosciences data administrator
+ ________________
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ Time period for which the data is relevant 
+ Date and time: Oct 2011
+ Description: 
+ ground condition
+ 
+ Publication Information 
+ Who created the data: GNS Science
+ 
+ Date and time: Oct 2011
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>GNS Petroleum well data</ows:Keyword>
+<ows:Keyword>New Zealand Petroleum exploration wells</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.152 -49.613</ows:LowerCorner>
+<ows:UpperCorner>178.462 -35.105</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:NZSOECouncilGroundwaterData</Name>
+<Title>NZ SOE Council Groundwater Data</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_nzsoecouncilgroundwaterdata_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-169.98227118116404 -46.41643102986721</ows:LowerCorner>
+<ows:UpperCorner>179.99966388633112 -34.819859808881326</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Blenheim_geological_units</Name>
+<Title>NZL-Urban Blenheim geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Blenheim</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.80119699928645 -41.555134938689896</ows:LowerCorner>
+<ows:UpperCorner>174.0791528695723 -41.39082995043597</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Christchurch_geological_units</Name>
+<Title>NZL-Urban Christchurch geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Christchurch</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.39381249591514 -43.732153642348734</ows:LowerCorner>
+<ows:UpperCorner>172.8776010705813 -43.24836506768259</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Dunedin_geological_units</Name>
+<Title>NZL-Urban Dunedin geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>URBAN_Geol_U_Dunedin</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.2540388455103 -45.96630743734077</ows:LowerCorner>
+<ows:UpperCorner>170.63492502766886 -45.79243704520535</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Gisborne_geological_units</Name>
+<Title>NZL-Urban Gisborne geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Gisborne</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>177.79039148477372 -38.852820884178456</ows:LowerCorner>
+<ows:UpperCorner>178.1621747416841 -38.437984692045234</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Invercargill_geological_units</Name>
+<Title>NZL-Urban Invercargill geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>URBAN_Geol_U_Invercargill</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.17309278593007 -46.65837991892483</ows:LowerCorner>
+<ows:UpperCorner>168.56477452261748 -46.31541265309365</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Napier_Hastings_geological_units</Name>
+<Title>NZL-Urban Napier Hastings geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>URBAN_Geol_U_Napier_Hastings</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>176.7171142263473 -39.71537395658244</ows:LowerCorner>
+<ows:UpperCorner>177.00628867345 -39.40074504878866</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Nelson_geological_units</Name>
+<Title>NZL-Urban Nelson geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>URBAN_Geol_U_Nelson</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.15604437882126 -41.38237591833913</ows:LowerCorner>
+<ows:UpperCorner>173.3427226894922 -41.1956976076682</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Rotorua_geological_units</Name>
+<Title>NZL-Urban Rotorua geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>URBAN_Geol_U_Rotorua</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>176.0625187138441 -38.23116977395688</ows:LowerCorner>
+<ows:UpperCorner>176.42554033955508 -38.009612527827706</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Wanganui_geological_units</Name>
+<Title>NZL-Urban Wanganui geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Wanganui</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.96004810118023 -39.95329430448514</ows:LowerCorner>
+<ows:UpperCorner>175.09181124029897 -39.88885396137152</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Wellington_geological_units</Name>
+<Title>NZL-Urban Wellington geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Wellington</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.60871959788372 -41.44252356599244</ows:LowerCorner>
+<ows:UpperCorner>175.15416434020767 -41.096721317919666</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Whangarei_geological_units</Name>
+<Title>NZL-Urban Whangarei geological units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Whangarei</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.2734747313692 -35.811734645934536</ows:LowerCorner>
+<ows:UpperCorner>174.38686271786707 -35.65710060496643</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZL-Urban_Auckland_geological_units</Name>
+<Title>NZL-Urban_Auckland_geological_units</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>URBAN_Geol_U_Auckland</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.39721045415627 -37.32368454647354</ows:LowerCorner>
+<ows:UpperCorner>175.31249066136294 -36.6968895837552</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:NZ_GNS_Landslide_Locations</Name>
+<Title>NZ_GNS_Landslide_Locations</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>landslide</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>165.740005493164 -47.7684898376465</ows:LowerCorner>
+<ows:UpperCorner>179.290267944336 -33.6364097595215</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:NationalGroundwaterMonitoringProgramme</Name>
+<Title>National Groundwater Monitoring Programme</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_nationalgroundwatermonitoringprogramme_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.93970745705622 -46.661998441260174</ows:LowerCorner>
+<ows:UpperCorner>179.10412133832185 -34.497584559994564</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:NationalTracerSurvey</Name>
+<Title>National Tracer Survey</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_nationaltracersurvey_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.78859108816104 -46.37194759163014</ows:LowerCorner>
+<ows:UpperCorner>176.73972193179335 -37.859880187330035</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gsml="urn:cgi:xmlns:CGI:GeoSciML:2.0">
+<Name>gsml:Fault</Name>
+<Title>New Zealand 1:1M Fault dataset</Title>
+<Abstract>
+New Zealand 1:1M Fault dataset provided by GNS Science
+</Abstract>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
+<ows:UpperCorner>180.0 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gsml="urn:cgi:xmlns:CGI:GeoSciML:2.0">
+<Name>gsml:GeologicUnit</Name>
+<Title>New Zealand 1:1M Geologic Unit dataset</Title>
+<Abstract>
+New Zealand 1:1M Geologic Unit dataset provided by GNS Science
+</Abstract>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
+<ows:UpperCorner>180.0 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gsml="urn:cgi:xmlns:CGI:GeoSciML:2.0">
+<Name>gsml:MappedFeature</Name>
+<Title>
+New Zealand 1:1M Mapped Feature dataset from Geologic Units
+</Title>
+<Abstract>
+New Zealand 1:1M Mapped Feature dataset from Geologic Units provided by GNS Science
+</Abstract>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
+<ows:UpperCorner>180.0 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET.PET_SITE_VIEW</Name>
+<Title>PET.PET_SITE_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.DOC_PUBLICCONSERVATIONLAND</Name>
+<Title>PETROLEUM.DOC_PUBLICCONSERVATIONLAND</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PETROLEUM.DOC_PUBLICCONSERVATIONLAND</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -52.68254736061636</ows:LowerCorner>
+<ows:UpperCorner>180.0 -29.231267482318728</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.GRAVITY_STATION_VIEW</Name>
+<Title>PETROLEUM.GRAVITY_STATION_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.GRAVITY_STATION_VIEW</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-174.93138440711903 -75.58120532523972</ows:LowerCorner>
+<ows:UpperCorner>178.404480237157 -34.363085972486004</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.GRAVITY_SURVEY_VIEW</Name>
+<Title>PETROLEUM.GRAVITY_SURVEY_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.GRAVITY_SURVEY_VIEW</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.5230608423141 -47.25908647065656</ows:LowerCorner>
+<ows:UpperCorner>178.54096615626733 -34.403782483862855</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.IWI_BOUNDARIES</Name>
+<Title>PETROLEUM.IWI_BOUNDARIES</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PETROLEUM.IWI_BOUNDARIES</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -47.41291683432221</ows:LowerCorner>
+<ows:UpperCorner>180.0 -27.853655494876897</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.LICENSE</Name>
+<Title>PETROLEUM.LICENSE</Title>
+<Abstract>
+New Zealand Petroleum & Minerals supplied license data (NZTM).
+ Petroleum exploration license and permit extents.
+ regulatory framework May 2012
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>May 2012</ows:Keyword>
+<ows:Keyword>New Zealand Petroleum and Minerals</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.224 -48.0</ows:LowerCorner>
+<ows:UpperCorner>179.0 -36.5</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_2D_SEIS_LINES</Name>
+<Title>PETROLEUM.NZ_2D_SEIS_LINES</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.NZ_2D_SEIS_LINES</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.00000000008 -54.103438888964696</ows:LowerCorner>
+<ows:UpperCorner>179.999999999871 -23.4651972221887</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_2D_SEIS_SURVEYS</Name>
+<Title>PETROLEUM.NZ_2D_SEIS_SURVEYS</Title>
+<Abstract>
+Keywords
+ Theme: 2D seismic surveys, Original navigation
+ Place: New Zealand, Extended Continental Shelf
+ Stratum: Open File data, Crown Minerals
+ 
+ 
+ Description
+ Abstract 
+ NZ open file petroleum exploration 2D seismic data
+ 
+ 
+ Purpose 
+ Spatial representation of 2D seismic survey exploration effort and associated acquisition technology metadata
+ 
+ 
+ Supplementary Information 
+ generated from original UKOOA and P1/90 header and navigation data
+ 
+ 
+ _________________
+ 
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ Time period for which the data is relevant 
+ Date and time: 2011
+ Description: 
+ 17/2/2011
+ 
+ 
+ Publication Information 
+ Who created the data: GNS Science
+ 
+ Date and time: Feb 2011
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>2D Seismic surveys</ows:Keyword>
+<ows:Keyword>Petroleum exploration</ows:Keyword>
+<ows:Keyword>New Zealand</ows:Keyword>
+<ows:Keyword>acquisition metadata</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.103</ows:LowerCorner>
+<ows:UpperCorner>180.0 -23.465</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_3D_SEIS_SURVEYS</Name>
+<Title>PETROLEUM.NZ_3D_SEIS_SURVEYS</Title>
+<Abstract>
+Keywords
+ Theme: 3D seismic surveys
+ Place: New Zealand, Extended Continental Shelf
+ Stratum: Open File data, Crown Minerals
+ Temporal: current
+ 
+ 
+ Description
+ Abstract 
+ NZ open file petroleum exploration 3D seismic data
+ 
+ 
+ Purpose 
+ Spatial representation of 3D seismic survey exploration effort and associated acquisition technology metadata
+ 
+ 
+ Supplementary Information 
+ generated from PR's
+ 
+ 
+ _________________
+ 
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ 
+ 
+ Time period for which the data is relevant 
+ Date and time: 2011
+ Description: 
+ 17/2/2011
+ 
+ 
+ 
+ 
+ Publication Information 
+ Who created the data: GNS Science
+ 
+ Date and time: Feb 2011
+ _________________
+ 
+ 
+ Data storage and access information 
+ File name: PETROLEUM.NZ_3D_SEIS_SURVEYS
+ Type of data: vector digital data
+ 
+ Location of the data: 
+ Server=SDE.gns.cri.nz; Service=5151; Database=petroleum; User=petroleum; Version=SDE.DEFAULT
+ Data processing environment: Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.0.1770
+ 
+ Constraints on accessing and using the data 
+ Access constraints: GNS DUL
+ 
+ Use constraints: 
+ GNS acknowledgement
+ 
+ 
+ 
+ 
+ Details about this document 
+ Contents last updated: 20110328 at time 10445700
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>3D Seismic</ows:Keyword>
+<ows:Keyword>Onshore and offshore NZ</ows:Keyword>
+<ows:Keyword>petroleum exploration</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.569 -48.42</ows:LowerCorner>
+<ows:UpperCorner>177.816 -37.424</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_BASIN_SOURCE</Name>
+<Title>PETROLEUM.NZ_BASIN_SOURCE</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>Bibliographic sources</ows:Keyword>
+<ows:Keyword>Metadata sources</ows:Keyword>
+<ows:Keyword>Basin extent sources</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.116</ows:LowerCorner>
+<ows:UpperCorner>180.0 -31.484</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_BASIN_TRANSECTS</Name>
+<Title>PETROLEUM.NZ_BASIN_TRANSECTS</Title>
+<Abstract>
+Selected interpreted seismic cross sections displaying the key sedimentary features of the basin
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>Profiles</ows:Keyword>
+<ows:Keyword>Transect</ows:Keyword>
+<ows:Keyword>Basin cross-sections</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>159.51 -49.004</ows:LowerCorner>
+<ows:UpperCorner>179.321 -33.214</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_BLOCKS_OFFER_2013</Name>
+<Title>PETROLEUM.NZ_BLOCKS_OFFER_2013</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PETROLEUM.NZ_BLOCKS_OFFER_2013</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.42320777446292 -49.88616353014978</ows:LowerCorner>
+<ows:UpperCorner>178.752029941987 -34.091753983193335</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_DSDP_ODP_IODP_BOREHOLES</Name>
+<Title>PETROLEUM.NZ_DSDP_ODP_IODP_BOREHOLES</Title>
+<Abstract>
+Current distribution (September 2012) of DSDP, ODP and IODP borehole sites and related metadata including links to datasets. Shapefile created by GNS Science from kml file sourced at http://www.iodp.org/borehole-map.
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>PETROLEUM.NZ_DSDP_ODP_IODP_BOREHOLES</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>
+Oceanography, stratigraphy, sedimentology, biostratigraphy, geochemistry, tectonics, volcanology, petrography, climatology, geosciences
+</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.55580000026902 -77.4412999996946</ows:LowerCorner>
+<ows:UpperCorner>179.73800000030099 87.9333000002958</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_ECS_LINE</Name>
+<Title>PETROLEUM.NZ_ECS_LINE</Title>
+<Abstract>
+New Zealand extended continental shelf. UNCLOS defined limits
+ Line
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>New Zealand</ows:Keyword>
+<ows:Keyword>Extended Continental Shelf</ows:Keyword>
+<ows:Keyword>UNCLOS</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -57.578</ows:LowerCorner>
+<ows:UpperCorner>180.0 -25.235</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_EEZ_LINE</Name>
+<Title>PETROLEUM.NZ_EEZ_LINE</Title>
+<Abstract>New Zealand Exclusive Economic Zone</Abstract>
+<ows:Keywords>
+<ows:Keyword>New Zealand</ows:Keyword>
+<ows:Keyword>Exclusive Economic Zone</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -55.949</ows:LowerCorner>
+<ows:UpperCorner>180.0 -25.888</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_FOLIO1_TRANS</Name>
+<Title>PETROLEUM.NZ_FOLIO1_TRANS</Title>
+<Abstract>
+Displays transects lines through NZ sediemtary basins along which chronstratigraphic cross section panels have been assembled.
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>Cretaceous, Cenozoic</ows:Keyword>
+<ows:Keyword>New Zealand sedimentary basins</ows:Keyword>
+<ows:Keyword>Chronostratigraphy</ows:Keyword>
+<ows:Keyword>Folio 1</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.168 -49.615</ows:LowerCorner>
+<ows:UpperCorner>178.324 -34.466</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_LICENSE</Name>
+<Title>PETROLEUM.NZ_LICENSE</Title>
+<Abstract>
+Current petroleum exploration license and permit extents. December 2012.
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.NZ_LICENSE</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.38666661959502 -47.700000004018094</ows:LowerCorner>
+<ows:UpperCorner>178.550519605299 -37.0581978782707</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_MEAS_SECTIONS</Name>
+<Title>PETROLEUM.NZ_MEAS_SECTIONS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>Folio1</ows:Keyword>
+<ows:Keyword>Measured sections</ows:Keyword>
+<ows:Keyword>New Zealand</ows:Keyword>
+<ows:Keyword>columns</ows:Keyword>
+<ows:Keyword>Stratlink</ows:Keyword>
+<ows:Keyword>Chronostratigraphy</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.53 -49.615</ows:LowerCorner>
+<ows:UpperCorner>178.573 -34.466</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_OIL_GAS_FIELDS</Name>
+<Title>PETROLEUM.NZ_OIL_GAS_FIELDS</Title>
+<Abstract>New Zealand Oil and Gas producing fields</Abstract>
+<ows:Keywords>
+<ows:Keyword>Producing fields</ows:Keyword>
+<ows:Keyword>Prospects</ows:Keyword>
+<ows:Keyword>Petroleum</ows:Keyword>
+<ows:Keyword>Oil</ows:Keyword>
+<ows:Keyword>Gas</ows:Keyword>
+<ows:Keyword>Condensate</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.172 -40.063</ows:LowerCorner>
+<ows:UpperCorner>174.431 -37.923</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_PETROL_INFRASTRUCT</Name>
+<Title>PETROLEUM.NZ_PETROL_INFRASTRUCT</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>Petroleum</ows:Keyword>
+<ows:Keyword>Infrastructure</ows:Keyword>
+<ows:Keyword>Pumping stations</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.81 -39.527</ows:LowerCorner>
+<ows:UpperCorner>174.39 -38.994</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_PETROL_PIPELINES</Name>
+<Title>PETROLEUM.NZ_PETROL_PIPELINES</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>infrastructure</ows:Keyword>
+<ows:Keyword>Petroleum</ows:Keyword>
+<ows:Keyword>pipeline</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.376 -41.186</ows:LowerCorner>
+<ows:UpperCorner>177.989 -35.637</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_PR_POLYGONS</Name>
+<Title>PETROLEUM.NZ_PR_POLYGONS</Title>
+<Abstract>
+Spatial coverages of open file PR reports defined by the report topic (eg permit, seismic survey, well completion report etc). Updated Nov 2012
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>PETROLEUM.NZ_PR_POLYGONS</ows:Keyword>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>Petroleum Report</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.20428596716279</ows:LowerCorner>
+<ows:UpperCorner>180.0 -31.164599397660144</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_PR_REGIONS</Name>
+<Title>PETROLEUM.NZ_PR_REGIONS</Title>
+<Abstract>
+Spatial coverages of open file PR reports defined by the report topic (eg permit, seismic survey, well completion report etc)
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>petroleum reports</ows:Keyword>
+<ows:Keyword>spatial extents</ows:Keyword>
+<ows:Keyword>wells</ows:Keyword>
+<ows:Keyword>seismic surveys</ows:Keyword>
+<ows:Keyword>permits</ows:Keyword>
+<ows:Keyword>geological studies</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.596</ows:LowerCorner>
+<ows:UpperCorner>180.0 -23.256</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_QMAP</Name>
+<Title>PETROLEUM.NZ_QMAP</Title>
+<Abstract>
+Coverage of QMAP projected in WGS 84, with publication date and link fields
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>QMAP</ows:Keyword>
+<ows:Keyword>WGS 84</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>165.984 -47.513</ows:LowerCorner>
+<ows:UpperCorner>179.267 -34.087</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_REG_BATHY</Name>
+<Title>PETROLEUM.NZ_REG_BATHY</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -59.992</ows:LowerCorner>
+<ows:UpperCorner>180.0 -25.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_RESEARCH_SEIS</Name>
+<Title>PETROLEUM.NZ_RESEARCH_SEIS</Title>
+<Abstract>
+Single and multichannel research seismic in the SW Pacific region
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>SW Pacific</ows:Keyword>
+<ows:Keyword>seismic</ows:Keyword>
+<ows:Keyword>single channel</ows:Keyword>
+<ows:Keyword>multi channel</ows:Keyword>
+<ows:Keyword>research cruises</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -78.524</ows:LowerCorner>
+<ows:UpperCorner>180.0 13.125</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SEDIMENTARY_BASINS</Name>
+<Title>PETROLEUM.NZ_SEDIMENTARY_BASINS</Title>
+<Abstract>
+Keywords
+ Theme: Sedimentary Basins, Potential petroleum basins
+ Place: New Zealand extend continental shelf, South West Pacific
+ Stratum: Sedimentary sequences
+ Temporal: Mesozoic-Cenozoic
+ 
+ 
+ Description
+ Abstract 
+ Compilation of known sedimentary basin extents as of October 2010
+ 
+ 
+ Purpose 
+ Representation of current knowledge of NZ regional sedimentary basin extents
+ 
+ 
+ Supplementary Information 
+ Initially digistised from graphic provided in the Crown Minerals "Blue Book" Subsequently modified by M Isaac and edited in Arc by C Jones for CM PEGI 6 -OPA project March 2011
+ 
+ 
+ _________________
+ 
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ 
+ 
+ Time period for which the data is relevant 
+ Date and time: REQUIRED: The year (and optionally month, or month and day) for which the data set corresponds to the ground. 
+ Description: 
+ publication date
+ 
+ 
+ 
+ 
+ Publication Information 
+ Who created the data: Digitised by A Giffin, GNS Science, edited and loaded onto SDE Nov 2010 by C Jones. Further edits March 2011
+ 
+ Date and time: March 2011
+ _________________
+ 
+ 
+ Data storage and access information 
+ File name: PETROLEUM.NZ_SEDIMENTARY_BASINS
+ Type of data: vector digital data
+ 
+ Location of the data: 
+ Server=SDE.gns.cri.nz; Service=5151; Database=petroleum; User=petroleum; Version=SDE.DEFAULT
+ Data processing environment: Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.0.1770
+ 
+ Accessing the data 
+ Data transfer size: 1.047 MB
+ 
+ 
+ Constraints on accessing and using the data 
+ Access constraints: Not to be duplicated or passed on to third parties
+ 
+ Use constraints: 
+ GNS Science Data use license
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>Sedimentary Basins</ows:Keyword>
+<ows:Keyword>Potential petroleum basins</ows:Keyword>
+<ows:Keyword>Sedimentary sequences</ows:Keyword>
+<ows:Keyword>Mesozoic-Cenozoic</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.112</ows:LowerCorner>
+<ows:UpperCorner>180.0 -31.501</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SEDI_BASIN_OUTLINES</Name>
+<Title>PETROLEUM.NZ_SEDI_BASIN_OUTLINES</Title>
+<Abstract>
+Digitised by A Giffin, GNS Science, edited and loaded onto SDE Nov 2010 by C Jones
+ 
+ Compilation of known sedimentary basin extents as of October 2010
+ Representation of current knowledge of NZ regional sedimentary basin extents digistised from graphic provided in the Crown Minerals "Blue Book"
+ 
+ New Zealand extend continental shelf
+ South West Pacific
+ Sedimentary sequences
+ Mesozoic-Cenozoic
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>NZ Basin outlines</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -54.112</ows:LowerCorner>
+<ows:UpperCorner>180.0 -31.501</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SINGLEBEAM</Name>
+<Title>PETROLEUM.NZ_SINGLEBEAM</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.NZ_SINGLEBEAM</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.9999999999 -57.9999199999074</ows:LowerCorner>
+<ows:UpperCorner>180.000000000101 -20.0000000003989</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SWATH_AREA</Name>
+<Title>PETROLEUM.NZ_SWATH_AREA</Title>
+<Abstract>
+Keywords
+ Theme: SW Pacific swath coverages, GNS Science, LINZ and NIWA, Swath bathymetry
+ Place: New Zealand, South West Pacific
+ Stratum: Sea floor imagery, bathymetry
+ Temporal: Modern
+ 
+ Description
+ Abstract 
+ GNS Science LINZ and NIWA Swath polygons coverages combined for SW Pacific region
+ 
+ Purpose 
+ Representative data for PEGI EFBS porject
+ _________________
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ Time period for which the data is relevant 
+ Date and time: 11/4/2011
+ Description: 
+ publication date
+ 
+ Publication Information 
+ Who created the data: GNS Science LINZ and NIWA
+ 
+ Date and time: Feb 2012
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>New Zealand</ows:Keyword>
+<ows:Keyword>SW Pacific</ows:Keyword>
+<ows:Keyword>Sea floor imagery</ows:Keyword>
+<ows:Keyword>bathymetry</ows:Keyword>
+<ows:Keyword>GNS Science</ows:Keyword>
+<ows:Keyword>NIWA</ows:Keyword>
+<ows:Keyword>LINZ</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -77.883</ows:LowerCorner>
+<ows:UpperCorner>180.0 6.121</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SWATH_GNS</Name>
+<Title>PETROLEUM.NZ_SWATH_GNS</Title>
+<Abstract>
+Keywords
+ Theme: GNS swath coverages
+ Place: New Zealand
+ Stratum: Sea floor imagery
+ Temporal: Modern
+ 
+ 
+ Description
+ Abstract 
+ GNS Swath polygons coverage
+ 
+ 
+ Purpose 
+ Representative data for PEGI EFBS porject
+ 
+ 
+ _________________
+ 
+ 
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ 
+ 
+ Time period for which the data is relevant 
+ Date and time: 11/4/2011
+ Description: 
+ publication date
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>SWATH</ows:Keyword>
+<ows:Keyword>GNS</ows:Keyword>
+<ows:Keyword>Polygons</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -77.883</ows:LowerCorner>
+<ows:UpperCorner>360.017 6.144</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_SWATH_TRACKS</Name>
+<Title>PETROLEUM.NZ_SWATH_TRACKS</Title>
+<Abstract>
+Keywords
+ Theme: GNS swath coverages
+ Place: New Zealand
+ Stratum: Sea floor imagery
+ Temporal: Modern
+ 
+ Description
+ Abstract 
+ Regional SW Pacific swath ship tracks
+ 
+ Purpose 
+ Representative data for PEGI EFBS porject
+ _________________
+ Status of the data 
+ In work
+ Data update frequency: Irregular
+ 
+ Time period for which the data is relevant 
+ Date and time: 11/4/2011
+ Description: 
+ publication date
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>swath</ows:Keyword>
+<ows:Keyword>ship tracks</ows:Keyword>
+<ows:Keyword>SW Pacific</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-180.0 -78.924</ows:LowerCorner>
+<ows:UpperCorner>180.0 71.256</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_TERRANES_5M</Name>
+<Title>PETROLEUM.NZ_TERRANES_5M</Title>
+<Abstract>
+New Zealand pre-Cenozoic basement rocks subdivided into tectonostratigraphic terranes and batholiths
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>New Zealand terranes</ows:Keyword>
+<ows:Keyword>basement</ows:Keyword>
+<ows:Keyword>1:5 million</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.315 -47.423</ows:LowerCorner>
+<ows:UpperCorner>178.473 -33.874</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.NZ_TERRITORIAL_12_MILE_WATERS</Name>
+<Title>PETROLEUM.NZ_TERRITORIAL_12_MILE_WATERS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>writable</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.NZ_TERRITORIAL_12_MILE_WATERS</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.059096746817 -52.821368716992</ows:LowerCorner>
+<ows:UpperCorner>179.36430007988602 -29.030330272223498</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.PEGI_SITE_VIEW</Name>
+<Title>PETROLEUM.PEGI_SITE_VIEW</Title>
+<Abstract>
+PEGI product site locations and associated PEGI outputs
+</Abstract>
+<ows:Keywords>
+<ows:Keyword>PEGI</ows:Keyword>
+<ows:Keyword>WELLS</ows:Keyword>
+<ows:Keyword>OUTCROPS</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.1 -48.927</ows:LowerCorner>
+<ows:UpperCorner>176.371 -37.883</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PETROLEUM.WELL_WELLSHEET_VIEW</Name>
+<Title>PETROLEUM.WELL_WELLSHEET_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>PETROLEUM.WELL_WELLSHEET_VIEW</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.1529285358765 -49.61361216042662</ows:LowerCorner>
+<ows:UpperCorner>177.81493190031202 -35.56921297699218</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_AKL</Name>
+<Title>PET_AKL</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_ANU</Name>
+<Title>PET_ANU</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_CAB</Name>
+<Title>PET_CAB</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_DEVORA</Name>
+<Title>PET_DEVORA</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_GEOP</Name>
+<Title>PET_GEOP</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_GNSC</Name>
+<Title>PET_GNSC</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_GNSD</Name>
+<Title>PET_GNSD</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_GNSP</Name>
+<Title>PET_GNSP</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_INSR</Name>
+<Title>PET_INSR</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_MAS</Name>
+<Title>PET_MAS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_NZGS</Name>
+<Title>PET_NZGS</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_OTA</Name>
+<Title>PET_OTA</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_OTH</Name>
+<Title>PET_OTH</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_VIC</Name>
+<Title>PET_VIC</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_WAK</Name>
+<Title>PET_WAK</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PET_WIOF</Name>
+<Title>PET_WIOF</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:PSV</Name>
+<Title>PSV</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>PET.PET_SITE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.99996580496017 -86.63030908197872</ows:LowerCorner>
+<ows:UpperCorner>179.99982151554946 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Pukekohegroundwaterrecharge</Name>
+<Title>Pukekohe groundwater recharge</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>v_pukekohegroundwaterrecharge_features</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.8631828816826 -37.240046141380056</ows:LowerCorner>
+<ows:UpperCorner>174.90944183828756 -37.204821461693584</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_2012_MineralMetamorphismArc</Name>
+<Title>QMAP_2012_MineralMetamorphismArc</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_2012_MineralMetamorphismArc</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.26698260988775 -47.40598195401267</ows:LowerCorner>
+<ows:UpperCorner>174.6063237583138 -40.44340561869227</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_2012_MineralMetamorphismPol</Name>
+<Title>QMAP_2012_MineralMetamorphismPol</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>QMAP_2012_MineralMetamorphismPol</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.26698260988775 -47.40598195401267</ows:LowerCorner>
+<ows:UpperCorner>174.6063237583138 -40.44340561869227</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_2012_SimpleMineralMetamorphismPoly</Name>
+<Title>QMAP_2012_SimpleMineralMetamorphismPoly</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>QMAP_2012_MineralMetamorphismPol</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.26698260988775 -47.40598195401267</ows:LowerCorner>
+<ows:UpperCorner>174.6063237583138 -40.44340561869227</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_AKL</Name>
+<Title>QMAP_Faults_AKL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.197 -37.597</ows:LowerCorner>
+<ows:UpperCorner>176.285 -36.096</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_AOR</Name>
+<Title>QMAP_Faults_AOR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.738 -44.351</ows:LowerCorner>
+<ows:UpperCorner>171.773 -42.963</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_CCH</Name>
+<Title>QMAP_Faults_CCH</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.756 -43.827</ows:LowerCorner>
+<ows:UpperCorner>173.064 -43.001</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_DUN</Name>
+<Title>QMAP_Faults_DUN</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.613 -46.562</ows:LowerCorner>
+<ows:UpperCorner>170.694 -45.66</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_FLD</Name>
+<Title>QMAP_Faults_FLD</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Faults_FLD</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.38092502406644 -46.324007025004356</ows:LowerCorner>
+<ows:UpperCorner>168.159149555984 -44.30530728221777</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_GRE</Name>
+<Title>QMAP_Faults_GRE</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.714 -43.005</ows:LowerCorner>
+<ows:UpperCorner>172.279 -41.635</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_HAS</Name>
+<Title>QMAP_Faults_HAS</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.047 -44.312</ows:LowerCorner>
+<ows:UpperCorner>169.789 -43.349</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_HAW</Name>
+<Title>QMAP_Faults_HAW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Faults_HAW</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.5362682276098 -40.27684691076179</ows:LowerCorner>
+<ows:UpperCorner>177.46580688323715 -38.87031219690934</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_KAI</Name>
+<Title>QMAP_Faults_KAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.263 -43.007</ows:LowerCorner>
+<ows:UpperCorner>174.249 -41.65</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_KAT</Name>
+<Title>QMAP_Faults_KAT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.111 -35.6</ows:LowerCorner>
+<ows:UpperCorner>173.654 -34.146</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_MUR</Name>
+<Title>QMAP_Faults_MUR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.42887 -47.599129999999995</ows:LowerCorner>
+<ows:UpperCorner>169.68613 -45.34187000000001</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_NEL</Name>
+<Title>QMAP_Faults_NEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.852 -41.657</ows:LowerCorner>
+<ows:UpperCorner>173.72 -40.503</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_RAU</Name>
+<Title>QMAP_Faults_RAU</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>177.301 -39.194</ows:LowerCorner>
+<ows:UpperCorner>178.635 -37.529</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_SI</Name>
+<Title>QMAP_Faults_SI</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>QMAP_Faults_SI</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.26434562644715 -47.4014584792742</ows:LowerCorner>
+<ows:UpperCorner>178.53746069737005 -38.682084275540085</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_TAR</Name>
+<Title>QMAP_Faults_TAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.748 -40.304</ows:LowerCorner>
+<ows:UpperCorner>175.587 -38.926</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WAI</Name>
+<Title>QMAP_Faults_WAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.66 -45.691</ows:LowerCorner>
+<ows:UpperCorner>171.093 -44.309</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WAK</Name>
+<Title>QMAP_Faults_WAK</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.615 -45.66</ows:LowerCorner>
+<ows:UpperCorner>169.74 -44.237</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WAR</Name>
+<Title>QMAP_Faults_WAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.587 -41.413</ows:LowerCorner>
+<ows:UpperCorner>176.721 -40.248</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WEL</Name>
+<Title>QMAP_Faults_WEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.705 -41.655</ows:LowerCorner>
+<ows:UpperCorner>175.642 -40.277</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WHA</Name>
+<Title>QMAP_Faults_WHA</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.647 -36.25</ows:LowerCorner>
+<ows:UpperCorner>175.16 -34.943</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_WKT</Name>
+<Title>QMAP_Faults_WKT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.481 -38.945</ows:LowerCorner>
+<ows:UpperCorner>175.536 -37.575</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Faults_inactive_SI</Name>
+<Title>QMAP_Faults_inactive_SI</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Faults_inactive_SI</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.27022397512212 -47.40184820504977</ows:LowerCorner>
+<ows:UpperCorner>174.55489054127386 -40.3483546755473</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_AKL</Name>
+<Title>QMAP_Folds_AKL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.203 -37.597</ows:LowerCorner>
+<ows:UpperCorner>175.777 -36.112</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_AOR</Name>
+<Title>QMAP_Folds_AOR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.74 -44.351</ows:LowerCorner>
+<ows:UpperCorner>171.773 -42.976</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_CCH</Name>
+<Title>QMAP_Folds_CCH</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.764 -43.766</ows:LowerCorner>
+<ows:UpperCorner>173.101 -43.001</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_DUN</Name>
+<Title>QMAP_Folds_DUN</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.616 -46.511</ows:LowerCorner>
+<ows:UpperCorner>170.454 -45.661</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_FLD</Name>
+<Title>QMAP_Folds_FLD</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Folds_FLD</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.41761403342474 -46.29459592932181</ows:LowerCorner>
+<ows:UpperCorner>168.0220506879489 -44.38162130443284</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_GRE</Name>
+<Title>QMAP_Folds_GRE</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.814 -42.992</ows:LowerCorner>
+<ows:UpperCorner>172.267 -41.637</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_HAS</Name>
+<Title>QMAP_Folds_HAS</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.506 -44.312</ows:LowerCorner>
+<ows:UpperCorner>169.776 -43.601</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_HAW</Name>
+<Title>QMAP_Folds_HAW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Folds_HAW</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.53627110998966 -40.27684684470362</ows:LowerCorner>
+<ows:UpperCorner>177.46580981567834 -38.8703120870591</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_KAI</Name>
+<Title>QMAP_Folds_KAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.275 -43.011</ows:LowerCorner>
+<ows:UpperCorner>174.283 -41.65</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_KAT</Name>
+<Title>QMAP_Folds_KAT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.131 -35.586</ows:LowerCorner>
+<ows:UpperCorner>173.647 -34.15</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_MUR</Name>
+<Title>QMAP_Folds_MUR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.516 -46.697</ows:LowerCorner>
+<ows:UpperCorner>169.664 -45.584</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_NEL</Name>
+<Title>QMAP_Folds_NEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.915 -41.657</ows:LowerCorner>
+<ows:UpperCorner>173.72 -40.503</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_RAU</Name>
+<Title>QMAP_Folds_RAU</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>177.302 -39.192</ows:LowerCorner>
+<ows:UpperCorner>178.633 -37.557</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_TAR</Name>
+<Title>QMAP_Folds_TAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.385 -40.297</ows:LowerCorner>
+<ows:UpperCorner>175.587 -38.926</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WAI</Name>
+<Title>QMAP_Folds_WAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.664 -45.69</ows:LowerCorner>
+<ows:UpperCorner>171.013 -44.312</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WAK</Name>
+<Title>QMAP_Folds_WAK</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.62 -45.66</ows:LowerCorner>
+<ows:UpperCorner>169.74 -44.237</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WAR</Name>
+<Title>QMAP_Folds_WAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.587 -41.276</ows:LowerCorner>
+<ows:UpperCorner>176.664 -40.249</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WEL</Name>
+<Title>QMAP_Folds_WEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.705 -41.605</ows:LowerCorner>
+<ows:UpperCorner>175.638 -40.277</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WHA</Name>
+<Title>QMAP_Folds_WHA</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.66 -36.247</ows:LowerCorner>
+<ows:UpperCorner>174.486 -34.957</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Folds_WKT</Name>
+<Title>QMAP_Folds_WKT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.613 -38.943</ows:LowerCorner>
+<ows:UpperCorner>175.489 -37.576</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_AKL</Name>
+<Title>QMAP_Geol_U_L_AKL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.658 -37.602</ows:LowerCorner>
+<ows:UpperCorner>176.393 -35.931</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_AOR</Name>
+<Title>QMAP_Geol_U_L_AOR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.74 -44.351</ows:LowerCorner>
+<ows:UpperCorner>171.773 -42.963</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_CCH</Name>
+<Title>QMAP_Geol_U_L_CCH</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.747 -44.267</ows:LowerCorner>
+<ows:UpperCorner>173.25 -43.001</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_DUN</Name>
+<Title>QMAP_Geol_U_L_DUN</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.585 -47.049</ows:LowerCorner>
+<ows:UpperCorner>171.717 -45.66</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_FLD</Name>
+<Title>QMAP_Geol_U_L_FLD</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Geol_U_L_FLD</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.20995560292909 -46.681700730607865</ows:LowerCorner>
+<ows:UpperCorner>168.16532516679695 -44.2982796716721</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_GRE</Name>
+<Title>QMAP_Geol_U_L_GRE</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.302 -43.005</ows:LowerCorner>
+<ows:UpperCorner>172.279 -41.626</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_HAS</Name>
+<Title>QMAP_Geol_U_L_HAS</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.738 -44.312</ows:LowerCorner>
+<ows:UpperCorner>169.812 -42.89</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_HAW</Name>
+<Title>QMAP_Geol_U_L_HAW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Geol_U_L_HAW</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.5362682276098 -40.27684691076179</ows:LowerCorner>
+<ows:UpperCorner>177.46581568056067 -38.87031186735842</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_KAT</Name>
+<Title>QMAP_Geol_U_L_KAT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.886 -35.893</ows:LowerCorner>
+<ows:UpperCorner>173.657 -34.087</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_MUR</Name>
+<Title>QMAP_Geol_U_L_MUR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.313 -47.367</ows:LowerCorner>
+<ows:UpperCorner>169.664 -45.578</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_RAU</Name>
+<Title>QMAP_Geol_U_L_RAU</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>177.297 -39.41</ows:LowerCorner>
+<ows:UpperCorner>178.804 -37.461</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_TAR</Name>
+<Title>QMAP_Geol_U_L_TAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.229 -40.306</ows:LowerCorner>
+<ows:UpperCorner>175.587 -38.926</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WAI</Name>
+<Title>QMAP_Geol_U_L_WAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.664 -45.703</ows:LowerCorner>
+<ows:UpperCorner>171.996 -44.312</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WAK</Name>
+<Title>QMAP_Geol_U_L_WAK</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.615 -45.66</ows:LowerCorner>
+<ows:UpperCorner>169.74 -44.237</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WAR</Name>
+<Title>QMAP_Geol_U_L_WAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.587 -41.627</ows:LowerCorner>
+<ows:UpperCorner>177.317 -40.228</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WEL</Name>
+<Title>QMAP_Geol_U_L_WEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.705 -41.655</ows:LowerCorner>
+<ows:UpperCorner>175.64 -40.277</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WHA</Name>
+<Title>QMAP_Geol_U_L_WHA</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.646 -36.25</ows:LowerCorner>
+<ows:UpperCorner>175.218 -34.877</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_L_WKT</Name>
+<Title>QMAP_Geol_U_L_WKT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.676 -38.953</ows:LowerCorner>
+<ows:UpperCorner>175.536 -37.575</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_AKL</Name>
+<Title>QMAP_Geol_U_P_AKL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.658 -37.602</ows:LowerCorner>
+<ows:UpperCorner>176.393 -35.931</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_AOR</Name>
+<Title>QMAP_Geol_U_P_AOR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.571 -47.049</ows:LowerCorner>
+<ows:UpperCorner>171.773 -42.962</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_CC</Name>
+<Title>QMAP_Geol_U_P_CC</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.747 -44.267</ows:LowerCorner>
+<ows:UpperCorner>173.25 -43.001</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_DUN</Name>
+<Title>QMAP_Geol_U_P_DUN</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.571 -47.049</ows:LowerCorner>
+<ows:UpperCorner>171.717 -45.66</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_FLD</Name>
+<Title>QMAP_Geol_U_P_FLD</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>QMAP_Geol_U_P_FLD</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.20995560292909 -46.681700730607865</ows:LowerCorner>
+<ows:UpperCorner>168.16532516679695 -44.2982796716721</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_GRE</Name>
+<Title>QMAP_Geol_U_P_GRE</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>170.302 -43.005</ows:LowerCorner>
+<ows:UpperCorner>172.279 -41.626</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_HAS</Name>
+<Title>QMAP_Geol_U_P_HAS</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.738 -44.312</ows:LowerCorner>
+<ows:UpperCorner>169.812 -42.89</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_HAW</Name>
+<Title>QMAP_Geol_U_P_HAW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>QMAP_Geol_U_P_HAW</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.5362682276098 -40.27684691076179</ows:LowerCorner>
+<ows:UpperCorner>177.46581568056067 -38.87031186735842</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_KAI</Name>
+<Title>QMAP_Geol_U_P_KAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.263 -43.007</ows:LowerCorner>
+<ows:UpperCorner>174.716 -41.645</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_KAT</Name>
+<Title>QMAP_Geol_U_P_KAT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.886 -35.893</ows:LowerCorner>
+<ows:UpperCorner>173.657 -34.087</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_MU</Name>
+<Title>QMAP_Geol_U_P_MU</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.313 -47.367</ows:LowerCorner>
+<ows:UpperCorner>169.664 -45.578</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_NEL</Name>
+<Title>QMAP_Geol_U_P_NEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.799 -41.657</ows:LowerCorner>
+<ows:UpperCorner>173.72 -40.3</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_RAU</Name>
+<Title>QMAP_Geol_U_P_RAU</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>177.297 -39.41</ows:LowerCorner>
+<ows:UpperCorner>178.804 -37.461</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_TAR</Name>
+<Title>QMAP_Geol_U_P_TAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.229 -40.306</ows:LowerCorner>
+<ows:UpperCorner>175.587 -38.926</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WAI</Name>
+<Title>QMAP_Geol_U_P_WAI</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.664 -45.703</ows:LowerCorner>
+<ows:UpperCorner>171.996 -44.312</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WAK</Name>
+<Title>QMAP_Geol_U_P_WAK</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>167.615 -45.66</ows:LowerCorner>
+<ows:UpperCorner>169.74 -44.237</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WAR</Name>
+<Title>QMAP_Geol_U_P_WAR</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.587 -41.627</ows:LowerCorner>
+<ows:UpperCorner>177.317 -40.228</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WEL</Name>
+<Title>QMAP_Geol_U_P_WEL</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.705 -41.655</ows:LowerCorner>
+<ows:UpperCorner>175.64 -40.277</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WHA</Name>
+<Title>QMAP_Geol_U_P_WHA</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.646 -36.25</ows:LowerCorner>
+<ows:UpperCorner>175.218 -34.877</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:QMAP_Geol_U_P_WKT</Name>
+<Title>QMAP_Geol_U_P_WKT</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.676 -38.953</ows:LowerCorner>
+<ows:UpperCorner>175.536 -37.575</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Queenstowngroundwater</Name>
+<Title>Queenstown groundwater</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_queenstowngroundwater_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.5643154441914 -45.25074854004227</ows:LowerCorner>
+<ows:UpperCorner>168.85412676789892 -44.93560502596388</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:REGCHEM.REGCHEM_SITE_RESULT_VIEW</Name>
+<Title>REGCHEM.REGCHEM_SITE_RESULT_VIEW</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>REGCHEM.REGCHEM_SITE_RESULT_VIEW</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-154.5164087385063 -71.85882850394093</ows:LowerCorner>
+<ows:UpperCorner>178.31409736050557 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:SeabedTWTcontours</Name>
+<Title>SeabedTWTcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SeabedTWTcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908867443 -43.003419486</ows:LowerCorner>
+<ows:UpperCorner>179.905886431 -37.961800233</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:SeabedTopHikurangiPlateaufaults</Name>
+<Title>SeabedTopHikurangiPlateaufaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SeabedTopHikurangiPlateaufaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.238751439 -42.6275746539999</ows:LowerCorner>
+<ows:UpperCorner>176.864804234 -41.347762654</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:SeabedTopHikurangiPlateauisopachcontours</Name>
+<Title>SeabedTopHikurangiPlateauisopachcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SeabedTopHikurangiPlateauisopachcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908668058 -43.0024087289999</ows:LowerCorner>
+<ows:UpperCorner>179.907651865 -37.9615771839999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:SeabedTopMiocenefaults</Name>
+<Title>SeabedTopMiocenefaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>SeabedTopMiocenefaults</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.945316945 -42.4244524919999</ows:LowerCorner>
+<ows:UpperCorner>179.2249626 -37.9816215459999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:SeabedTopMioceneisopachcontours</Name>
+<Title>SeabedTopMioceneisopachcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SeabedTopMioceneisopachcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.90888819095 -43.0031016603866</ows:LowerCorner>
+<ows:UpperCorner>179.905952268179 -37.9634189876549</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:Seabeddepthcontours</Name>
+<Title>Seabeddepthcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>Seabeddepthcontours</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.896840592 -43.002935824</ows:LowerCorner>
+<ows:UpperCorner>179.905886431 -37.964396101</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Southtaupowetlands</Name>
+<Title>South taupo wetlands</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_southtaupowetlands_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.76236750571917 -44.95916578169246</ows:LowerCorner>
+<ows:UpperCorner>175.82743961205836 -38.054774543712725</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:TDCturangiwetland</Name>
+<Title>TDC Turangi wetland</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_tdcturangiwetland_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.7747333163116 -38.97776099534317</ows:LowerCorner>
+<ows:UpperCorner>175.77796963667168 -38.96654679062507</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Taraweradrilling</Name>
+<Title>Tarawera drilling</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_taraweradrilling_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-173.025493865433 -43.81930310015503</ows:LowerCorner>
+<ows:UpperCorner>179.99966275291692 -38.15920920066263</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopEarlyCretaceousDepthcontours</Name>
+<Title>TopEarlyCretaceousDepthcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopEarlyCretaceousDepthcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908704149 -43.0045675079999</ows:LowerCorner>
+<ows:UpperCorner>179.90666567 -37.9620082</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopEarlyCretaceousDepthfaults</Name>
+<Title>TopEarlyCretaceousDepthfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopEarlyCretaceousDepthfaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.974367887 -42.9045537059999</ows:LowerCorner>
+<ows:UpperCorner>178.963139117 -37.981457357</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopEarlyCretaceousTWTcontours</Name>
+<Title>TopEarlyCretaceousTWTcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopEarlyCretaceousTWTcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.9087655 -43.0031263129999</ows:LowerCorner>
+<ows:UpperCorner>179.906555847 -37.9623388159999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopEarlyCretaceousTWTfaults</Name>
+<Title>TopEarlyCretaceousTWTfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopEarlyCretaceousTWTfaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.974367887 -42.9045537059999</ows:LowerCorner>
+<ows:UpperCorner>178.963139117 -37.981457357</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopEarlyCretaceousTopHikurangiPlateaufaults</Name>
+<Title>TopEarlyCretaceousTopHikurangiPlateaufaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopEarlyCretaceousTopHikurangiPlateaufaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.238751439 -42.6275746549999</ows:LowerCorner>
+<ows:UpperCorner>176.864804234 -41.3477626549999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>
+gns:TopEarlyCretaceousTopHikurangiPlateauisopachcontour
+</Name>
+<Title>
+TopEarlyCretaceousTopHikurangiPlateauisopachcontour
+</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>
+TopEarlyCretaceousTopHikurangiPlateauisopachcontour
+</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.913118826912 -43.0038241948341</ows:LowerCorner>
+<ows:UpperCorner>179.906738773655 -37.9621394591125</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopHikurangiPlateauDepthcontours</Name>
+<Title>TopHikurangiPlateauDepthcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopHikurangiPlateauDepthcontours</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908873306 -43.001996184</ows:LowerCorner>
+<ows:UpperCorner>179.905714488 -37.9618837649999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopHikurangiPlateauDepthfaults</Name>
+<Title>TopHikurangiPlateauDepthfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopHikurangiPlateauDepthfaults</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.238751439 -42.6275746549999</ows:LowerCorner>
+<ows:UpperCorner>176.864804234 -41.3477626549999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneDepthFaults</Name>
+<Title>TopMioceneDepthFaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopMioceneDepthFaults</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.945316945 -42.4244524919999</ows:LowerCorner>
+<ows:UpperCorner>179.2249626 -37.9816215459999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneDepthcontours</Name>
+<Title>TopMioceneDepthcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopMioceneDepthcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908972081 -43.0015975059999</ows:LowerCorner>
+<ows:UpperCorner>179.905867364 -37.9622832759999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneTWTcontours</Name>
+<Title>TopMioceneTWTcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopMioceneTWTcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.909016729 -43.0034217959999</ows:LowerCorner>
+<ows:UpperCorner>179.907066921 -37.9676822719999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneTWTfaults</Name>
+<Title>TopMioceneTWTfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopMioceneTWTfaults</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.945316945 -42.4244524919999</ows:LowerCorner>
+<ows:UpperCorner>179.2249626 -37.9816215459999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneTopOligocenefaults</Name>
+<Title>TopMioceneTopOligocenefaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopMioceneTopOligocenefaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.003843458 -42.7667194289999</ows:LowerCorner>
+<ows:UpperCorner>179.278251613 -37.9769339019999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopMioceneTopOligoceneisopachcontour</Name>
+<Title>TopMioceneTopOligoceneisopachcontour</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopMioceneTopOligoceneisopachcontour</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.909616802336 -43.0013569113083</ows:LowerCorner>
+<ows:UpperCorner>179.906392400809 -37.9745199888965</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopOligoceneTopEarlyCreatceousfaults</Name>
+<Title>TopOligoceneTopEarlyCreatceousfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopOligoceneTopEarlyCreatceousfaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.97436788727 -42.9045537063611</ows:LowerCorner>
+<ows:UpperCorner>178.96313911724 -37.9814573574155</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopOligoceneTopEarlyCreatceousisopachcontour</Name>
+<Title>TopOligoceneTopEarlyCreatceousisopachcontour</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>TopOligoceneTopEarlyCreatceousisopachcontour</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.908839026255 -43.005086858976</ows:LowerCorner>
+<ows:UpperCorner>179.877573550671 -37.9620289714298</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopPaleogeneDepthcontours</Name>
+<Title>TopPaleogeneDepthcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopPaleogeneDepthcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.909119097 -43.004903328</ows:LowerCorner>
+<ows:UpperCorner>179.907001353 -37.96532121</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopPaleogeneDepthfaults</Name>
+<Title>TopPaleogeneDepthfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopPaleogeneDepthfaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.003843458 -42.7667194289999</ows:LowerCorner>
+<ows:UpperCorner>179.278251613 -37.9769339019999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopPaleogeneTWTcontours</Name>
+<Title>TopPaleogeneTWTcontours</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopPaleogeneTWTcontours</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.909417119 -43.0042570689999</ows:LowerCorner>
+<ows:UpperCorner>179.903599176 -37.9617753709999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:TopPaleogeneTWTfaults</Name>
+<Title>TopPaleogeneTWTfaults</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>TopPaleogeneTWTfaults</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>174.003843458 -42.7667194289999</ows:LowerCorner>
+<ows:UpperCorner>179.278251613 -37.9769339019999</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Turangioxyponds</Name>
+<Title>Turangi oxy ponds</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_turangioxyponds_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.77224614014156 -38.98594104399093</ows:LowerCorner>
+<ows:UpperCorner>175.79254696876578 -38.96509019859662</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Volcanicmonitoringconfidentialsites</Name>
+<Title>Volcanic monitoring (confidential sites)</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>v_volcanicmonitoringconfidentialsites_features</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.60999914384945 -38.96694020776454</ows:LowerCorner>
+<ows:UpperCorner>179.2881508213905 -12.710055866177656</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Volcanomonitoring</Name>
+<Title>Volcano monitoring</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_volcanomonitoring_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-177.99256982099513 -39.30598617022153</ows:LowerCorner>
+<ows:UpperCorner>179.01105554755205 -12.778268375183664</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Waimakariririverrecharge</Name>
+<Title>Waimakariri river recharge</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_waimakariririverrecharge_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>172.26210269714971 -43.60366432702778</ows:LowerCorner>
+<ows:UpperCorner>172.53984125529604 -43.32592576888144</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Waimarinogroundwater</Name>
+<Title>Waimarino groundwater</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>v_waimarinogroundwater_features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.86204353783245 -38.99092547636466</ows:LowerCorner>
+<ows:UpperCorner>175.92255989094417 -38.935994238212295</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:WairakeiAnalyticalRecordingThermodynamicSystem</Name>
+<Title>Wairakei Analytical Recording Thermodynamic System</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>
+v_wairakeianalyticalrecordingthermodynamicsystem_features
+</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>171.7722607937239 -42.66040795714824</ows:LowerCorner>
+<ows:UpperCorner>178.12322207144018 -29.143944132533672</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:ggw="http://ggw.gns.cri.nz/">
+<Name>ggw:Wanakagroundwater</Name>
+<Title>Wanaka groundwater</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>v_wanakagroundwater_features</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>169.09437215595293 -44.776281513204424</ows:LowerCorner>
+<ows:UpperCorner>169.28066495834452 -44.66156274762584</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:coast_1m</Name>
+<Title>coast_1m_Type</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>Zealand</ows:Keyword>
+<ows:Keyword>New</ows:Keyword>
+<ows:Keyword>coast</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::27200</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.26676387476502 -47.411751446228145</ows:LowerCorner>
+<ows:UpperCorner>179.48281105161445 -34.01563147998953</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:direct_use_feature_view</Name>
+<Title>direct_use_feature_view</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>direct_use_feature_view</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>168.6858597386306 -45.058932095394496</ows:LowerCorner>
+<ows:UpperCorner>178.89775835811582 -35.13410441600235</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:fsv</Name>
+<Title>fsv</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-179.953 -88.075</ows:LowerCorner>
+<ows:UpperCorner>179.991 90.0</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:geothermal_category_feature_view</Name>
+<Title>geothermal_category_feature_view</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>geothermal_category_feature_view</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.81998280338277 -38.673502608743846</ows:LowerCorner>
+<ows:UpperCorner>176.37815252449212 -37.43878298469731</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:gps_site_latlon_view</Name>
+<Title>gps_site_latlon_view</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>SAID.GPS_SITE_SHAPE_VIEW</ows:Keyword>
+<ows:Keyword>ArcSDE</ows:Keyword>
+<ows:Keyword>registered view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>-178.42375994040248 -77.84986367936615</ows:LowerCorner>
+<ows:UpperCorner>178.81110125134023 -29.038295631584216</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:gps_site_latlon_view_old</Name>
+<Title>gps_site_latlon_view_old</Title>
+<Abstract/>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4272</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>166.227 -50.518</ows:LowerCorner>
+<ows:UpperCorner>178.811 -34.404</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:nz_geothermal_field</Name>
+<Title>nz_geothermal_field</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>nz_geothermal_field</ows:Keyword>
+<ows:Keyword>features</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>175.59511777788757 -39.15155306230916</ows:LowerCorner>
+<ows:UpperCorner>176.50995257218298 -38.22738966788218</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:power_station_feature_view</Name>
+<Title>power_station_feature_view</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>power_station_feature_view</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::2193</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>173.8519853749509 -38.70515127762221</ows:LowerCorner>
+<ows:UpperCorner>176.7573677298837 -35.36685987126285</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+<FeatureType xmlns:gns="http://www.gns.cri.nz">
+<Name>gns:2D_SEIS_LINES</Name>
+<Title>seismic</Title>
+<Abstract/>
+<ows:Keywords>
+<ows:Keyword>features</ows:Keyword>
+<ows:Keyword>seismic</ows:Keyword>
+</ows:Keywords>
+<DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>61.0180053710938 -52.1438140869141</ows:LowerCorner>
+<ows:UpperCorner>180.0 -29.8489265441895</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+</FeatureType>
+</FeatureTypeList>
+<fes:Filter_Capabilities>
+<fes:Conformance>
+<fes:Constraint name="ImplementsQuery">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsAdHocQuery">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsFunctions">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsMinStandardFilter">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsStandardFilter">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsMinSpatialFilter">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsSpatialFilter">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsMinTemporalFilter">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsTemporalFilter">
+<ows:NoValues/>
+<ows:DefaultValue>TRUE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsVersionNav">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsSorting">
+<ows:AllowedValues>
+<ows:Value>ASC</ows:Value>
+<ows:Value>DESC</ows:Value>
+</ows:AllowedValues>
+<ows:DefaultValue>ASC</ows:DefaultValue>
+</fes:Constraint>
+<fes:Constraint name="ImplementsExtendedOperators">
+<ows:NoValues/>
+<ows:DefaultValue>FALSE</ows:DefaultValue>
+</fes:Constraint>
+</fes:Conformance>
+<fes:Id_Capabilities>
+<fes:ResourceIdentifier name="fes:ResourceId"/>
+</fes:Id_Capabilities>
+<fes:Scalar_Capabilities>
+<fes:LogicalOperators/>
+<fes:ComparisonOperators>
+<fes:ComparisonOperator name="PropertyIsLessThan"/>
+<fes:ComparisonOperator name="PropertyIsGreaterThan"/>
+<fes:ComparisonOperator name="PropertyIsLessThanOrEqualTo"/>
+<fes:ComparisonOperator name="PropertyIsGreaterThanOrEqualTo"/>
+<fes:ComparisonOperator name="PropertyIsEqualTo"/>
+<fes:ComparisonOperator name="PropertyIsNotEqualTo"/>
+<fes:ComparisonOperator name="PropertyIsLike"/>
+<fes:ComparisonOperator name="PropertyIsBetween"/>
+<fes:ComparisonOperator name="PropertyIsNull"/>
+<fes:ComparisonOperator name="PropertyIsNil"/>
+</fes:ComparisonOperators>
+</fes:Scalar_Capabilities>
+<fes:Spatial_Capabilities>
+<fes:GeometryOperands>
+<fes:GeometryOperand name="gml:Envelope"/>
+<fes:GeometryOperand name="gml:Point"/>
+<fes:GeometryOperand name="gml:MultiPoint"/>
+<fes:GeometryOperand name="gml:LineString"/>
+<fes:GeometryOperand name="gml:MultiLineString"/>
+<fes:GeometryOperand name="gml:Polygon"/>
+<fes:GeometryOperand name="gml:MultiPolygon"/>
+<fes:GeometryOperand name="gml:MultiGeometry"/>
+</fes:GeometryOperands>
+<fes:SpatialOperators>
+<fes:SpatialOperator name="Disjoint"/>
+<fes:SpatialOperator name="Equals"/>
+<fes:SpatialOperator name="DWithin"/>
+<fes:SpatialOperator name="Beyond"/>
+<fes:SpatialOperator name="Intersects"/>
+<fes:SpatialOperator name="Touches"/>
+<fes:SpatialOperator name="Crosses"/>
+<fes:SpatialOperator name="Within"/>
+<fes:SpatialOperator name="Contains"/>
+<fes:SpatialOperator name="Overlaps"/>
+<fes:SpatialOperator name="BBOX"/>
+</fes:SpatialOperators>
+</fes:Spatial_Capabilities>
+<fes:Temporal_Capabilities>
+<fes:TemporalOperands>
+<fes:TemporalOperand name="gml:TimeInstant"/>
+<fes:TemporalOperand name="gml:TimePeriod"/>
+</fes:TemporalOperands>
+<fes:TemporalOperators>
+<fes:TemporalOperator name="After"/>
+<fes:TemporalOperator name="Before"/>
+<fes:TemporalOperator name="Begins"/>
+<fes:TemporalOperator name="BegunBy"/>
+<fes:TemporalOperator name="TContains"/>
+<fes:TemporalOperator name="During"/>
+<fes:TemporalOperator name="TEquals"/>
+<fes:TemporalOperator name="TOverlaps"/>
+<fes:TemporalOperator name="Meets"/>
+<fes:TemporalOperator name="OverlappedBy"/>
+<fes:TemporalOperator name="MetBy"/>
+<fes:TemporalOperator name="EndedBy"/>
+</fes:TemporalOperators>
+</fes:Temporal_Capabilities>
+<fes:Functions>
+<fes:Function name="abs">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="int">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="abs_2">
+<fes:Returns>xs:long</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:long</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="abs_3">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="abs_4">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="acos">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Area">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="area2">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="asin">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="asMultiGeometry">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="atan">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="atan2">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="x">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="y">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="between">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="low">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="high">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="boundary">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="boundaryDimension">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="buffer">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="distance">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="bufferWithSegments">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="distance">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="numberOfSegments">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Categorize">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="LookupValue">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Value">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Threshold 1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Value 1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Threshold 2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Value 2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="succeeding or preceding">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="ceil">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="centroid">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="classify">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="classifer">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Average">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Bounds">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Count">
+<fes:Returns>xs:string</fes:Returns>
+</fes:Function>
+<fes:Function name="Collection_Max">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Median">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Min">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Sum">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Collection_Unique">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expression">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Concatenate">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="text">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="contains">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="convert">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="class">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="convexHull">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="cos">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="radians">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="crosses">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="dateFormat">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="format">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="date">
+<fes:Type>xs:date</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="dateParse">
+<fes:Returns>xs:date</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="format">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="dateString">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="difference">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="dimension">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="disjoint">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="distance">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="double2bool">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="double">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="endAngle">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="linestring">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="endPoint">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="linestring">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="env">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="variable">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="envelope">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="EqualInterval">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="classes">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="equalsExact">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="equalsExactTolerance">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="tolarance">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="equalTo">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="object1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="object2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="exp">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="exteriorRing">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="floor">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="double">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="geometryType">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="geomFromWKT">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="geomLength">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="getGeometryN">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="index">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="getID">
+<fes:Returns>xs:string</fes:Returns>
+</fes:Function>
+<fes:Function name="getX">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="getY">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="getz">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="greaterEqualThan">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="object1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="object2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="greaterThan">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="object1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="object2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="id">
+<fes:Returns>xs:string</fes:Returns>
+</fes:Function>
+<fes:Function name="IEEEremainder">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="dividend">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="divisor">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="if_then_else">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="condition">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="then">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="else">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in10">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in6">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in7">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in8">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in9">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in10">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in2">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in3">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in4">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in5">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in6">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in6">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in7">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in6">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in7">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in8">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in6">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in7">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in8">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="in9">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+<fes:Argument name="in1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in3">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in4">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in5">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in6">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in7">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in8">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="in9">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="int2bbool">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="int">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="int2ddouble">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="int">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="interiorPoint">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="interiorRingN">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="n">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Interpolate">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="data value pairs">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="mode">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="method">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="intersection">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="intersects">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isClosed">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isEmpty">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isLike">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="regex">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isNull">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="object">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isometric">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="extrusion">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isRing">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isSimple">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isValid">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="isWithinDistance">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="distance">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Jenks">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="classes">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="length">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="lessEqualThan">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="a">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="b">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="lessThan">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="a">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="b">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="log">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="max">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="double">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="double">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="max_2">
+<fes:Returns>xs:long</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="long">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="long">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="max_3">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="float">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="float">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="max_4">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="int">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="int">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="min">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="double">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="double">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="min_2">
+<fes:Returns>xs:long</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="long">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="long">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="min_3">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="float">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="float">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="min_4">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="int">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="int">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="mincircle">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="minimumdiameter">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="minrectangle">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="modulo">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="dividend">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+<fes:Argument name="divisor">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="not">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="logicValue">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="notEqualTo">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="a">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="b">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="numberFormat">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="format">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="numberFormat2">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="format">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="minus">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="decimal">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="separator">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="numGeometries">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="numInteriorRing">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="numPoints">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="octagonalenvelope">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="offset">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="offsetX">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="offsetY">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="overlaps">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="parseBoolean">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="parseDouble">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="parseInt">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="parseLong">
+<fes:Returns>xs:long</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="pi">
+<fes:Returns>xs:string</fes:Returns>
+</fes:Function>
+<fes:Function name="pointN">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="index">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="pow">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="base">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+<fes:Argument name="exponent">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="property">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="propertyName">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="PropertyExists">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="propertyName">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Quantile">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="classes">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="random">
+<fes:Returns>xs:string</fes:Returns>
+</fes:Function>
+<fes:Function name="Recode">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="LookupValue">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Data 1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Value 1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Data 2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="Value 2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="relate">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="relatePattern">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="pattern">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="rint">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="double">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="round">
+<fes:Returns>xs:float</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="round_2">
+<fes:Returns>xs:long</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="roundDouble">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="setCRS">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="CRS">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="sin">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="radians">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="sqrt">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="number">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="StandardDeviation">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="classes">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="startAngle">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="linestring">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="startPoint">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="linestring">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strCapitalize">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strConcat">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string1">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="string2">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strEndsWith">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="String">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="postfix">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strEqualsIgnoreCase">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="lookup">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strIndexOf">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="String">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="lookup">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strLastIndexOf">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="String">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="lookup">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strLength">
+<fes:Returns>xs:int</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strMatches">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="regex">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strPosition">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="lookup">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="method">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strReplace">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="search">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="replace">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="all">
+<fes:Type>xs:boolean</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strStartsWith">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="prefix">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strSubstring">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="beginIndex">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+<fes:Argument name="endIndex">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strSubstringStart">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="beginIndex">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strToLowerCase">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strToUpperCase">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strTrim">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="strTrim2">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="string">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="method">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="character">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="symDifference">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="tan">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="radians">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toDegrees">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="radians">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toDirectPosition">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="parameter">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="ToEnvelope">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="parameter">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toPoint">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="parameter">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toRadians">
+<fes:Returns>xs:double</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="degree">
+<fes:Type>xs:float</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="touches">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toWKT">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="toXlinkHref">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="REFERENCE_VALUE">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="union">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="UniqueInterval">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="value">
+<fes:Type>xs:double</fes:Type>
+</fes:Argument>
+<fes:Argument name="classes">
+<fes:Type>xs:int</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="vertices">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="Vocab">
+<fes:Returns>xs:string</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="expr">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+<fes:Argument name="vocab">
+<fes:Type>xs:string</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+<fes:Function name="within">
+<fes:Returns>xs:boolean</fes:Returns>
+<fes:Arguments>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+<fes:Argument name="geometry">
+<fes:Type>gml:AbstractGeometryType</fes:Type>
+</fes:Argument>
+</fes:Arguments>
+</fes:Function>
+</fes:Functions>
+</fes:Filter_Capabilities>
+</wfs:WFS_Capabilities>
