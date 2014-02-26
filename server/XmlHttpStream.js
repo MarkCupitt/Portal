@@ -13,24 +13,26 @@ var XmlHttpStream = exports.get = function(url) {
 
         var
           m,
-          nodeName;
+          nodeName, attributes, nodeValue;
 
         while (m = str.match(/(.*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
-          if (m[1] !== '') {
-            if (nodeName !== undefined) {
-              e.emit('text', { name: nodeName, text: m[1].replace(/^\s+|\s+$/g, '') });
-            }
+          nodeName = m[3] || null;
+          attributes = m[4] || {};
+          nodeValue = m[1] || '';
+
+          if (nodeValue && nodeName) {
+            e.emit('text', { nodeName: nodeName, text: nodeValue.replace(/^\s+|\s+$/g, '') });
           }
+
           if (m[2]) {
-            e.emit('tag-close', { name: m[3] });
+            e.emit('tag-close', { nodeName: nodeName });
           } else if (m[5]) {
-            nodeName = m[3];
-            e.emit('tag-open', { name: nodeName, attributes: m[4] });
-            e.emit('tag-close', { name: nodeName });
+            e.emit('tag-open', { nodeName: nodeName, attributes: attributes });
+            e.emit('tag-close', { nodeName: nodeName });
           } else {
-            nodeName = m[3];
-            e.emit('tag-open', { name: nodeName, attributes: m[4] });
+            e.emit('tag-open', { nodeName: nodeName, attributes: attributes });
           }
+
           str = str.substring(m[0].length);
         }
       })

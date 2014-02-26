@@ -1,64 +1,85 @@
-var XmlHttpStream = require('XmlHttpStream.js');
-var fs = require('fs');
+var XmlHttpStream = require('./XmlHttpStream.js');
+var fs     = require('fs');
+var proj   = require('proj4');
+var config = require('./config.js');
 
-var url = "http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=fis:re_hausumringe&SRSNAME=EPSG:3068";
+var url = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=fis:re_hausumringe&SRSNAME=EPSG:3068';
+var fileName = './TESTgeojson.xml';
 
-var stack    = [];
-var feature  = {};
-var json_str = '';
+var feature = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: null,
+    coordinates: [
+      []
+    ]
+  }
+};
+
+var stack = [];
+var isFirstItem = true;
+var separator = '';
+
+fs.writeFileSync(fileName, '{"type":"FeatureCollection","features":[\n');
 
 var xml = XmlHttpStream.get(url)
-  .on('tag-open', function(args) {
-    stack.push(args.name);
+  .on('tag-open', function(e) {
+    stack.push(e.nodeName);
 
-    if (args.name === 'gml:featureMember'){
-      feature = {};
+    var parentName = stack[stack.length-2];
+
+    if (e.nodeName === 'gml:featureMember') {
+     if (feature.geometry.type && feature.geometry.coordinates[0].length) {
+        if (isFirstItem) {
+           isFirstItem = false;
+        } else {
+          separator = ',\n';
+        }
+
+        fs.appendFileSync(fileName, separator + JSON.stringify(feature));
+
+        feature = {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: null,
+            coordinates: [
+              []
+            ]
+          }
+        };
+      }
     }
 
-    if (stack[stack.length-2] === 'gml:geometryMember'){
-      feature.geometry = args.name;
-        fs.appendFileSync('./hallo.xml',feature.geometry + '\n', function (err) {
-        if (err) throw err;
-        console.log('The "data to append" was appended to file!');
-        });
+    if (parentName === 'gml:geometryMember') {
+      feature.geometry.type = e.nodeName.split(':')[1];
     }
   })
-  .on('tag-close', function(args) {
-//    console.log(args);
+
+  .on('tag-close', function() {
     stack.pop();
   })
-  .on('text', function(args) {
-//    console.log(args);
-    if (stack.join('/') === 'wfs:FeatureCollection/gml:boundedBy/gml:Box/gml:coordinates'){
-//      console.log(args.text);
-      feature.bbox_coord = args.text;
-      json_str = 'BBox Coordinates ' + '\n' + feature.bbox_coord;
-        fs.writeFile('./hallo.xml', json_str, function (err) {
-          if (err) throw err;
-          console.log('It\'s saved!');
-        });
+
+  .on('text', function(e) {
+    if (e.nodeName === 'gml:coordinates') {
+      var parentName = stack[stack.length-2];
+
+      if (parentName !== 'gml:Box') {
+        var
+          coordPairs = e.nodeValue.split(' '),
+          pair, xy;
+
+        for (var i = 0; i < coordPairs.length; i++) {
+          pair = coordPairs[i].split(',');
+          xy = proj(config.proj['EPSG:25833'], config.proj['EPSG:4326'], [ parseFloat(pair[0]), parseFloat(pair[1]) ]);
+          feature.geometry.coordinates[0].push(xy);
+        }
+      }
+    } else {
+      feature.properties[e.nodeName] = e.nodeValue;
     }
-    if (stack[stack.length-1] === 'gml:coordinates'){
-      // Bisher vorandene feature in ein array schreiben
-      feature.coordinates = args.text;
-       fs.appendFileSync('./hallo.xml',feature.coordinates + '\n', function (err) {
-        if (err) throw err;
-        console.log('The "data to append" was appended to file!');
-        });
-    }
+  })
+  .on('end', function(){
+    fs.appendFileSync(fileName, '\n]}');
   });
-
-
-
-//fs.writeFile('./hallo.xml', json_str, function (err) {
-//  if (err) throw err;
-//  console.log('It\'s saved!');
-//});
-//write(feature.geometry, './hallo.xml');
-
-// ATTRIB
-//var str = ' href="213" src="test"', m;
-//while (m = str.match(/\s*([a-z_:-]+)="([^"]*)"/)) {
-//  console.log(m);
-//  str = str.substring(m[0].length)
-//};
