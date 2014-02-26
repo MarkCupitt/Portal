@@ -52,12 +52,12 @@ function eachFile(path, callback) {
   });
 }
 
-copy('./', 'ertz/')
+//copy('./', 'ertz/')
 
 
 
 
-
+/*
 var pgUsername = '',               // your postgres user name
     pgPassword = '',               // your postgres user password
     pgHost     = 'localhost:5432', // your postgres host and optionally port
@@ -83,3 +83,8 @@ sql.query(query, function(err, res) {
       //...
     }
 });
+*/
+
+var XML = require('node-jsxml').XML;
+var x = new XML(read('hausumringe.xml'));
+console.log(x.toXMLString());
