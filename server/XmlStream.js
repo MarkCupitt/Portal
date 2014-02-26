@@ -69,7 +69,7 @@ var json_str = '';
 var geoJson_str = '';
 var geojson = {type:'Feature', properties:{}, geometry:{coordinates:[[]]}};
 var coord_x = [],coord_y = [];
-var flag = false;
+var first_data = true;
 
 var xml = new XmlStream(url)
   .on('tag-open', function(args) {
@@ -77,7 +77,12 @@ var xml = new XmlStream(url)
 
     if (args.name === 'gml:featureMember'){
      if (geojson.geometry.type !== undefined && geojson.geometry.coordinates[0].length){
-        fs.appendFile('./TESTgeojson.xml', JSON.stringify(geojson) + ',\n');
+        if (first_data) {
+           fs.appendFile('./TESTgeojson.xml', JSON.stringify(geojson) + '\n');
+           first_data = false;
+        } else {
+          fs.appendFile('./TESTgeojson.xml', ',' + JSON.stringify(geojson) + '\n');
+        }
         geojson = {type:'Feature', properties:{}, geometry:{coordinates:[[]]}};
       }
     }
@@ -86,11 +91,6 @@ var xml = new XmlStream(url)
     }
   })
   .on('tag-close', function(args) {
-//    console.log(args);
-   if (args.name === 'wfs:FeatureCollection'){
-     console.log('HALLO');
-     fs.appendFile('./TESTgeojson.xml', 'ENDE');
-   }
    stack.pop();
   })
   .on('text', function(args) {
