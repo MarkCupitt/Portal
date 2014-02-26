@@ -1,0 +1,42 @@
+Input Stream
+
+- Web Service
+- Database
+- File
+
+=>
+
+Input Format
+
+- GML
+- KML
+- GeoJSON
+- OSM
+(- Shape)
+
+=>
+
+Processing
+
+- Pipe
+- Cache
+- Conversion
+- Filtering
+- Selection
+- Projection
+
+=>
+
+Output Format
+
+- GML
+- KML
+- GeoJSON
+
+=>
+
+Output Stream
+
+- Web Service
+- Database
+- File

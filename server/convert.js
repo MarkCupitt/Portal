@@ -4,7 +4,7 @@ var proj   = require('proj4');
 var config = require('./config.js');
 
 var url = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=fis:re_hausumringe&SRSNAME=EPSG:3068';
-var fileName = 'TEST.geojson';
+var fileName = 'data/TEST.geojson';
 
 var feature = {
   type: 'Feature',
