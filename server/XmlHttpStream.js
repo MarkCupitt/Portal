@@ -13,16 +13,17 @@ var XmlHttpStream = exports.get = function(url) {
 
         var
           m,
-          nodeName, attributes, nodeValue;
+          nodeName = null, attributes, nodeValue;
 
         while (m = str.match(/(.*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
-          nodeName = m[3] || null;
-          attributes = m[4] || {};
-          nodeValue = m[1] || '';
+          nodeValue  = m[1];
 
           if (nodeValue && nodeName) {
-            e.emit('text', { nodeName: nodeName, text: nodeValue.replace(/^\s+|\s+$/g, '') });
+            e.emit('text', { nodeName: nodeName, nodeValue: nodeValue.replace(/^\s+|\s+$/g, '') });
           }
+
+          nodeName   = m[3];
+          attributes = m[4];
 
           if (m[2]) {
             e.emit('tag-close', { nodeName: nodeName });
@@ -36,7 +37,7 @@ var XmlHttpStream = exports.get = function(url) {
           str = str.substring(m[0].length);
         }
       })
-      .on('close', function () {
+      .on('end', function () {
         e.emit('end');
       });
   });
