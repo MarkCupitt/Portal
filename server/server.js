@@ -54,11 +54,8 @@ function eachFile(path, callback) {
 }
 
 //copy('./', 'ertz/')
+
 //write(fs.readFileSync('./capa.xml'), 'capa2.xml/');
-
-
-
-
 
 var pgUsername = 'test_user',       // your postgres user name
     pgPassword = 'test1234',        // your postgres user password
@@ -82,9 +79,6 @@ sql.query(query, function(err, res) {
     }
 });
 
-
-//
-////
 ////var parseString = require('xml2js').parseString;
 //var xml = fs.readFileSync('./test.xml');
 ////parseString(xml, function (err, result) {
@@ -188,7 +182,6 @@ read_stream.on('data', function(chunk) {
   });
 
 });
-
 
 
 read_stream.on('end', function() {

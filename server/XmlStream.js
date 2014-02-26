@@ -29,19 +29,25 @@ var XmlStream = exports.XmlStream = function(url) {
     res.on('data', function(buffer) {
       str += buffer.toString();
 
-      var m;
+      var
+        m,
+        nodeName;
       while (m = str.match(/(.*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
-//      while (m = str.match(/(.*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
         if (m[1] !== '') {
-          this.emit('text', { text: m[1] });
+          if (nodeName !== undefined) {
+//          this.emit('text', { name: nodeName, text: m[1].replace(/^\s+|\s+$/g, '') });
+            this.emit('text', { name: nodeName, text: m[1] });
+          }
         }
         if (m[2]) {
           this.emit('tag-close', { name: m[3] });
         } else if (m[5]) {
-          this.emit('tag-open', { name: m[3], attributes: m[4] });
-          this.emit('tag-close', { name: m[3] });
+          nodeName = m[3];
+          this.emit('tag-open', { name: nodeName, attributes: m[4] });
+          this.emit('tag-close', { name: nodeName });
         } else {
-          this.emit('tag-open', { name: m[3], attributes: m[4] });
+          nodeName = m[3];
+          this.emit('tag-open', { name: nodeName, attributes: m[4] });
         }
         str = str.substring(m[0].length);
       }
@@ -54,6 +60,8 @@ var XmlStream = exports.XmlStream = function(url) {
 
 util.inherits(XmlStream, events.EventEmitter);
 var proto = XmlStream.prototype;
+
+
 
 var stack = [];
 var feature = {};
