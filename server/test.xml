@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<title>Hello xml2js!</title>
+<keywordlist>
+<keyword>OGC</keyword>
+<keyword>GML</keyword>
+<keyword>OSM</keyword>
+</keywordlist>
+<coordinates cs="," decimal="." ts=" ">
+372582.5329999998,5805776.33
+</coordinates>
+</root>
