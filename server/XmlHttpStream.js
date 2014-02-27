@@ -26,12 +26,12 @@ var XmlHttpStream = exports.get = function(url) {
           attributes = m[4];
 
           if (m[2]) {
-            e.emit('tag-close', { nodeName: nodeName });
+            e.emit('tagclose', { nodeName: nodeName });
           } else if (m[5]) {
-            e.emit('tag-open', { nodeName: nodeName, attributes: attributes });
-            e.emit('tag-close', { nodeName: nodeName });
+            e.emit('tagopen', { nodeName: nodeName, attributes: attributes });
+            e.emit('tagclose', { nodeName: nodeName });
           } else {
-            e.emit('tag-open', { nodeName: nodeName, attributes: attributes });
+            e.emit('tagopen', { nodeName: nodeName, attributes: attributes });
           }
 
           str = str.substring(m[0].length);

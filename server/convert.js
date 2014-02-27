@@ -24,7 +24,7 @@ var separator = '';
 fs.writeFileSync(fileName, '{"type":"FeatureCollection","features":[\n');
 
 var xml = XmlHttpStream.get(url)
-  .on('tag-open', function(e) {
+  .on('tagopen', function(e) {
     stack.push(e.nodeName);
 
     var parentName = stack[stack.length-2];
@@ -57,7 +57,7 @@ var xml = XmlHttpStream.get(url)
     }
   })
 
-  .on('tag-close', function() {
+  .on('tagclose', function() {
     stack.pop();
   })
 
