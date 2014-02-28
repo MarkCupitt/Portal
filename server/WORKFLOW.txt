@@ -1,6 +1,6 @@
 Input Stream
 
-- Web Service
+- Web Service OK
 - Database
 - File
 
@@ -8,7 +8,7 @@ Input Stream
 
 Input Format
 
-- GML
+- GML OK
 - KML
 - GeoJSON
 - OSM
@@ -20,10 +20,10 @@ Processing
 
 - Pipe
 - Cache
-- Conversion
+- Conversion OK
 - Filtering
 - Selection
-- Projection
+- Projection OK
 
 =>
 
@@ -31,7 +31,7 @@ Output Format
 
 - GML
 - KML
-- GeoJSON
+- GeoJSON OK
 
 =>
 
@@ -39,4 +39,4 @@ Output Stream
 
 - Web Service
 - Database
-- File
+- File OK
