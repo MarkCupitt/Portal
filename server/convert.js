@@ -19,29 +19,26 @@ function getUrlParams(str) {
 
 //var config = require('./config.js');
 
-
 http.createServer(function(request, response) {
   response.writeHead(200, {"Content-Type": "application/json", "Access-Control-Allow-Origin":"*"});
-    
+
   var Params = getUrlParams(request.url);
   if (Params.bbox === undefined){
 	response.end();
 	return;
 	}
-    
+
 	var coords = [];
     coords = Params.bbox.split(',');
-  
-    southwest =  proj4js(projections['EPSG:4326'], projections['EPSG:25833'], [ parseFloat(coords[0]), parseFloat(coords[1]) ]);
+
+  southwest =  proj4js(projections['EPSG:4326'], projections['EPSG:25833'], [ parseFloat(coords[0]), parseFloat(coords[1]) ]);
 	northeast =  proj4js(projections['EPSG:4326'], projections['EPSG:25833'], [ parseFloat(coords[2]), parseFloat(coords[3]) ]);
-	
+
 	var minx = southwest[0];
 	var miny = southwest[1];
 	var maxx = northeast[0];
 	var maxy = northeast[1];
-  
-  
- 
+
   var mainURL = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?';
   var service = '&SERVICE=WFS&VERSION=2.0.0';
   var serviceRequest = '&REQUEST=GetFeature';
@@ -52,14 +49,14 @@ http.createServer(function(request, response) {
 
 
 	//var url = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=fis:re_hausumringe&SRSNAME=EPSG:25833';
-	
+
 	// VERSION 2.0.0
 	// var url = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=fis:re_hausumringe&srsName=EPSG:25833';
 	// EPSG 4258 BBOX
 	// 13.127603028677113,52.38748335621991,13.133269549188546,52.389348978536006
 	// EPSG 25833 BBOX
 	// 372582.5329999998,5805776.33,372963.3389999997,5805991.101
-	
+
   var url = mainURL + service + serviceRequest + layer + srs + bbox;
 
   var file = 'data/TEST.geojson';
@@ -70,9 +67,5 @@ http.createServer(function(request, response) {
   var writer    = new GeoJsonWriter2(converter, response);
 
   reader.pipe(parser);
-  
+
 }).listen(8888);
-
-
-
-
