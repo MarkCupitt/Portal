@@ -14,9 +14,8 @@ var GeoJsonWriter2 = function(converter, response) {
     } else {
       separator = ',\n';
     }
-	console.log(feature);
-	response.write('HALLPO', 'utf8');
-    response.write(separator + JSON.stringify({
+	
+	response.write(separator + JSON.stringify({
 	 type: 'Feature',
       properties: feature.properties,
       geometry: {
@@ -27,8 +26,7 @@ var GeoJsonWriter2 = function(converter, response) {
   }.bind(this));
   
   converter.on('end', function() {
-    console.log('ENDE');
-	response.end('\n]}', 'utf8');
+    response.end('\n]}', 'utf8');
   });
 
 };

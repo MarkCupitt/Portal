@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="js/leaflet/leaflet.css">
+<script src="js/leaflet/leaflet.js"></script>
+<script src="OSMBuildings-Leaflet.js"></script>
+<style>
+#map{
+	width: 600px;
+	height: 400px
+}
+</style>
+
+</head>
+<body>
+<div id="map"></div>
+<script> 
+var geoJSON = {
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[
+        [13.37356, 52.52064],
+        [13.37350, 52.51971],
+        [13.37664, 52.51973],
+        [13.37594, 52.52062],
+        [13.37356, 52.52064]
+      ]]
+    },
+    "properties": {
+      "wallColor": "rgb(255,0,0)",
+      "roofColor": "rgb(255,128,0)",
+      "height": 500,
+      "minHeight": 0
+    }
+  }]
+};
+
+
+  var map = new L.Map('map');
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib = 'Map data &copy; OpenStreetMap contributors';
+  var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 18, attribution: osmAttrib });
+
+  map.addLayer(osm);
+  map.setView(new L.LatLng(52.3893158, 13.12904624),15);
+  
+  var osmb = new OSMBuildings(map).loadData('http://localhost:8888/?BBox={w},{s},{e},{n}'); 
+  
+  
+  L.control.layers({}, { Buildings:osmb }).addTo(map); 
+
+  
+  </script> 
+
+</body>
+</html>
