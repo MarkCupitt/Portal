@@ -1,6 +1,11 @@
 var fs = require('fs');
 
 var HttpWriter = function(converter, response) {
+  response.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'*'
+  });
+
   response.write('{"type":"FeatureCollection","features":[\n', 'utf8');
 
   var separator = '';
