@@ -15,29 +15,23 @@ function getUrlParams(str) {
   return data;
 }
 
-var Params = [];
-
 //var config = require('./config.js');
 
-
 http.createServer(function(request, response) {
-  response.writeHead(200, {"Content-Type": "application/json"});
-  response.write("Hello World\n");
-  response.write("Hello World2\n");
-  response.write("Hello World3");
-  
-  Params = getUrlParams(request.url);
-  
-  if (Params.bbox){
-    var coords = [];
-    coords = Params.bbox.split(',');
-  
-    minx = parseFloat(coords[0]);
-    miny = parseFloat(coords[1]);
-    maxx = parseFloat(coords[2]);
-    maxy = parseFloat(coords[3]);
+  response.writeHead(200, { 'Content-Type': 'application/json' });
+  response.write("Hello World");
+
+  var params = getUrlParams(request.url);
+
+  if (params.bbox) {
+    var
+      coords = params.bbox.split(','),
+      minx = parseFloat(coords[0]),
+      miny = parseFloat(coords[1]),
+      maxx = parseFloat(coords[2]),
+      maxy = parseFloat(coords[3]);
   }
-  
+
   var mainURL = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?';
   var service = '&SERVICE=WFS&VERSION=1.0.0';
   var serviceRequest = '&REQUEST=GetFeature';
@@ -56,9 +50,7 @@ http.createServer(function(request, response) {
 
   var bbox = '&bbox=' + minx + ',' + miny + ',' + maxx + ',' + maxy;
 
-
 	//var url = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_hausumringe?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=fis:re_hausumringe&SRSNAME=EPSG:3068';
-
 
   var url = mainURL + service + serviceRequest + layer + srs + bbox;
 
@@ -70,11 +62,5 @@ http.createServer(function(request, response) {
   var writer    = new GeoJsonWriter2(converter, response);
 
   reader.pipe(parser);
-  
-  response.end();
-  
+
 }).listen(8888);
-
-
-
-

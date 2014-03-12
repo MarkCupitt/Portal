@@ -133,10 +133,9 @@ $(function() {
 
 
   var map = new L.Map('map_edit');
-  var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/161e545d845c4ed989ea71be98cc7aa1/68418/256/{z}/{x}/{y}.png';
-//  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  var osmAttrib='Map data &copy; OpenStreetMap contributors';
-  var osm = new L.TileLayer(cloudmadeUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib = 'Map data &copy; OpenStreetMap contributors';
+  var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
   var MyCustomMarker = L.Icon.extend({
     options: {
       shadowUrl: null,
