@@ -1,7 +1,7 @@
 var HttpReader    = require('./reader/HttpReader.js').reader;
 var XmlParser     = require('./parser/XmlParser.js').parser;
 var GmlConverter  = require('./converter/GmlConverter.js').converter;
-var GeoJsonWriter = require('./writer/GeoJsonWriter.js').writer;
+var GeoJsonWriter2 = require('./writer/GeoJsonWriter2.js').writer;
 var http = require("http");
 var url = require("url");
 
@@ -21,8 +21,10 @@ var Params = [];
 
 
 http.createServer(function(request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.write("Hello World");
+  response.writeHead(200, {"Content-Type": "application/json"});
+  response.write("Hello World\n");
+  response.write("Hello World2\n");
+  response.write("Hello World3");
   
   Params = getUrlParams(request.url);
   
@@ -65,7 +67,7 @@ http.createServer(function(request, response) {
   var reader    = new HttpReader(url);
   var parser    = new XmlParser();
   var converter = new GmlConverter(parser, 'EPSG:25833', 'EPSG:4326');
-  var writer    = new GeoJsonWriter(converter, file);
+  var writer    = new GeoJsonWriter2(converter, response);
 
   reader.pipe(parser);
   
