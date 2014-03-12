@@ -1,6 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var proj4js = require('proj4');
-var projections = require('./projections.js');
+var projections = require('../projections.js');
 
 var GmlConverter = function(xmlParser, srcProj, dstProj) {
   this.readable = true;
@@ -19,7 +19,8 @@ var GmlConverter = function(xmlParser, srcProj, dstProj) {
 
     var parentName = stack[stack.length-2];
 
-    if (e.nodeName === 'gml:featureMember') {
+//    if (e.nodeName === 'gml:featureMember') { // WFS 1.0.0
+    if (e.nodeName === 'wfs:member') { // WFS 2.0.0
      if (geometryType && coordinates.length) {
         events.emit('feature', { properties:properties, geometryType:geometryType, coordinates:coordinates });
         properties = {};
@@ -30,6 +31,7 @@ var GmlConverter = function(xmlParser, srcProj, dstProj) {
 
     if (parentName === 'gml:geometryMember') {
       geometryType = e.nodeName.split(':')[1];
+      // TODO: for multipolygons in WFS2 init coordinates here
     }
   }.bind(this));
 
@@ -38,10 +40,22 @@ var GmlConverter = function(xmlParser, srcProj, dstProj) {
   }.bind(this));
 
   xmlParser.on('text', function(e) {
-    if (e.nodeName === 'gml:coordinates') {
-      var parentName = stack[stack.length-2];
+    if (e.nodeName === 'gml:pos') {
+      var
+        pair = e.nodeValue.split(' '),
+        xy;
+      xy = proj4js(projections[srcProj], projections[dstProj], [ parseFloat(pair[0]), parseFloat(pair[1]) ]);
+      coordinates.push(xy);
+    } else {
+      properties[e.nodeName] = e.nodeValue;
+    }
+  }.bind(this));
 
-      if (parentName !== 'gml:Box') {
+/*** 1.0
+  xmlParser.on('text', function(e) {
+    if (e.nodeName === 'gml:coordinates') { // WFS 1.0.0
+      var parentName = stack[stack.length-2];
+      if (parentName !== 'gml:Box') { // WFS 1.0.0
         var
           coordPairs = e.nodeValue.split(' '),
           pair, xy;
@@ -51,16 +65,17 @@ var GmlConverter = function(xmlParser, srcProj, dstProj) {
           xy = proj4js(projections[srcProj], projections[dstProj], [ parseFloat(pair[0]), parseFloat(pair[1]) ]);
           coordinates.push(xy);
         }
-      }
+      } // WFS 1.0.0
     } else {
       properties[e.nodeName] = e.nodeValue;
     }
   }.bind(this));
+***/
 
   xmlParser.on('end', function(){
     events.emit('end');
   }.bind(this));
-  
+
   return events;
 };
 
