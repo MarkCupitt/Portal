@@ -1,10 +1,8 @@
 var fs = require('fs');
 
-
-var GeoJsonWriter2 = function(converter, response) {
-  
+var HttpWriter = function(converter, response) {
   response.write('{"type":"FeatureCollection","features":[\n', 'utf8');
-  
+
   var separator = '';
   var isFirstItem = true;
 
@@ -15,20 +13,19 @@ var GeoJsonWriter2 = function(converter, response) {
       separator = ',\n';
     }
 	
-	response.write(separator + JSON.stringify({
-	 type: 'Feature',
-      properties: feature.properties,
-      geometry: {
-        type: feature.geometryType,
-        coordinates: [feature.coordinates]
-      }
-	 }), 'utf8');
+    response.write(separator + JSON.stringify({
+     type: 'Feature',
+       properties: feature.properties,
+       geometry: {
+         type: feature.geometryType,
+         coordinates: [feature.coordinates]
+       }
+    }), 'utf8');
   }.bind(this));
   
   converter.on('end', function() {
     response.end('\n]}', 'utf8');
   });
-
 };
 
-exports.writer = GeoJsonWriter2;
+exports.writer = HttpWriter;

@@ -1,7 +1,7 @@
 var HttpReader    = require('./reader/HttpReader.js').reader;
 var XmlParser     = require('./parser/XmlParser.js').parser;
 var GmlConverter  = require('./converter/GmlConverter.js').converter;
-var GeoJsonWriter2 = require('./writer/GeoJsonWriter2.js').writer;
+var HttpWriter = require('./writer/HttpWriter.js').writer;
 var http = require("http");
 var url = require("url");
 var proj4js = require('proj4');
@@ -64,7 +64,7 @@ http.createServer(function(request, response) {
   var reader    = new HttpReader(url);
   var parser    = new XmlParser();
   var converter = new GmlConverter(parser, 'EPSG:25833', 'EPSG:4326');
-  var writer    = new GeoJsonWriter2(converter, response);
+  var writer    = new HttpWriter(converter, response);
 
   reader.pipe(parser);
 
