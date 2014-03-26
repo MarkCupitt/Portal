@@ -13,7 +13,7 @@ proto.write = function(buffer) {
     m,
     nodeName = null, attributes, nodeValue;
 
-  while (m = this._str.match(/(.*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
+  while (m = this._str.match(/([^<>]*?)<(\/)?([a-z_:-]+)([^>]*)(\/)?>/i)) {
     nodeValue  = m[1];
 
     if (nodeValue && nodeName) {

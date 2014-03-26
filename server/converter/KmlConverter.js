@@ -2,16 +2,23 @@ var EventEmitter = require('events').EventEmitter;
 var proj4js = require('proj4');
 var projections = require('../projections.js');
 
-
-function numarray(x) {
-    for (var j = 0, o = []; j < x.length; j++) o[j] = parseFloat(x[j]);
-    return o;
-}
-
 var KmlConverter = function(xmlParser, srcProj, dstProj) {
   this.readable = true;
 
   var events = new EventEmitter();
+
+  function parseCoordinates(str) {
+    var
+      coords = str.replace(/[\r\n]+/, '\n').split('\n'), c,
+      res = [];
+
+    for (var i = 0, il = coords.length; i < il; i++) {
+      c = coords[i].split(',');
+      res[i] = [parseFloat(c[0]), parseFloat(c[1]), parseFloat(c[2])];
+    }
+
+    return res;
+  }
 
   var
     properties = {},
@@ -22,22 +29,15 @@ var KmlConverter = function(xmlParser, srcProj, dstProj) {
 
   xmlParser.on('tagopen', function(e) {
     stack.push(e.nodeName);
-
     switch (e.nodeName) {
-        case 'Point':
-        case 'LineString':
-        case 'Polygon':
-            events.emit('feature', {
-                type: 'Feature',
-                geometry: {
-                   type: geometryType,
-                   coordinates: coordinates
-                },
-                properties: properties
-            });
-console.log(e.nodeName);
-            geometryType = e.nodeName;
-        break;
+      case 'Point':
+      case 'LineString':
+      case 'Polygon':
+        if (geometryType) {
+          events.emit('feature', { properties:properties, geometryType:geometryType, coordinates:coordinates });
+        }
+        geometryType = e.nodeName;
+      break;
     }
   }.bind(this));
 
@@ -47,12 +47,11 @@ console.log(e.nodeName);
 
   xmlParser.on('text', function(e) {
     if (stack[stack.length-2] === 'Placemark' && e.nodeName === 'name') {
-        properties.name = e.nodeValue;
+      properties.name = e.nodeValue;
     }
-    if (e.nodeName === 'coordinates') {
-console.log(e.nodeValue);
-//        coordinates = numarray(e.nodeValue.split(','));
-        coordinates = e.nodeValue;
+
+    if (e.nodeName === 'coordinates' && e.nodeValue) {
+      coordinates = parseCoordinates(e.nodeValue);
     }
   }.bind(this));
 
