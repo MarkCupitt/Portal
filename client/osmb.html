@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="map"></div>
-<script> 
+<script>
 var map = new L.Map('map');
 var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var osmAttrib = 'Map data &copy; OpenStreetMap contributors';
@@ -23,7 +23,7 @@ var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 18, attribution: osmAtt
 map.addLayer(osm);
 map.setView([52.3893158, 13.12904624], 15);
 
-new OSMBuildings(map).loadData('http://localhost:8888/?BBox={w},{s},{e},{n}');
-</script> 
+new OSMBuildings(map).loadData('http://localhost:8888/?n={n}&e={e}&s={s}&w={w}');
+</script>
 </body>
 </html>
