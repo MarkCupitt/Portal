@@ -4,7 +4,8 @@ var HttpReader = function(url) {
   this.readable = true;
 
   http.get(url, function(httpStream) {
-    httpStream
+    console.log(url);
+	httpStream
       .on('data', function(data) {
         this.emit('data', data);
       }.bind(this))
