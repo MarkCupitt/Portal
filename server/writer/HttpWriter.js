@@ -17,7 +17,8 @@ var HttpWriter = function(converter, response) {
     } else {
       separator = ',\n';
     }
-	
+
+    // TODO: also write to cache
     response.write(separator + JSON.stringify({
      type: 'Feature',
        properties: feature.properties,
@@ -27,7 +28,7 @@ var HttpWriter = function(converter, response) {
        }
     }), 'utf8');
   }.bind(this));
-  
+
   converter.on('end', function() {
     response.end('\n]}', 'utf8');
   });
