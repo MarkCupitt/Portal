@@ -41,4 +41,31 @@ Cache.write = function(converter, key) {
   new GeoJsonWriter(converter, Cache.createFileName(key));
 };
 
+/*
+  public function purge() {
+		$sum = 0;
+    $cache = array();
+		$fp = opendir($this->path);
+		if ($fp) {
+			while ($item = readdir($fp)) {
+        $fileName = $this->path."/$item";
+				if (!is_file($fileName)) {
+					continue;
+				}
+				$fileSize = filesize($fileName);
+				$sum += $fileSize;
+				$cache[ filemtime($fileName) ] = array("name"=>$fileName, "size"=>$fileSize);
+			}
+			closedir($fp);
+		}
+
+    ksort($cache);
+    while($sum > $this->size) {
+      $file = array_shift($cache);
+      $sum -= $file["size"];
+      unlink($file["name"]);
+    }
+  }
+*/
+
 exports.Cache = Cache;
