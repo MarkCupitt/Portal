@@ -18,8 +18,8 @@ var HttpReader = function(url) {
 require('util').inherits(HttpReader, require('stream'));
 var proto = HttpReader.prototype;
 
- proto.end = function() {
-   this.emit('end');
- };
+proto.end = function() {
+  this.emit('end');
+};
 
 exports.reader = HttpReader;
