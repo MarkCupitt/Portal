@@ -37,7 +37,7 @@ http.createServer(function(request, response) {
   var reader    = new HttpReader(u);
   var parser    = new XmlParser();
   var converter = new GmlConverter(parser, 'EPSG:25833', 'EPSG:4326');
-  var writer    = new HttpWriter(converter, response);
+  new HttpWriter(converter, response);
 
   reader.pipe(parser);
 
