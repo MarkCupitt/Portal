@@ -1,11 +1,13 @@
 var fs = require('fs');
-var EventEmitter = require('events').EventEmitter;
+var util   = require('util');
+var events = require('events');
 
 var ChacheHandler = function(){
- this.readable = true;
- this.events = new EventEmitter();
+  events.EventEmitter.call(this);
+  this.readable = true;
 };
 
+util.inherits(reader, events.EventEmitter);
 var proto = CacheHandler.prototype;
 
 proto.check = function(key) {
