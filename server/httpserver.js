@@ -11,7 +11,9 @@ http.createServer(function(request, response) {
   var bbox = BBox(url.parse(request.url, true).query);
 
   if (!bbox) {
-    response.writeHead(404);
+    response.writeHead(404, {
+    'Access-Control-Allow-Origin':'*'
+	});
     response.end();
     return;
 	}

@@ -260,7 +260,6 @@ http://www.icc.cat      <br/>
             <altitudeMode>relativeToGround</altitudeMode>
             <outerBoundaryIs>
                 <LinearRing>
-
                     <coordinates>
                         2.18696889,41.37549467,5.60
                         2.18695429,41.37551439,5.60
