@@ -15,7 +15,8 @@ var reader    = fs.createReadStream(src);
 var parser    = new XmlParser();
 var converter = new KmlConverter(parser, 'EPSG:25833', 'EPSG:4326');
 */
-var converter = new CacheHandler(src);
+var converter = new CacheHandler();
 var writer    = new GeoJsonWriter(converter, dst);
 
+converter.check(src);
 //reader.pipe(parser);
