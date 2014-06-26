@@ -1,0 +1,20 @@
+Install
+
+1) in der php.ini 
+	"extension=php_pdo_pgsql.dll" aktivieren
+2) in PostgreSQL eine Datenbank für DKAN erstellen
+3) Download der "fully-made" Version von DKAN
+	https://github.com/nuams/dkan-drops-7/archive/7.x-1.0.zip
+	
+4) weitere Installationsschritte bei
+	http://docs.getdkan.com/dkan-documentation/dkan-developers/installation
+	
+	
+Installation von neuen "modules"
+
+1) als admin in der Navigationsleiste auf modules klicken
+2) im Bereich "Core" den Update Manager aktivieren
+3) ganz unten die Änderungen speichern
+4) jetzt stehen Optionen zum Hinzufügen von modules zur Verfügung
+5) unter https://www.drupal.org/project/project_module neue module herunterladen
+6) in der Navigationsleiste unter "modules" > "Install new modules" auswählen
